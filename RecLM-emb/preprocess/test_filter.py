@@ -18,7 +18,7 @@ task_map = {
     # 'gpt4_data': '',
     # 'relativequery2item': relativequery2item_template,
 }
-
+model_alt = os.environ.get('model_altname') if os.environ.get('model_altname') else gpt4
 def get_templates(task_name):
     templates = task_map[task_name]
     split_templates = []
@@ -72,7 +72,7 @@ def deduplicate(task_name, args):
     
     check_test_data(task_name, split_templates, train_data, args.test_dir)
 
-def gpt_deduplicate(args, task_name='gpt4_data'):
+def gpt_deduplicate(args, task_name=f'{model_alt}_data'):
     split_templates = get_templates('misspell2item')
     train_data = read_train_data('misspell2item', split_templates, args.train_dir)
     gpt_train_data = read_train_data(task_name, split_templates, args.train_dir)

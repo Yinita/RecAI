@@ -23,11 +23,11 @@ out_vaguequery2item="$EXE_DIR/$OUTPUT_FLAG/vaguequery2item.jsonl"
 out_relativequery2item="$EXE_DIR/$OUTPUT_FLAG/relativequery2item.jsonl"
 out_negquery2item="$EXE_DIR/$OUTPUT_FLAG/negquery2item.jsonl"
 
-out_u2i_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/u2i_qwen72B.jsonl"
-out_q2i_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/q2i_qwen72B.jsonl"
-out_q2i_misspell_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/q2i_misspell_qwen72B.jsonl"
-gpt_query_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/query_qwen72B"
-gpt_response_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/response_qwen72B"
+out_u2i_file="$EXE_DIR/$OUTPUT_FLAG/$model_altname/u2i_$model_altname.jsonl"
+out_q2i_file="$EXE_DIR/$OUTPUT_FLAG/$model_altname/q2i_$model_altname.jsonl"
+out_q2i_misspell_file="$EXE_DIR/$OUTPUT_FLAG/$model_altname/q2i_misspell_$model_altname.jsonl"
+gpt_query_file="$EXE_DIR/$OUTPUT_FLAG/$model_altname/query_$model_altname"
+gpt_response_file="$EXE_DIR/$OUTPUT_FLAG/$model_altname/response_$model_altname"
 out_gpt_summary="$EXE_DIR/$OUTPUT_FLAG/gpt_summary.jsonl"
 out_gpt_query="$EXE_DIR/$OUTPUT_FLAG/gpt_query.jsonl"
 out_gpt_misspell="$EXE_DIR/$OUTPUT_FLAG/gpt_misspell.jsonl"
@@ -53,7 +53,7 @@ python preprocess/genera_query_file.py --in_seq_data $in_seq_data --in_meta_data
 
 echo "generate gpt_response_file"
 
-python preprocess/gpt_api/api.py --input_file $gpt_query_file'.csv' --output_file $gpt_response_file'.csv' 
+# python preprocess/gpt_api/api.py --input_file $gpt_query_file'.csv' --output_file $gpt_response_file'.csv' 
 # fi
 
 echo "generate gpt_data_file"

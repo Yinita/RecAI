@@ -113,7 +113,7 @@ def process_hf_data(dataset, output_file, args):
     filename = os.path.basename(output_file)
     total_input_token_num, total_output_token_num = 0, 0
 
-    with open(output_file, 'w') as csv_file:
+    with open(output_file, 'w', newline='', encoding='utf-8') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(['question', 'response'])
         
@@ -158,25 +158,34 @@ def load_jsonl_from_disk(file_path):
     return df.to_dict(orient='records')
 
 
+import argparse
+
 def main(args):
     total_token_num, total_cost = 0, 0
-
-    infile = args.input_file
-    outfile = args.output_file
-    data_as_list = load_jsonl_from_disk(infile)
-
-    total_input_token_num, total_output_token_num = process_hf_data(data_as_list, outfile, args)
-    # cost = 0.015 * total_input_token_num / 1000 + 0.0020 * total_output_token_num / 1000
-    # cost = 0.01 * total_input_token_num / 1000 + 0.03 * total_output_token_num / 1000
-    cost = 10 * total_input_token_num / 1000000 + 30 * total_output_token_num / 1000000
-    total_token_num = total_input_token_num + total_output_token_num
-    print(">> Task done. Use {:d} tokens in total, and cost $ {:.4f}.".format(total_token_num, cost)) 
+    input_files = args.input_file if isinstance(args.input_file, list) else [args.input_file]
+    output_files = args.output_file.split(',') if args.output_file else None
     
+    for idx, infile in enumerate(input_files):
+        # 如果 output_files 是 None 或者长度小于输入文件数目，则使用 replace 生成输出文件
+        if output_files and idx < len(output_files):
+            outfile = output_files[idx]
+        else:
+            outfile = infile.replace('.csv', '_response.csv')
+        
+        data_as_list = load_jsonl_from_disk(infile)
+        total_input_token_num, total_output_token_num = process_hf_data(data_as_list, outfile, args)
+        
+        # 计算 cost
+        cost = 10 * total_input_token_num / 1000000 + 30 * total_output_token_num / 1000000
+        total_token_num = total_input_token_num + total_output_token_num
+        
+        print(f">> Task done for {infile}. Used {total_token_num} tokens in total, and cost $ {cost:.4f}.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--num_process", type=int, default=1)
-    parser.add_argument("--input_file", type=str)
-    parser.add_argument("--output_file", type=str)
+    parser.add_argument("--input_file", type=lambda x: x.split(','))  
+    parser.add_argument("--output_file", type=str, default=None)
     args = parser.parse_args()
     main(args)
+

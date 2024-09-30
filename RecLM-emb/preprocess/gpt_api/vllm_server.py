@@ -83,7 +83,7 @@ class OfflineVLLMModel:
             responses = self.llm.generate(
                 prompts,
                 vllm.SamplingParams(
-                    seed=RUN_SEED,
+                    seed=26,
                     max_tokens=1,
                     logprobs=10     # can be 20
                 ),
