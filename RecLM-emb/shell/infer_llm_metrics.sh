@@ -1,9 +1,8 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 
-RAW_DATA_DIR=$HOME/RecLM-emb/data/steam/raw_data
-EXE_DIR=$HOME/RecLM-emb
-TEST_DATA_DIR=$EXE_DIR/data/steam/test
+RAW_DATA_DIR=data/steam/raw_data
+TEST_DATA_DIR=data/steam/test
 PEFT_MODEL_NAME=castorini/repllama-v1-7b-lora-passage
 MODEL_PATH_OR_NAME=meta-llama/Llama-2-7b-hf
 
@@ -15,10 +14,9 @@ SENTENCE_POOLING_METHOD="last"
 torch_dtype="bfloat16"
 
 
-OUT_DIR="$EXE_DIR/output/steam_infer/repllama-v1-7b-lora-passage"
+OUT_DIR="output/steam_infer/repllama-v1-7b-lora-passage"
 ALL_METRICS_FILE=$OUT_DIR/all_metrics.jsonl
 
-cd $EXE_DIR
 
 CONFIG_FILE=./shell/infer_case.yaml
 

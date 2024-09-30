@@ -571,8 +571,8 @@ if __name__ == "__main__":
     gen_queryuser2item(itemid2text, itemid2title, itemid2features, args)
     gen_user2item(itemid2text, itemid2title, itemid2features, args)
     gen_misspell2item(itemid2text, itemid2title, args)
-    gen_vaguequery2item(itemid2text, itemid2price_date_map, args)
     gen_relativequery2item(itemid2text, args)
+    # gen_vaguequery2item(itemid2text, itemid2price_date_map, args)
     gen_negquery2item(itemid2text, args)
     
     if args.in_search2item and os.path.exists(args.in_search2item):

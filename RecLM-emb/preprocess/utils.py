@@ -49,10 +49,17 @@ def load_titleid_2_index(infile):
         res[str(row['TitleId'])] = int(row['HashId'])
     return res
 
+import re
+
+def normalize_key(key):
+    return re.sub(r'[-_\s]', '', key.lower())
+
 def get_value_by_key(keys, d):
+    normalized_dict = {normalize_key(k): v for k, v in d.items()}
     for key in keys:
-        if key in d:
-            return d[key]
+        normalized_key = normalize_key(key)
+        if normalized_key in normalized_dict:
+            return normalized_dict[normalized_key]
     return None
 
 def get_item_stats(in_seq_data, in_meta_data):

@@ -6,13 +6,29 @@ import os
 import time
 import argparse
 import pandas as pd
-import tiktoken
 import os.path as osp
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 from openai import OpenAI, AzureOpenAI
 from azure.identity import DefaultAzureCredential, get_bearer_token_provider, AzureCliCredential
+# Define a simple cache dictionary
+model_cache = {}
 
+def load_vllm_model(api_type: str, model_name: str, VLLM_TENSOR_PARALLEL_SIZE=1):
+    if api_type == "onlinevllm":
+        from vllm_server import OfflineVLLMModel
+        if model_name in model_cache:
+            print("Loading model from cache...")
+            return model_cache[model_name]
+        else:
+            print("Loading model from disk...")
+            model = OfflineVLLMModel(model_name=model_name, VLLM_TENSOR_PARALLEL_SIZE=VLLM_TENSOR_PARALLEL_SIZE)
+            # Cache the loaded model
+            model_cache[model_name] = model
+            return model
+    else:
+        raise ValueError("Invalid API type")
+    
 api_key = os.environ.get('OPENAI_API_KEY') if os.environ.get('OPENAI_API_KEY') else None
 api_base =  os.environ.get('OPENAI_API_BASE') if os.environ.get('OPENAI_API_BASE') else None
 api_type = os.environ.get('OPENAI_API_TYPE') if os.environ.get('OPENAI_API_TYPE') else None
@@ -25,6 +41,9 @@ if api_key:
             api_version=api_version,
             azure_endpoint=api_base
         )
+    elif api_type == "offlinevllm":
+        client = OpenAI(api_key=api_key,
+                                        base_url=api_base)
     else:
         client = OpenAI(  
             api_key=api_key
@@ -46,14 +65,11 @@ else:
 
 MODEL = os.environ.get('MODEL')
 
-if MODEL.startswith("gpt-3"):
-    encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")  # gpt-3.5-turbo gpt-4 gpt-4-0314 
-else:
-    encoding = tiktoken.encoding_for_model("gpt-4")
 
 def call_chatgpt(prompt):
     max_retry_cnt = 5
     result = "NULL"
+    tokens = []
     for i in range(max_retry_cnt):
         try:
             response = client.chat.completions.create(
@@ -68,6 +84,8 @@ def call_chatgpt(prompt):
                 top_p=1.0,
             )
             result = response.choices[0].message.content
+            tokens = [response.usage.prompt_tokens, response.usage.completion_tokens]
+
             break
         except Exception as e:
             error_msg = str(e)
@@ -79,53 +97,58 @@ def call_chatgpt(prompt):
                 time.sleep(20) 
     if not result:
         result = "NULL"
-    return result
-
+        tokens = [0,0]
+    return result, tokens
 
 def process_row(writer, sample):
     question = sample['question'] 
-    input_token_num = len(encoding.encode(question))
-    output = call_chatgpt(question)
+    output, tokens = call_chatgpt(question)
     writer.writerow([question, output])
-    output_token_num = len(encoding.encode(output))
-    return input_token_num, output_token_num
+    # Assuming `call_chatgpt` returns input/output token numbers
+    return tokens[0], tokens[1]
+
 
 
 def process_hf_data(dataset, output_file, args):
     filename = os.path.basename(output_file)
+    total_input_token_num, total_output_token_num = 0, 0
+
     with open(output_file, 'w') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(['question', 'response'])
-        total_input_token_num, total_output_token_num = 0, 0
-
+        
         try:
-            with ThreadPoolExecutor(max_workers=args.num_process) as executor:
-                futures = []
-                for i, sample in enumerate(dataset):
-                    futures.append(executor.submit(process_row, writer, sample))
+            if api_type == "onlinevllm":
+                model = load_vllm_model(api_type, MODEL, VLLM_TENSOR_PARALLEL_SIZE=2)
+                his = []
+                batch_size = 250
+                dataset_length = len(dataset)  # Get the total length of the dataset
 
-                for future in tqdm(futures, desc=filename):
-                    input_token_num, output_token_num = future.result()
+                for i, sample in tqdm(enumerate(dataset), desc=filename):
+                    messages = [
+                        {"role": "system", "content": "You are a helpful assistant. \n"},
+                        {"role": "user", "content": sample['question']},
+                    ]
+                    his.append(messages)
+                    if (i + 1) % batch_size == 0 or i + 1 == dataset_length:
+                        output = model.batch_predict(his)
+
+                        for idx, o in enumerate(output):
+                            data_index = i + 1 - len(his) + idx  # Ensure we don't go out of bounds
+                            if data_index < dataset_length:  # Check to avoid IndexError
+                                writer.writerow([dataset[data_index]["question"], o])
+
+                        his = []  # Reset history after batch processing
+            else:
+                for i, sample in tqdm(enumerate(dataset), desc=filename):
+                    
+                    input_token_num, output_token_num = process_row(writer, sample)
                     total_input_token_num += input_token_num
                     total_output_token_num += output_token_num
         except KeyboardInterrupt:
             print("Caught KeyboardInterrupt, exiting...")
-            for future in futures:  
-                future.cancel()  
-        
-            executor.shutdown(wait=False)  
-        
-            print("Results of completed tasks:")  
-            for future in futures:
-                if future.done() and not future.cancelled():
-                    try:  
-                        input_token_num, output_token_num = future.result()
-                        total_input_token_num += input_token_num
-                        total_output_token_num += output_token_num
-                    except Exception as e:  
-                        print(f"Task generated an exception: {e}")  
-            
-        
+            print(f"Total tokens processed so far: input - {total_input_token_num}, output - {total_output_token_num}")
+
     return total_input_token_num, total_output_token_num
 
 ## return a list of dictionaries

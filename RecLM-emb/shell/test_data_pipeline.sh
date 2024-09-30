@@ -1,10 +1,10 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 
-RAW_DATA_DIR="$HOME/RecLM-emb/data/steam/raw_data"
-EXE_DIR="$HOME/RecLM-emb"
-TRAIN_FLAG="data/steam/train"
-OUTPUT_FLAG="data/steam/test"
+RAW_DATA_DIR="data/$TASK"
+EXE_DIR="."
+TRAIN_FLAG="data/$TASK/train"
+OUTPUT_FLAG="data/$TASK/test"
 
 model_path_or_name="intfloat/e5-large-v2"
 max_samples_per_task=50000
@@ -23,11 +23,11 @@ out_vaguequery2item="$EXE_DIR/$OUTPUT_FLAG/vaguequery2item.jsonl"
 out_relativequery2item="$EXE_DIR/$OUTPUT_FLAG/relativequery2item.jsonl"
 out_negquery2item="$EXE_DIR/$OUTPUT_FLAG/negquery2item.jsonl"
 
-out_u2i_file="$EXE_DIR/$OUTPUT_FLAG/gpt4/u2i_gpt4.jsonl"
-out_q2i_file="$EXE_DIR/$OUTPUT_FLAG/gpt4/q2i_gpt4.jsonl"
-out_q2i_misspell_file="$EXE_DIR/$OUTPUT_FLAG/gpt4/q2i_misspell_gpt4.jsonl"
-gpt_query_file="$EXE_DIR/$OUTPUT_FLAG/gpt4/query_gpt4"
-gpt_response_file="$EXE_DIR/$OUTPUT_FLAG/gpt4/response_gpt4"
+out_u2i_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/u2i_qwen72B.jsonl"
+out_q2i_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/q2i_qwen72B.jsonl"
+out_q2i_misspell_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/q2i_misspell_qwen72B.jsonl"
+gpt_query_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/query_qwen72B"
+gpt_response_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/response_qwen72B"
 out_gpt_summary="$EXE_DIR/$OUTPUT_FLAG/gpt_summary.jsonl"
 out_gpt_query="$EXE_DIR/$OUTPUT_FLAG/gpt_query.jsonl"
 out_gpt_misspell="$EXE_DIR/$OUTPUT_FLAG/gpt_misspell.jsonl"

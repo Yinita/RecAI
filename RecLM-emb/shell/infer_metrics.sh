@@ -1,10 +1,9 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 
-RAW_DATA_DIR="$HOME/RecLM-emb/data/steam/raw_data"
-EXE_DIR="$HOME/RecLM-emb"
-TEST_DATA_DIR="$EXE_DIR/data/steam/test"
-OUT_DIR="$EXE_DIR/output/steam_infer/intfloat-e5-large-v2"
+RAW_DATA_DIR="data/steam/raw_data"
+TEST_DATA_DIR="data/steam/test"
+OUT_DIR="output/steam_infer/intfloat-e5-large-v2"
 MODEL_PATH_OR_NAME="intfloat/e5-large-v2"
 ALL_METRICS_FILE=$OUT_DIR/all_metrics.jsonl
 TOPK="[1, 5, 10, 20]"
@@ -13,7 +12,6 @@ QUERY_MAX_LEN=512
 PASSAGE_MAX_LEN=128
 SENTENCE_POOLING_METHOD="mean"
 
-cd $EXE_DIR
 if [ "$MODEL_PATH_OR_NAME" = "ada_embeddings" ] || [ "$MODEL_PATH_OR_NAME" = "text-embedding-ada-002" ] || [ "$MODEL_PATH_OR_NAME" = "text-embedding-3-large" ]; then
     echo "using openai model"
     CONFIG_FILE=./shell/infer_case.yaml

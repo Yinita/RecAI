@@ -1,0 +1,323 @@
+W0930 06:33:11.513056 140621294847680 torch/distributed/run.py:779] 
+W0930 06:33:11.513056 140621294847680 torch/distributed/run.py:779] *****************************************
+W0930 06:33:11.513056 140621294847680 torch/distributed/run.py:779] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W0930 06:33:11.513056 140621294847680 torch/distributed/run.py:779] *****************************************
+[W930 06:33:15.334980577 Utils.hpp:135] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W930 06:33:15.348286867 Utils.hpp:135] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W930 06:33:15.366704230 Utils.hpp:135] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W930 06:33:15.374806488 Utils.hpp:135] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+09/30/2024 06:33:15 - WARNING - __main__ -   Process rank: 2, device: cuda:0, n_gpu: 1, distributed training: True, 16-bits training: False
+09/30/2024 06:33:15 - WARNING - __main__ -   Process rank: 0, device: cuda:0, n_gpu: 1, distributed training: True, 16-bits training: False
+09/30/2024 06:33:15 - INFO - __main__ -   Training/evaluation parameters RetrieverTrainingArguments(
+_n_gpu=1,
+accelerator_config={'split_batches': False, 'dispatch_batches': None, 'even_batches': True, 'use_seedable_sampler': True, 'non_blocking': False, 'gradient_accumulation_kwargs': None, 'use_configured_state': False},
+adafactor=False,
+adam_beta1=0.9,
+adam_beta2=0.999,
+adam_epsilon=1e-08,
+auto_find_batch_size=False,
+batch_eval_metrics=False,
+bf16=False,
+bf16_full_eval=False,
+data_seed=None,
+dataloader_drop_last=True,
+dataloader_num_workers=2,
+dataloader_persistent_workers=False,
+dataloader_pin_memory=True,
+dataloader_prefetch_factor=None,
+ddp_backend=None,
+ddp_broadcast_buffers=None,
+ddp_bucket_cap_mb=None,
+ddp_find_unused_parameters=None,
+ddp_timeout=1800,
+debug=[],
+deepspeed=None,
+disable_tqdm=False,
+dispatch_batches=None,
+do_eval=False,
+do_predict=False,
+do_train=False,
+eval_accumulation_steps=None,
+eval_delay=0,
+eval_do_concat_batches=True,
+eval_on_start=False,
+eval_steps=None,
+eval_strategy=no,
+eval_use_gather_object=False,
+evaluation_strategy=None,
+fix_position_embedding=False,
+fp16=False,
+fp16_backend=auto,
+fp16_full_eval=False,
+fp16_opt_level=O1,
+fsdp=[],
+fsdp_config={'min_num_params': 0, 'xla': False, 'xla_fsdp_v2': False, 'xla_fsdp_grad_ckpt': False},
+fsdp_min_num_params=0,
+fsdp_transformer_layer_cls_to_wrap=None,
+full_determinism=False,
+gradient_accumulation_steps=8,
+gradient_checkpointing=False,
+gradient_checkpointing_kwargs=None,
+greater_is_better=None,
+group_by_length=False,
+half_precision_backend=auto,
+hub_always_push=False,
+hub_model_id=None,
+hub_private_repo=False,
+hub_strategy=every_save,
+hub_token=<HUB_TOKEN>,
+ignore_data_skip=False,
+in_batch_negatives=True,
+include_inputs_for_metrics=False,
+include_num_input_tokens_seen=False,
+include_tokens_per_second=False,
+jit_mode_eval=False,
+label_names=None,
+label_smoothing_factor=0.0,
+learning_rate=3e-05,
+length_column_name=length,
+load_best_model_at_end=False,
+local_rank=0,
+log_level=passive,
+log_level_replica=warning,
+log_on_each_node=True,
+logging_dir=output/xbox/reclm_emb_xbox_e5/runs/Sep30_06-33-13_node-0,
+logging_first_step=False,
+logging_nan_inf_filter=True,
+logging_steps=100,
+logging_strategy=steps,
+lr_scheduler_kwargs={},
+lr_scheduler_type=linear,
+max_grad_norm=1.0,
+max_steps=-1,
+metric_for_best_model=None,
+mp_parameters=,
+neftune_noise_alpha=None,
+negatives_cross_device=False,
+no_cuda=False,
+num_train_epochs=3.0,
+optim=adamw_torch,
+optim_args=None,
+optim_target_modules=None,
+output_dir=output/xbox/reclm_emb_xbox_e5,
+overwrite_output_dir=False,
+past_index=-1,
+per_device_eval_batch_size=8,
+per_device_train_batch_size=2,
+prediction_loss_only=False,
+push_to_hub=False,
+push_to_hub_model_id=None,
+push_to_hub_organization=None,
+push_to_hub_token=<PUSH_TO_HUB_TOKEN>,
+ray_scope=last,
+remove_unused_columns=True,
+report_to=['wandb'],
+restore_callback_states_from_checkpoint=False,
+resume_from_checkpoint=None,
+run_name=reclm_emb_xbox_e5,
+save_on_each_node=False,
+save_only_model=False,
+save_safetensors=True,
+save_steps=500,
+save_strategy=epoch,
+save_total_limit=None,
+seed=42,
+skip_memory_metrics=True,
+split_batches=None,
+temperature=0.01,
+tf32=None,
+torch_compile=False,
+torch_compile_backend=None,
+torch_compile_mode=None,
+torch_empty_cache_steps=None,
+torchdynamo=None,
+tpu_metrics_debug=False,
+tpu_num_cores=None,
+use_cpu=False,
+use_ipex=False,
+use_legacy_prediction_loop=False,
+use_mps_device=False,
+warmup_ratio=0.1,
+warmup_steps=0,
+weight_decay=0.0,
+)
+09/30/2024 06:33:15 - INFO - __main__ -   Model parameters ModelArguments(model_name_or_path='intfloat/e5-large-v2', config_name=None, tokenizer_name=None, cache_dir=None, sentence_pooling_method='mean', normlized=True, peft_model_name=None, attn_implementation='eager', torch_dtype=None)
+09/30/2024 06:33:15 - INFO - __main__ -   Data parameters DataArguments(train_data='data/xbox/train/qwen72B_data_v2.jsonl,data/xbox/train/misspell2item.jsonl,data/xbox/train/negquery2item.jsonl,data/xbox/train/relativequery2item.jsonl,data/xbox/train/title2item.jsonl,data/xbox/train/qwen72B_data.jsonl,data/xbox/train/item2item.jsonl,data/xbox/train/query2item.jsonl,data/xbox/train/queryuser2item.jsonl,data/xbox/train/user2item.jsonl', data_cache_dir='/home/aiscuser/.cache/hf_data', train_group_size=8, query_max_len=512, passage_max_len=128, max_example_num_per_dataset=100000000, has_template=True)
+09/30/2024 06:33:15 - INFO - __main__ -   Config: BertConfig {
+  "_name_or_path": "intfloat/e5-large-v2",
+  "architectures": [
+    "BertModel"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "classifier_dropout": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 1024,
+  "initializer_range": 0.02,
+  "intermediate_size": 4096,
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 16,
+  "num_hidden_layers": 24,
+  "pad_token_id": 0,
+  "position_embedding_type": "absolute",
+  "torch_dtype": "float32",
+  "transformers_version": "4.44.2",
+  "type_vocab_size": 2,
+  "use_cache": true,
+  "vocab_size": 30522
+}
+
+09/30/2024 06:33:15 - WARNING - __main__ -   Process rank: 3, device: cuda:1, n_gpu: 1, distributed training: True, 16-bits training: False
+09/30/2024 06:33:15 - WARNING - __main__ -   Process rank: 1, device: cuda:1, n_gpu: 1, distributed training: True, 16-bits training: False
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 0 examples [00:00, ? examples/s]
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 2029, in _prepare_split_single
+[rank2]:     num_examples, num_bytes = writer.finalize()
+[rank2]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/arrow_writer.py", line 611, in finalize
+[rank2]:     raise SchemaInferenceError("Please pass `features` or at least one example when writing data")
+[rank2]: datasets.arrow_writer.SchemaInferenceError: Please pass `features` or at least one example when writing data
+
+[rank2]: The above exception was the direct cause of the following exception:
+
+[rank2]: Traceback (most recent call last):
+[rank2]:   File "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/train.py", line 131, in <module>
+[rank2]:     main()
+[rank2]:   File "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/train.py", line 95, in main
+[rank2]:     train_dataset = TrainDatasetForEmbedding(args=data_args, tokenizer=tokenizer)
+[rank2]:   File "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/src/data.py", line 44, in __init__
+[rank2]:     temp_dataset = datasets.load_dataset('json', data_files=file, split='train',
+[rank2]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/load.py", line 2628, in load_dataset
+[rank2]:     builder_instance.download_and_prepare(
+[rank2]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 1029, in download_and_prepare
+[rank2]:     self._download_and_prepare(
+[rank2]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 1124, in _download_and_prepare
+[rank2]:     self._prepare_split(split_generator, **prepare_split_kwargs)
+[rank2]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 1884, in _prepare_split
+[rank2]:     for job_id, done, content in self._prepare_split_single(
+[rank2]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 2040, in _prepare_split_single
+[rank2]:     raise DatasetGenerationError("An error occurred while generating the dataset") from e
+[rank2]: datasets.exceptions.DatasetGenerationError: An error occurred while generating the dataset
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 0 examples [00:00, ? examples/s]
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 2029, in _prepare_split_single
+[rank0]:     num_examples, num_bytes = writer.finalize()
+[rank0]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/arrow_writer.py", line 611, in finalize
+[rank0]:     raise SchemaInferenceError("Please pass `features` or at least one example when writing data")
+[rank0]: datasets.arrow_writer.SchemaInferenceError: Please pass `features` or at least one example when writing data
+
+[rank0]: The above exception was the direct cause of the following exception:
+
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/train.py", line 131, in <module>
+[rank0]:     main()
+[rank0]:   File "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/train.py", line 95, in main
+[rank0]:     train_dataset = TrainDatasetForEmbedding(args=data_args, tokenizer=tokenizer)
+[rank0]:   File "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/src/data.py", line 44, in __init__
+[rank0]:     temp_dataset = datasets.load_dataset('json', data_files=file, split='train',
+[rank0]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/load.py", line 2628, in load_dataset
+[rank0]:     builder_instance.download_and_prepare(
+[rank0]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 1029, in download_and_prepare
+[rank0]:     self._download_and_prepare(
+[rank0]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 1124, in _download_and_prepare
+[rank0]:     self._prepare_split(split_generator, **prepare_split_kwargs)
+[rank0]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 1884, in _prepare_split
+[rank0]:     for job_id, done, content in self._prepare_split_single(
+[rank0]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 2040, in _prepare_split_single
+[rank0]:     raise DatasetGenerationError("An error occurred while generating the dataset") from e
+[rank0]: datasets.exceptions.DatasetGenerationError: An error occurred while generating the dataset
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 0 examples [00:00, ? examples/s]
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 2029, in _prepare_split_single
+[rank3]:     num_examples, num_bytes = writer.finalize()
+[rank3]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/arrow_writer.py", line 611, in finalize
+[rank3]:     raise SchemaInferenceError("Please pass `features` or at least one example when writing data")
+[rank3]: datasets.arrow_writer.SchemaInferenceError: Please pass `features` or at least one example when writing data
+
+[rank3]: The above exception was the direct cause of the following exception:
+
+[rank3]: Traceback (most recent call last):
+[rank3]:   File "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/train.py", line 131, in <module>
+[rank3]:     main()
+[rank3]:   File "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/train.py", line 95, in main
+[rank3]:     train_dataset = TrainDatasetForEmbedding(args=data_args, tokenizer=tokenizer)
+[rank3]:   File "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/src/data.py", line 44, in __init__
+[rank3]:     temp_dataset = datasets.load_dataset('json', data_files=file, split='train',
+[rank3]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/load.py", line 2628, in load_dataset
+[rank3]:     builder_instance.download_and_prepare(
+[rank3]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 1029, in download_and_prepare
+[rank3]:     self._download_and_prepare(
+[rank3]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 1124, in _download_and_prepare
+[rank3]:     self._prepare_split(split_generator, **prepare_split_kwargs)
+[rank3]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 1884, in _prepare_split
+[rank3]:     for job_id, done, content in self._prepare_split_single(
+[rank3]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 2040, in _prepare_split_single
+[rank3]:     raise DatasetGenerationError("An error occurred while generating the dataset") from e
+[rank3]: datasets.exceptions.DatasetGenerationError: An error occurred while generating the dataset
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 0 examples [00:00, ? examples/s]
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 2029, in _prepare_split_single
+[rank1]:     num_examples, num_bytes = writer.finalize()
+[rank1]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/arrow_writer.py", line 611, in finalize
+[rank1]:     raise SchemaInferenceError("Please pass `features` or at least one example when writing data")
+[rank1]: datasets.arrow_writer.SchemaInferenceError: Please pass `features` or at least one example when writing data
+
+[rank1]: The above exception was the direct cause of the following exception:
+
+[rank1]: Traceback (most recent call last):
+[rank1]:   File "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/train.py", line 131, in <module>
+[rank1]:     main()
+[rank1]:   File "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/train.py", line 95, in main
+[rank1]:     train_dataset = TrainDatasetForEmbedding(args=data_args, tokenizer=tokenizer)
+[rank1]:   File "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/src/data.py", line 44, in __init__
+[rank1]:     temp_dataset = datasets.load_dataset('json', data_files=file, split='train',
+[rank1]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/load.py", line 2628, in load_dataset
+[rank1]:     builder_instance.download_and_prepare(
+[rank1]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 1029, in download_and_prepare
+[rank1]:     self._download_and_prepare(
+[rank1]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 1124, in _download_and_prepare
+[rank1]:     self._prepare_split(split_generator, **prepare_split_kwargs)
+[rank1]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 1884, in _prepare_split
+[rank1]:     for job_id, done, content in self._prepare_split_single(
+[rank1]:   File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/datasets/builder.py", line 2040, in _prepare_split_single
+[rank1]:     raise DatasetGenerationError("An error occurred while generating the dataset") from e
+[rank1]: datasets.exceptions.DatasetGenerationError: An error occurred while generating the dataset
+W0930 06:33:16.675982 140621294847680 torch/distributed/elastic/multiprocessing/api.py:858] Sending process 3996570 closing signal SIGTERM
+W0930 06:33:16.676512 140621294847680 torch/distributed/elastic/multiprocessing/api.py:858] Sending process 3996572 closing signal SIGTERM
+E0930 06:33:17.055968 140621294847680 torch/distributed/elastic/multiprocessing/api.py:833] failed (exitcode: 1) local_rank: 0 (pid: 3996569) of binary: /home/aiscuser/miniconda3/envs/recai-eval/bin/python
+Traceback (most recent call last):
+  File "/home/aiscuser/miniconda3/envs/recai-eval/bin/torchrun", line 8, in <module>
+    sys.exit(main())
+  File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/torch/distributed/elastic/multiprocessing/errors/__init__.py", line 348, in wrapper
+    return f(*args, **kwargs)
+  File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/torch/distributed/run.py", line 901, in main
+    run(args)
+  File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/torch/distributed/run.py", line 892, in run
+    elastic_launch(
+  File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 133, in __call__
+    return launch_agent(self._config, self._entrypoint, list(args))
+  File "/home/aiscuser/miniconda3/envs/recai-eval/lib/python3.9/site-packages/torch/distributed/launcher/api.py", line 264, in launch_agent
+    raise ChildFailedError(
+torch.distributed.elastic.multiprocessing.errors.ChildFailedError: 
+============================================================
+train.py FAILED
+------------------------------------------------------------
+Failures:
+[1]:
+  time      : 2024-09-30_06:33:16
+  host      : node-0
+  rank      : 2 (local_rank: 2)
+  exitcode  : 1 (pid: 3996571)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+------------------------------------------------------------
+Root Cause (first observed failure):
+[0]:
+  time      : 2024-09-30_06:33:16
+  host      : node-0
+  rank      : 0 (local_rank: 0)
+  exitcode  : 1 (pid: 3996569)
+  error_file: <N/A>
+  traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
+============================================================

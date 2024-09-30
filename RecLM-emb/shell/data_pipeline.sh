@@ -2,13 +2,13 @@
 # Licensed under the MIT license.
 
 
-RAW_DATA_DIR="$HOME/RecLM-emb/data/steam/raw_data"
-EXE_DIR="$HOME/RecLM-emb"
-OUTPUT_FLAG="data/steam/train"
+RAW_DATA_DIR="data/$TASK"
+EXE_DIR="./"
+OUTPUT_FLAG="data/$TASK/train"
 
 in_seq_data="$RAW_DATA_DIR/sequential_data.txt "
 in_meta_data="$RAW_DATA_DIR/metadata.json"
-# in_search2item="$RAW_DATA_DIR/gpt4_item_info_search/response_gpt4_search_item.jsonl"
+# in_search2item="$RAW_DATA_DIR/qwen72B_item_info_search/response_qwen72B_search_item.jsonl"
 
 out_user2item="$EXE_DIR/$OUTPUT_FLAG/user2item.jsonl"
 out_query2item="$EXE_DIR/$OUTPUT_FLAG/query2item.jsonl"
@@ -22,12 +22,12 @@ out_relativequery2item="$EXE_DIR/$OUTPUT_FLAG/relativequery2item.jsonl"
 out_negquery2item="$EXE_DIR/$OUTPUT_FLAG/negquery2item.jsonl"
 neg_num=7
 model_path_or_name="intfloat/e5-large-v2"
-out_u2i_file="$EXE_DIR/$OUTPUT_FLAG/gpt4/u2i_gpt4.jsonl"
-out_q2i_file="$EXE_DIR/$OUTPUT_FLAG/gpt4/q2i_gpt4.jsonl"
-out_q2i_misspell_file="$EXE_DIR/$OUTPUT_FLAG/gpt4/q2i_misspell_gpt4.jsonl"
-gpt_query_file="$EXE_DIR/$OUTPUT_FLAG/gpt4/query_gpt4"
-gpt_response_file="$EXE_DIR/$OUTPUT_FLAG/gpt4/response_gpt4"
-out_gpt="$EXE_DIR/$OUTPUT_FLAG/gpt4_data.jsonl"
+out_u2i_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/u2i_qwen72B.jsonl"
+out_q2i_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/q2i_qwen72B.jsonl"
+out_q2i_misspell_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/q2i_misspell_qwen72B.jsonl"
+gpt_query_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/query_qwen72B"
+gpt_response_file="$EXE_DIR/$OUTPUT_FLAG/qwen72B/response_qwen72B"
+out_gpt="$EXE_DIR/$OUTPUT_FLAG/qwen72B_data.jsonl"
 
 cd $EXE_DIR
 
@@ -59,15 +59,15 @@ python preprocess/merge.py --in_seq_data $in_seq_data --in_meta_data $in_meta_da
     --gpt_path $gpt_response_file --out_gpt $out_gpt --neg_num $neg_num
 
 
-out_conv=$EXE_DIR/$OUTPUT_FLAG/gpt4_v2/conv_data.json
-out_gpt_conv=$EXE_DIR/$OUTPUT_FLAG/gpt4_v2/gpt_conv_data
-out_user_sum=$EXE_DIR/$OUTPUT_FLAG/gpt4_v2/user_sum_data.json
-out_gpt_user_sum=$EXE_DIR/$OUTPUT_FLAG/gpt4_v2/gpt_user_sum_data
-out_query=$EXE_DIR/$OUTPUT_FLAG/gpt4_v2/query_data.json
-out_gpt_query=$EXE_DIR/$OUTPUT_FLAG/gpt4_v2/gpt_query_data
-out_neg_query=$EXE_DIR/$OUTPUT_FLAG/gpt4_v2/neg_query_data.json
-out_gpt_neg_query=$EXE_DIR/$OUTPUT_FLAG/gpt4_v2/gpt_neg_query_data
-out_gpt_v2="$EXE_DIR/$OUTPUT_FLAG/gpt4_data_v2.jsonl"
+out_conv=$EXE_DIR/$OUTPUT_FLAG/qwen72B_v2/conv_data.json
+out_gpt_conv=$EXE_DIR/$OUTPUT_FLAG/qwen72B_v2/gpt_conv_data
+out_user_sum=$EXE_DIR/$OUTPUT_FLAG/qwen72B_v2/user_sum_data.json
+out_gpt_user_sum=$EXE_DIR/$OUTPUT_FLAG/qwen72B_v2/gpt_user_sum_data
+out_query=$EXE_DIR/$OUTPUT_FLAG/qwen72B_v2/query_data.json
+out_gpt_query=$EXE_DIR/$OUTPUT_FLAG/qwen72B_v2/gpt_query_data
+out_neg_query=$EXE_DIR/$OUTPUT_FLAG/qwen72B_v2/neg_query_data.json
+out_gpt_neg_query=$EXE_DIR/$OUTPUT_FLAG/qwen72B_v2/gpt_neg_query_data
+out_gpt_v2="$EXE_DIR/$OUTPUT_FLAG/qwen72B_data_v2.jsonl"
 
 echo "generate gpt_data_file v2"
 python preprocess/data_process_v2.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \
