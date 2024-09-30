@@ -39,19 +39,19 @@ python preprocess/data_process.py --in_seq_data $in_seq_data --in_meta_data $in_
     # --in_search2item=$in_search2item --out_search2item=$out_search2item 
 
 
-if [[ -e $gpt_response_file'.csv' ]]; then  
-    echo "All files exist. jump to excute merge.py"  
-else  
-    echo "At least one file does not exist."  
-    echo "generate gpt_query_file"
-    python preprocess/genera_query_file.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \
-        --out_u2i_file $out_u2i_file --out_q2i_file $out_q2i_file --out_q2i_misspell_file $out_q2i_misspell_file \
-        --out_query_file $gpt_query_file
+# if [[ -e $gpt_response_file'.csv' ]]; then  
+#     echo "All files exist. jump to excute merge.py"  
+# else  
+echo "At least one file does not exist."  
+echo "generate gpt_query_file"
+python preprocess/genera_query_file.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \
+    --out_u2i_file $out_u2i_file --out_q2i_file $out_q2i_file --out_q2i_misspell_file $out_q2i_misspell_file \
+    --out_query_file $gpt_query_file
 
-    echo "generate gpt_response_file"
+echo "generate gpt_response_file"
 
-    python preprocess/gpt_api/api.py --input_file $gpt_query_file'.csv' --output_file $gpt_response_file'.csv' 
-fi
+python preprocess/gpt_api/api.py --input_file $gpt_query_file'.csv' --output_file $gpt_response_file'.csv' 
+# fi
 
 echo "generate gpt_data_file"
 python preprocess/merge.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \

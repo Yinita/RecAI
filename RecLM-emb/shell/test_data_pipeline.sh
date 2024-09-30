@@ -42,19 +42,19 @@ python preprocess/gen_test_data.py --in_seq_data $in_seq_data --in_meta_data $in
     --out_relativequery2item $out_relativequery2item --out_negquery2item $out_negquery2item \
     --model_path_or_name $model_path_or_name --max_samples_per_task $max_samples_per_task
 
-if [[ -e $gpt_response_file'.csv' ]]; then  
-    echo "All files exist. jump to excute test_merge.py"  
-else  
-    echo "At least one file does not exist." 
-    echo "generate gpt_query_file"
-    python preprocess/genera_query_file.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \
-        --out_u2i_file $out_u2i_file --out_q2i_file $out_q2i_file --out_q2i_misspell_file $out_q2i_misspell_file \
-        --out_query_file $gpt_query_file --task_type "test"
+# if [[ -e $gpt_response_file'.csv' ]]; then  
+#     echo "All files exist. jump to excute test_merge.py"  
+# else  
+echo "At least one file does not exist." 
+echo "generate gpt_query_file"
+python preprocess/genera_query_file.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \
+    --out_u2i_file $out_u2i_file --out_q2i_file $out_q2i_file --out_q2i_misspell_file $out_q2i_misspell_file \
+    --out_query_file $gpt_query_file --task_type "test"
 
-    echo "generate gpt_response_file"
+echo "generate gpt_response_file"
 
-    python preprocess/gpt_api/api.py --input_file $gpt_query_file'.csv' --output_file $gpt_response_file'.csv' 
-fi
+python preprocess/gpt_api/api.py --input_file $gpt_query_file'.csv' --output_file $gpt_response_file'.csv' 
+# fi
 
 echo "generate gpt_data_file"
 python preprocess/test_merge.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \

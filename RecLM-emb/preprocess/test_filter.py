@@ -9,7 +9,7 @@ task_map = {
     'query2item': query2item_template,
     # 'title2item': title2item_template,
     'item2item': item2item_template,
-    'vaguequery2item': vaguequery2item_template,
+    # 'vaguequery2item': vaguequery2item_template,
     'negquery2item': negquery2item_template,
     'sparse_query2item': query2item_template,
     'misspell2item': title2item_template,

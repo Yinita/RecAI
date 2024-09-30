@@ -327,7 +327,7 @@ if __name__ == "__main__":
     gen_queryuser2item(itemid2title, itemid2features, args)
     gen_misspell2item(itemid2title, title2itemid, args)
     gen_sparse_query2item(itemid2title, itemid2features, args)
-    gen_vaguequery2item(itemid2price_date_map, args)
+    # gen_vaguequery2item(itemid2price_date_map, args)
     gen_relativequery2item(args)
     gen_negquery2item(itemid2text, args)
     
