@@ -1,15 +1,12 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 
-RAW_DATA_DIR=$HOME/RecLM-emb/data/steam/raw_data
-EXE_DIR=$HOME/RecLM-emb
 
-cd $EXE_DIR
 
-accelerate launch --config_file ./shell/infer_case.yaml demo.py \
-    --in_meta_data $RAW_DATA_DIR/metadata.json \
-    --user_embedding_prompt_path $EXE_DIR/output/demo/user_embedding_prompt.jsonl \
-    --model_path_or_name "intfloat/e5-large-v2" \
+accelerate launch --config_file shell/infer_case.yaml demo.py \
+    --in_meta_data data/xbox/metadata.json \
+    --user_embedding_prompt_path output/demo/user_embedding_prompt.jsonl \
+    --model_path_or_name "/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/output/xbox/reclm_emb_xbox_e5/checkpoint-418" \
     --topk 5 \
     --seed 2023 \
     --query_max_len 512 \

@@ -10,15 +10,15 @@ export WANDB_PROJECT="RecLM-emb"
 
 
 DATA_DIR=data/xbox/train
-OUTPUT_DIR=output/xbox/reclm_emb_xbox_e5
-MODEl_NAME_OR_PATH="intfloat/e5-large-v2" # Currently support intfloat/e5-large-v2, bert-large-uncased, BAAI/bge-large-en-v1.5, meta-llama/Llama-2-7b-hf
+OUTPUT_DIR=output/xbox/reclm_emb_xbox_bge-m3
+MODEL_NAME_OR_PATH="BAAI/bge-m3" # Currently support BAAI/bge-m3 (best)    intfloat/e5-large-v2, bert-large-uncased, BAAI/bge-large-en-v1.5, meta-llama/Llama-2-7b-hf
 SENTENCE_POOLING_METHOD="mean" # mean: intfloat/e5-large-v2 and bert-large-uncased; cls: BAAI/bge-large-en-v1.5 ; last: meta-llama/Llama-2-7b-hf
-QUERY_MAX_LEN=512
+QUERY_MAX_LEN=1024
 PASSAGE_MAX_LEN=128
 GRADIENT_ACCU_STEPS=8
-RUN_NAME="reclm_emb_xbox_e5"
+RUN_NAME="reclm_emb_xbox_bge-m3"
 
-if [ "$MODEl_NAME_OR_PATH" = "meta-llama/Llama-2-7b-hf" ]; then
+if [ "$MODEL_NAME_OR_PATH" = "meta-llama/Llama-2-7b-hf" ]; then
     TORCH_TYPE="bfloat16"
     BF16=True
     ATTN_IMPLEMENTATION="flash_attention_2"
@@ -26,7 +26,7 @@ if [ "$MODEl_NAME_OR_PATH" = "meta-llama/Llama-2-7b-hf" ]; then
     PEFT_MODEL_NAME="castorini/repllama-v1-7b-lora-passage"
     HAS_TEMPLATE=True
 
-    torchrun --nnodes=1 --nproc_per_node 4 --master_port=29501 train.py \
+    torchrun --nnodes=1 --nproc_per_node 4 --master_port=29502 train.py \
         --torch_dtype $TORCH_TYPE \
         --bf16 $BF16 \
         --attn_implementation $ATTN_IMPLEMENTATION \
@@ -35,7 +35,7 @@ if [ "$MODEl_NAME_OR_PATH" = "meta-llama/Llama-2-7b-hf" ]; then
         --has_template $HAS_TEMPLATE \
         --data_cache_dir $HOME/.cache/hf_data \
         --output_dir $OUTPUT_DIR \
-        --model_name_or_path $MODEl_NAME_OR_PATH \
+        --model_name_or_path $MODEL_NAME_OR_PATH \
         --train_data $DATA_DIR/qwen72B_data_v2.jsonl,$DATA_DIR/misspell2item.jsonl,$DATA_DIR/negquery2item.jsonl,$DATA_DIR/relativequery2item.jsonl,$DATA_DIR/title2item.jsonl,$DATA_DIR/vaguequery2item.jsonl,$DATA_DIR/qwen72B_data.jsonl,$DATA_DIR/item2item.jsonl,$DATA_DIR/query2item.jsonl,$DATA_DIR/queryuser2item.jsonl,$DATA_DIR/user2item.jsonl \
         --learning_rate 3e-5 \
         --num_train_epochs 3 \
@@ -55,19 +55,19 @@ if [ "$MODEl_NAME_OR_PATH" = "meta-llama/Llama-2-7b-hf" ]; then
         --run_name $RUN_NAME > ./training.log 2>&1
 
 else
-    TRAIN_GROUP_SIZE=8
+    TRAIN_GROUP_SIZE=4
     HAS_TEMPLATE=True
 
-    torchrun --nnodes=1 --nproc_per_node 4 --master_port=29501 train.py \
+    torchrun --nnodes=1 --nproc_per_node 4 --master_port=29502 train.py \
         --train_group_size $TRAIN_GROUP_SIZE \
         --has_template $HAS_TEMPLATE \
         --data_cache_dir $HOME/.cache/hf_data \
         --output_dir $OUTPUT_DIR \
-        --model_name_or_path $MODEl_NAME_OR_PATH \
+        --model_name_or_path $MODEL_NAME_OR_PATH \
         --train_data $DATA_DIR/qwen72B_data_v2.jsonl,$DATA_DIR/misspell2item.jsonl,$DATA_DIR/negquery2item.jsonl,$DATA_DIR/relativequery2item.jsonl,$DATA_DIR/title2item.jsonl,$DATA_DIR/qwen72B_data.jsonl,$DATA_DIR/item2item.jsonl,$DATA_DIR/query2item.jsonl,$DATA_DIR/queryuser2item.jsonl,$DATA_DIR/user2item.jsonl \
         --learning_rate 3e-5 \
         --num_train_epochs 3 \
-        --per_device_train_batch_size 2 \
+        --per_device_train_batch_size 1 \
         --dataloader_drop_last True \
         --normlized True \
         --sentence_pooling_method $SENTENCE_POOLING_METHOD \

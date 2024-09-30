@@ -18,11 +18,15 @@ from src.arguments import ModelArguments, DataArguments, \
 from src.data import TrainDatasetForEmbedding, EmbedCollator
 from src.model import BiEncoderModel
 from src.trainer import BiTrainer
+import torch
 
 logger = logging.getLogger(__name__)
 
-
 def main():
+    torch.distributed.init_process_group("nccl")
+    rank, world_size = torch.distributed.get_rank(), torch.distributed.get_world_size()
+    device_id = rank % torch.cuda.device_count()
+    device = torch.device(device_id)
     parser = HfArgumentParser((ModelArguments, DataArguments, TrainingArguments))
     model_args, data_args, training_args = parser.parse_args_into_dataclasses()
     model_args: ModelArguments
@@ -56,7 +60,7 @@ def main():
     logger.info("Training/evaluation parameters %s", training_args)
     logger.info("Model parameters %s", model_args)
     logger.info("Data parameters %s", data_args)
-
+    
     # Set seed
     set_seed(training_args.seed)
 
