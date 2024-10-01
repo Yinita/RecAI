@@ -13,4 +13,23 @@ export model_altname="qwen72B"
 export TASK="xbox"
 # bash shell/data_pipeline.sh
 # bash shell/test_data_pipeline.sh
-bash shell/run_single_node.sh
+# bash shell/run_single_node.sh
+
+export OUT_DIR="output/xbox_infer/bge-m3-base"
+export MODEL_PATH_OR_NAME="BAAI/bge-m3"
+bash shell/infer_metrics.sh 
+
+export OUT_DIR="output/xbox_infer/e5-large-v2-base"
+export MODEL_PATH_OR_NAME="intfloat/e5-large-v2"
+bash shell/infer_metrics.sh 
+export OUT_DIR="output/xbox_infer/e5-large-v2"
+export MODEL_PATH_OR_NAME="/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/output/xbox/reclm_emb_xbox_e5"
+bash shell/infer_metrics.sh 
+
+
+export OUT_DIR="output/xbox_infer/bert-large-uncased-base"
+export MODEL_PATH_OR_NAME="bert-large-uncased"
+bash shell/infer_metrics.sh 
+export OUT_DIR="output/xbox_infer/bert-large-uncased"
+export MODEL_PATH_OR_NAME="/home/aiscuser/remote_github/yinita/RecAI/RecLM-emb/output/xbox/reclm_emb_xbox_bert"
+bash shell/infer_metrics.sh 

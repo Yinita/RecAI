@@ -1,13 +1,14 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
 
-RAW_DATA_DIR="data/steam/raw_data"
-TEST_DATA_DIR="data/steam/test"
-OUT_DIR="output/steam_infer/intfloat-e5-large-v2"
-MODEL_PATH_OR_NAME="intfloat/e5-large-v2"
+# step1:  1.metric  2.data 组成  3. query-block目的 rec: history->items/blocks; search: misspell,...->items/blocks
+
+RAW_DATA_DIR="data/xbox/"
+TEST_DATA_DIR="data/xbox/test"
+
 ALL_METRICS_FILE=$OUT_DIR/all_metrics.jsonl
 TOPK="[1, 5, 10, 20]"
-SEED=2023
+SEED=2024
 QUERY_MAX_LEN=512
 PASSAGE_MAX_LEN=128
 SENTENCE_POOLING_METHOD="mean"

@@ -7,7 +7,7 @@ PEFT_MODEL_NAME=castorini/repllama-v1-7b-lora-passage
 MODEL_PATH_OR_NAME=meta-llama/Llama-2-7b-hf
 
 TOPK="[1, 5, 10, 20]"
-SEED=2023
+SEED=2024
 QUERY_MAX_LEN=512
 PASSAGE_MAX_LEN=128
 SENTENCE_POOLING_METHOD="last"
