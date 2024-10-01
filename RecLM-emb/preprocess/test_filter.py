@@ -4,7 +4,7 @@
 import json
 from template import *
 import argparse
-
+import os
 task_map = {
     'query2item': query2item_template,
     # 'title2item': title2item_template,
