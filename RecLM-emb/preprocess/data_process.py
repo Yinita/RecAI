@@ -128,7 +128,7 @@ def gen_user2item(itemid2text, itemid2title, itemid2features, args):
                 query = query.strip().strip(',')
 
                 template_length = len(tokenizer.tokenize(template))
-                tokens = tokenizer.tokenize(query)[:args.max_seq_len-template_length]
+                tokens = tokenizer.tokenize(query)
                 truncated_query = tokenizer.convert_tokens_to_string(tokens).strip().strip(',')
 
                 query = template.format(truncated_query)
@@ -211,7 +211,7 @@ def gen_query2item(itemid2text, itemid2title, itemid2features, args):
                 template = random.choice(query2item_template)
 
                 template_length = len(tokenizer.tokenize(template))
-                tokens = tokenizer.tokenize(query)[:args.max_seq_len-template_length]
+                tokens = tokenizer.tokenize(query)
                 truncated_query = tokenizer.convert_tokens_to_string(tokens).strip()
 
                 query = template.format(truncated_query)
@@ -264,14 +264,14 @@ def gen_title2item(itemid2text, itemid2title, args):
     with open(args.out_title2item, 'w') as f:
         for idx, cont in tqdm(enumerate(itemid2title[1:]), desc='gen_title2item', total=len(itemid2title)-1):
             target_item_title = cont[1]
-            for _ in range(1):
-                if random.random() < 0.6:
+            for _ in range(10):
+                if random.random() < 0.3:
                     continue
                 query = target_item_title
                 template = random.choice(title2item_template)
 
                 template_length = len(tokenizer.tokenize(template))
-                tokens = tokenizer.tokenize(query)[:args.max_seq_len-template_length]
+                tokens = tokenizer.tokenize(query)
                 truncated_query = tokenizer.convert_tokens_to_string(tokens).strip()
 
                 query = template.format(truncated_query)
@@ -320,11 +320,9 @@ def gen_item2item(itemid2text, itemid2title, itemid2features, args):
 
                     template = random.choice(item2item_template)
                     template_length = len(tokenizer.tokenize(template))
-                    tokens = tokenizer.tokenize(query)[:args.max_seq_len-template_length]
-                    truncated_query = tokenizer.convert_tokens_to_string(tokens).strip()
-
+                    tokens = tokenizer.tokenize(query)
+                    truncated_query = tokenizer.convert_tokens_to_string(tokens).strip()[:args.max_seq_len-template_length]
                     query = template.format(truncated_query)
-
                     q_len = template_length + len(tokens)
                     total_q_len += q_len
                     max_q_len = max(max_q_len, q_len)
@@ -454,7 +452,7 @@ def gen_misspell2item(itemid2text, itemid2title, args):
     dataset=[]
     for idx, cont in tqdm(enumerate(itemid2title[1:]), desc='gen_misspell2item', total=len(itemid2title)-1):
         target_item_title = cont[1]
-        for _ in range(2):
+        for _ in range(10):
             query = random_replace(target_item_title)
             while query == target_item_title:
                 query = random_replace(target_item_title)
@@ -515,7 +513,7 @@ def gen_relativequery2item(itemid2text, args):
     with open(args.out_relativequery2item, 'w') as f:
         for task, itemset in zip(['recent', 'cheap', 'expensive', 'popular'], [recent_itemset, cheap_itemset, expensive_itemset, popular_itemset]):
             for target_item in itemset:
-                for _ in range(1):
+                for _ in range(10):
                     query = random.choice(relativequery2item_template[task])
                     neg_items = []
                     while len(neg_items) < args.neg_num:
@@ -539,7 +537,7 @@ def gen_negquery2item(itemid2text, args):
     sample_names_l2 = {x: list(features2itemids[x].keys()) for x in sample_names_l1}
     count=0
     with open(args.out_negquery2item, 'w') as f:
-        for _ in tqdm(range(30000), desc='gen_negquery2item'):
+        for _ in tqdm(range(3000), desc='gen_negquery2item'):
             query, pos_set, neg_set = text4negquery(sample_names_l1, sample_names_l2, itemid2text, features2itemids)
             if len(pos_set) == 0 or len(neg_set) <= args.neg_num//2:
                 continue

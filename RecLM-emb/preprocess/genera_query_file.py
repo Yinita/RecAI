@@ -86,7 +86,7 @@ def gen_query2item(itemid2text, args):
             target_set.add(int(line['target_id']))
     print('target set size: ', len(target_set))
     count = 0
-    threshold = 0.2 if args.task_type=='train' else 0.15
+    threshold = 0.5 if args.task_type=='train' else 0.15
     with open(args.out_q2i_file, 'w') as f:
         for i, text in enumerate(itemid2text):
             if i == 0:

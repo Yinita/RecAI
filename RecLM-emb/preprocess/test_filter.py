@@ -72,7 +72,7 @@ def deduplicate(task_name, args):
     
     check_test_data(task_name, split_templates, train_data, args.test_dir)
 
-def gpt_deduplicate(args, task_name=f'{model_alt}_data'):
+def gpt_deduplicate(args, task_name=f'gpt_data'):
     split_templates = get_templates('misspell2item')
     train_data = read_train_data('misspell2item', split_templates, args.train_dir)
     gpt_train_data = read_train_data(task_name, split_templates, args.train_dir)

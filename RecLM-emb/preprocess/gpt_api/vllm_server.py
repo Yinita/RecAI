@@ -17,7 +17,7 @@ import json
 import ast
 import vllm
 class OfflineVLLMModel:
-    def __init__(self, model_name: str, max_seq_len: int = 4096, dtype: str = "bfloat16", VLLM_TENSOR_PARALLEL_SIZE=1,
+    def __init__(self, model_name: str, max_seq_len: int = 8096, dtype: str = "bfloat16", VLLM_TENSOR_PARALLEL_SIZE=1,
                  VLLM_GPU_MEMORY_UTILIZATION=0.95):
         random.seed(26)
         self.model_name = model_name

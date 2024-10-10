@@ -119,9 +119,9 @@ def process_hf_data(dataset, output_file, args):
         
         try:
             if api_type == "onlinevllm":
-                model = load_vllm_model(api_type, MODEL, VLLM_TENSOR_PARALLEL_SIZE=2)
+                model = load_vllm_model(api_type, MODEL, VLLM_TENSOR_PARALLEL_SIZE=4)
                 his = []
-                batch_size = 250
+                batch_size = int(os.getenv("batch_size", 250))
                 dataset_length = len(dataset)  # Get the total length of the dataset
 
                 for i, sample in tqdm(enumerate(dataset), desc=filename):

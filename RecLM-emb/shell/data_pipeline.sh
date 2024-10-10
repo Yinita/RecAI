@@ -6,7 +6,7 @@ RAW_DATA_DIR="data/$TASK"
 EXE_DIR="./"
 OUTPUT_FLAG="data/$TASK/train"
 
-in_seq_data="$RAW_DATA_DIR/sequential_data.txt "
+in_seq_data="$RAW_DATA_DIR/sequential_data.txt"
 in_meta_data="$RAW_DATA_DIR/metadata.json"
 # in_search2item="$RAW_DATA_DIR/$model_altname_item_info_search/response_$model_altname_search_item.jsonl"
 
@@ -27,7 +27,8 @@ out_q2i_file="$EXE_DIR/$OUTPUT_FLAG/$model_altname/q2i_$model_altname.jsonl"
 out_q2i_misspell_file="$EXE_DIR/$OUTPUT_FLAG/$model_altname/q2i_misspell_$model_altname.jsonl"
 gpt_query_file="$EXE_DIR/$OUTPUT_FLAG/$model_altname/query_$model_altname"
 gpt_response_file="$EXE_DIR/$OUTPUT_FLAG/$model_altname/response_$model_altname"
-out_gpt="$EXE_DIR/$OUTPUT_FLAG/$model_altname_data.jsonl"
+out_gpt="${EXE_DIR}/${OUTPUT_FLAG}/gpt_data.jsonl"
+
 
 cd $EXE_DIR
 
@@ -39,19 +40,14 @@ python preprocess/data_process.py --in_seq_data $in_seq_data --in_meta_data $in_
     # --in_search2item=$in_search2item --out_search2item=$out_search2item 
 
 
-# if [[ -e $gpt_response_file'.csv' ]]; then  
-#     echo "All files exist. jump to excute merge.py"  
-# else  
-echo "At least one file does not exist."  
-echo "generate gpt_query_file"
+
 python preprocess/genera_query_file.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \
     --out_u2i_file $out_u2i_file --out_q2i_file $out_q2i_file --out_q2i_misspell_file $out_q2i_misspell_file \
     --out_query_file $gpt_query_file
 
 echo "generate gpt_response_file"
 
-# python preprocess/gpt_api/api.py --input_file $gpt_query_file'.csv' --output_file $gpt_response_file'.csv' 
-# fi
+python preprocess/gpt_api/api.py --input_file $gpt_query_file'.csv' --output_file $gpt_response_file'.csv' 
 
 echo "generate gpt_data_file"
 python preprocess/merge.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \
@@ -67,7 +63,7 @@ out_query=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/query_data.json
 out_gpt_query=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/gpt_query_data
 out_neg_query=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/neg_query_data.json
 out_gpt_neg_query=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/gpt_neg_query_data
-out_gpt_v2="$EXE_DIR/$OUTPUT_FLAG/$model_altname_data_v2.jsonl"
+out_gpt_v2="$EXE_DIR/$OUTPUT_FLAG/gpt_data_v2.jsonl"
 
 echo "generate gpt_data_file v2"
 python preprocess/data_process_v2.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \
@@ -75,7 +71,7 @@ python preprocess/data_process_v2.py --in_seq_data $in_seq_data --in_meta_data $
     --out_query $out_query --out_gpt_query $out_gpt_query --out_neg_query $out_neg_query --out_gpt_neg_query $out_gpt_neg_query
 
 
-# python preprocess/gpt_api/api.py --input_file $out_gpt_conv'.csv',$out_gpt_user_sum'.csv',$out_gpt_query'.csv',$out_gpt_neg_query'.csv'
+python preprocess/gpt_api/api.py --input_file $out_gpt_conv'.csv',$out_gpt_user_sum'.csv',$out_gpt_query'.csv',$out_gpt_neg_query'.csv'
 
 python preprocess/merge_v2.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \
     --out_conv $out_conv --out_gpt_conv $out_gpt_conv'_response.csv' --out_user_sum $out_user_sum --out_gpt_user_sum $out_gpt_user_sum'_response.csv' \

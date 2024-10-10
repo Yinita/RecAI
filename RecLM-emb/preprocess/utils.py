@@ -281,9 +281,9 @@ def text4query2item(target_features, target_item_title, min_features, max_featur
             ground_truth.append((key, features_value))
                 
             if has_prefix:
-                query += key + ','.join(features_value) + ', '
+                query += key + ', '.join(features_value) + ', '
             else:
-                query += ','.join(features_value) + ', '
+                query += ', '.join(features_value) + ', '
         elif 'description: '==key:
             features_value = value.replace(target_item_title, 'this game')
             ground_truth.append((key, value))
@@ -344,7 +344,7 @@ def text4item2item(features, item_title):
         sampled_features = random.sample(features, random.randint(1, len(features)))
         for key, value in sampled_features:
             if 'game details: '==key or 'tags: '==key:
-                features_value = ','.join(random.sample(value, random.randint(1, len(value))))
+                features_value = ', '.join(random.sample(value, random.randint(1, len(value))))  # 1010 hyt fixed: replace "," to ", "
                 if has_prefix:
                     query += key + features_value + ', '
                 else:
@@ -355,7 +355,7 @@ def text4item2item(features, item_title):
                 else:
                     query += value + ', '
         
-    query = query.strip().strip(',')
+    query = query.strip().strip(', ')  # 1010 hyt fixed: replace "," to ", "
     return query
 
 def random_replace(game_name, probability=0.1):  

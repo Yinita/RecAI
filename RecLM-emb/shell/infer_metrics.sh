@@ -9,7 +9,7 @@ TEST_DATA_DIR="data/xbox/test"
 ALL_METRICS_FILE=$OUT_DIR/all_metrics.jsonl
 TOPK="[1, 5, 10, 20]"
 SEED=2024
-QUERY_MAX_LEN=512
+# QUERY_MAX_LEN=512
 PASSAGE_MAX_LEN=128
 SENTENCE_POOLING_METHOD="mean"
 
@@ -208,22 +208,22 @@ accelerate launch --config_file $CONFIG_FILE infer_metrics.py \
     --sentence_pooling_method $SENTENCE_POOLING_METHOD \
     --normlized
 
-echo "infer vaguequery2item"
-accelerate launch --config_file $CONFIG_FILE infer_metrics.py \
-    --in_seq_data $RAW_DATA_DIR/sequential_data.txt \
-    --in_meta_data $RAW_DATA_DIR/metadata.json \
-    --model_path_or_name $MODEL_PATH_OR_NAME \
-    --user_embedding_prompt_path $TEST_DATA_DIR/vaguequery2item.jsonl \
-    --answer_file $OUT_DIR/answer.jsonl \
-    --all_metrics_file $ALL_METRICS_FILE \
-    --topk "$TOPK" \
-    --seed $SEED \
-    --query_max_len $QUERY_MAX_LEN \
-    --passage_max_len $PASSAGE_MAX_LEN \
-    --per_device_eval_batch_size 128 \
-    --task_type "vaguequery2item" \
-    --sentence_pooling_method $SENTENCE_POOLING_METHOD \
-    --normlized
+# echo "infer vaguequery2item"
+# accelerate launch --config_file $CONFIG_FILE infer_metrics.py \
+#     --in_seq_data $RAW_DATA_DIR/sequential_data.txt \
+#     --in_meta_data $RAW_DATA_DIR/metadata.json \
+#     --model_path_or_name $MODEL_PATH_OR_NAME \
+#     --user_embedding_prompt_path $TEST_DATA_DIR/vaguequery2item.jsonl \
+#     --answer_file $OUT_DIR/answer.jsonl \
+#     --all_metrics_file $ALL_METRICS_FILE \
+#     --topk "$TOPK" \
+#     --seed $SEED \
+#     --query_max_len $QUERY_MAX_LEN \
+#     --passage_max_len $PASSAGE_MAX_LEN \
+#     --per_device_eval_batch_size 128 \
+#     --task_type "vaguequery2item" \
+#     --sentence_pooling_method $SENTENCE_POOLING_METHOD \
+#     --normlized
 
 echo "infer relativequery2item"
 accelerate launch --config_file $CONFIG_FILE infer_metrics.py \
