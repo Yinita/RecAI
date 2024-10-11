@@ -24,7 +24,7 @@ export TASK="xbox"
 # bash shell/run_single_node.sh
 
 export OUT_DIR="output/xbox_infer/bge-m3_v5"
-export MODEL_PATH_OR_NAME="output/xbox/reclm_emb_xbox_bge-m3_v4/checkpoint-2658"
+export MODEL_PATH_OR_NAME="/home/aiscuser/RecAI/RecLM-emb/output/xbox/reclm_emb_xbox_bge-m3_v5/checkpoint-2343"
 bash shell/infer_metrics.sh 
 
 # export OUT_DIR="output/xbox_infer/bge-m3-base"
