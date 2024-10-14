@@ -20,26 +20,26 @@ export OUTPUT_DIR=output/xbox/reclm_emb_xbox_bge-m3_v5
 export MODEL_NAME_OR_PATH="BAAI/bge-m3" # Currently support BAAI/bge-m3 (best)    intfloat/e5-large-v2, bert-large-uncased, BAAI/bge-large-en-v1.5, meta-llama/Llama-2-7b-hf
 export RUN_NAME="reclm_emb_xbox_bge-m3_v5"
 export TASK="xbox"
-# bash shell/data_pipeline.sh
-# bash shell/test_data_pipeline.sh
+bash shell/data_pipeline.sh
+bash shell/test_data_pipeline.sh
 # bash shell/run_single_node.sh
 
-# 遍历指定目录下的所有子目录
-for sub_folder in /home/aiscuser/RecAI/RecLM-emb/output/xbox/*; do
-    if [ -d "$sub_folder" ]; then
-        sub_folder_name=$(basename "$sub_folder")
-        export OUT_DIR="output/xbox_infer/$sub_folder_name"
-        export MODEL_PATH_OR_NAME="$sub_folder"
-        bash shell/infer_metrics.sh
-    fi
-done
+# # 遍历指定目录下的所有子目录
+# for sub_folder in /home/aiscuser/RecAI/RecLM-emb/output/xbox/*; do
+#     if [ -d "$sub_folder" ]; then
+#         sub_folder_name=$(basename "$sub_folder")
+#         export OUT_DIR="output/xbox_infer/$sub_folder_name"
+#         export MODEL_PATH_OR_NAME="$sub_folder"
+#         bash shell/infer_metrics.sh
+#     fi
+# done
 
-# 遍历指定的模型列表
-for model in "BAAI/bge-m3" "intfloat/e5-large-v2"; do
-    export OUT_DIR="output/xbox_infer/$model"
-    export MODEL_PATH_OR_NAME="$model"
-    bash shell/infer_metrics.sh
-done
+# # 遍历指定的模型列表
+# for model in "BAAI/bge-m3" "intfloat/e5-large-v2"; do
+#     export OUT_DIR="output/xbox_infer/$model"
+#     export MODEL_PATH_OR_NAME="$model"
+#     bash shell/infer_metrics.sh
+# done
 
 #!/bin/bash
 

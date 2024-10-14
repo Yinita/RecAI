@@ -108,163 +108,169 @@ def get_feature2itemid(in_meta_data):
     developer2itemid = defaultdict(set)
     primary_genre2itemid = defaultdict(set)
     subgenre2itemid = defaultdict(set)
+    devices2itemid = defaultdict(set)  # 新增 Devices 适配
+    franchise2itemid = defaultdict(set)  # 新增 Franchise_Name_Curated 适配
+
     for idx, line in enumerate(open(in_meta_data)):
         line = json.loads(line)
 
-        tags = []
-        if 'GPT_tags' in line:
-            tags = line['GPT_tags'].split(',')
-        elif 'tags' in line:
-            tags = line['tags']
-        elif 'popular_tags' in line:
-            tags = line['popular_tags']
-        elif 'genres' in line:
-            tags = line['genres']
+        # 处理 tags
+        tags = get_value_by_key(['GPT_tags', 'tags', 'popular_tags', 'genres'], line)
 
-        game_details = []
-        if 'specs' in line and len("".join(line['specs']))>0:
-            game_details = line['specs']
-        elif 'game_details' in line and len(line['game_details'])>0:
-            game_details = line['game_details'].split(',')
+        # 处理 game_details
+        game_details = get_value_by_key(['specs', 'game_details'], line)
 
+        # 处理 publisher, developer, genre, subgenre
         publisher = get_value_by_key(['PublisherCurated', 'publisher'], line)
         developer = get_value_by_key(['DeveloperCurated', 'developer'], line)
         primary_genre = get_value_by_key(['PrimaryGenre'], line)
         subgenre = get_value_by_key(['SubGenre'], line)
 
-        if len(tags)>0:
-            for tag in tags:
-                tags2itemid[tag].add(idx+1)
-        if len(game_details)>0:
-            for game_detail in game_details:
-                game_details2itemid[game_detail].add(idx+1)
+        # 处理 Devices 和 Franchise_Name_Curated
+        devices = get_value_by_key(['Devices'], line)
+        franchise = get_value_by_key(['Franchise_Name_Curated'], line)
+
+        # 构建特征映射
+        for tag in tags or []:
+            tags2itemid[tag].add(idx + 1)
+        for detail in game_details or []:
+            game_details2itemid[detail].add(idx + 1)
         if publisher:
-            publisher2itemid[publisher].add(idx+1)
+            publisher2itemid[publisher].add(idx + 1)
         if developer:
-            developer2itemid[developer].add(idx+1)
+            developer2itemid[developer].add(idx + 1)
         if primary_genre:
-            primary_genre2itemid[primary_genre].add(idx+1)
+            primary_genre2itemid[primary_genre].add(idx + 1)
         if subgenre:
-            subgenre2itemid[subgenre].add(idx+1)
-    output = {}
-    if len(tags2itemid)>0:
-        output['tags: '] = tags2itemid
-    if len(game_details2itemid)>0:
-        output['game details: '] = game_details2itemid
-    if len(publisher2itemid)>0:
-        output['publisher: '] = publisher2itemid
-    if len(developer2itemid)>0:
-        output['developer: '] = developer2itemid
-    if len(primary_genre2itemid)>0:
-        output['primary genre: '] = primary_genre2itemid
-    if len(subgenre2itemid)>0:
-        output['subgenre: '] = subgenre2itemid
-    return output
+            subgenre2itemid[subgenre].add(idx + 1)
+        for device in devices or []:
+            devices2itemid[device].add(idx + 1)
+        if franchise:
+            franchise2itemid[franchise].add(idx + 1)
+
+    # 构建输出字典
+    output = {
+        'tags: ': tags2itemid,
+        'game details: ': game_details2itemid,
+        'publisher: ': publisher2itemid,
+        'developer: ': developer2itemid,
+        'primary genre: ': primary_genre2itemid,
+        'subgenre: ': subgenre2itemid,
+        'devices: ': devices2itemid,  # 新增设备映射
+        'franchise: ': franchise2itemid  # 新增系列映射
+    }
+    return {k: v for k, v in output.items() if v}
 
 def get_item_text(infile_metadata, save_item_prompt_path=None):
     itemid2title = [('padding', None)]
     itemid2text = ['padding']
     itemid2features = [('padding', None)]
     itemid2price_date_map = [{'price': None, 'release date': None, 'next month': None, 'last month': None}]
+
     for idx, line in enumerate(open(infile_metadata)):
         line = json.loads(line)
 
-        ## TitleName is Xbox data format; app_name and title are Steam data format
-        title = get_value_by_key(['TitleName', 'app_name', 'title'], line) 
+        # 提取标题
+        title = get_value_by_key(['TitleName', 'app_name', 'title'], line)
         if not title:
-            raise Exception("No title in line: {}".format(line))
+            raise Exception(f"No title in line: {line}")
 
-        tags = []
-        if 'GPT_tags' in line:
-            tags = line['GPT_tags'].split(',')
-        elif 'tags' in line:
-            tags = line['tags']
-        elif 'popular_tags' in line:
-            tags = line['popular_tags']
-        elif 'genres' in line:
-            tags = line['genres']
-         
+        # 提取标签和详细信息
+        tags = get_value_by_key(['GPT_tags', 'tags', 'popular_tags', 'genres'], line)
+        game_details = get_value_by_key(['specs', 'game_details'], line)
 
-        game_details = []
-        if 'specs' in line and len("".join(line['specs']))>0:
-            game_details = line['specs']
-        elif 'game_details' in line and len(line['game_details'])>0:
-            game_details = line['game_details'].split(',')
-
+        # 提取发布者、开发者、类型等
         publisher = get_value_by_key(['PublisherCurated', 'publisher'], line)
         developer = get_value_by_key(['DeveloperCurated', 'developer'], line)
         primary_genre = get_value_by_key(['PrimaryGenre'], line)
         subgenre = get_value_by_key(['SubGenre'], line)
+
+        # 提取价格、发布日期和设备、系列
         price = get_value_by_key(['SuggestPrice', 'price'], line)
         release_date = get_value_by_key(['ReleaseDateCurated', 'release_date'], line)
+        devices = get_value_by_key(['Devices'], line)
+        franchise = get_value_by_key(['Franchise_Name_Curated'], line)
 
-        description = ""
-        if "ProductDescription" in line:
-            description = line["ProductDescription"].strip()
-        elif "desc_snippet" in line and len(line["desc_snippet"].strip())>0:
-            description = line["desc_snippet"].strip()
-        elif "game_description" in line and len(line["game_description"].strip())>0:
-            description = line["game_description"].strip()
-        elif "description" in line and len(line["description"].strip())>0:
-            description = line["description"].strip()
-        description = description.strip(string.punctuation+string.whitespace)
-    
-        prompt = ""
-        prompt += 'title: ' + title + ", "
+        # 提取描述
+        description = get_value_by_key(
+            ['ProductDescription', 'desc_snippet', 'game_description', 'description'], line
+        )
+        if description:
+            description = description.strip(string.punctuation + string.whitespace)
+
+        # 构建 prompt 文本
+        prompt = f'title: {title}, '
         itemid2title.append(('title: ', title))
         itemid2features.append([])
-        itemid2price_date_map.append({'price': None, 'release date': None, 'next month': None, 'last month': None})
-        if len(tags)>0:
-            prompt += 'tags: ' + ",".join(tags) + ", "
+
+        # 添加特征信息
+        if tags:
+            prompt += f'tags: {", ".join(tags)}, '
             itemid2features[-1].append(('tags: ', tags))
-        if len(game_details)>0:
-            prompt += 'game details: ' + ",".join(game_details) + ", "
+        if game_details:
+            prompt += f'game details: {", ".join(game_details)}, '
             itemid2features[-1].append(('game details: ', game_details))
         if publisher:
-            prompt += 'publisher: ' + publisher + ", "
+            prompt += f'publisher: {publisher}, '
             itemid2features[-1].append(('publisher: ', publisher))
         if developer:
-            prompt += 'developer: ' + developer + ", "
+            prompt += f'developer: {developer}, '
             itemid2features[-1].append(('developer: ', developer))
         if primary_genre:
-            prompt += 'primary genre: ' + primary_genre + ", "
+            prompt += f'primary genre: {primary_genre}, '
             itemid2features[-1].append(('primary genre: ', primary_genre))
         if subgenre:
-            prompt += 'subgenre: ' + subgenre + ", "
+            prompt += f'subgenre: {subgenre}, '
             itemid2features[-1].append(('subgenre: ', subgenre))
+        if devices:
+            prompt += f'devices: {", ".join(devices)}, '
+            itemid2features[-1].append(('devices: ', devices))
+        if franchise:
+            prompt += f'franchise: {franchise}, '
+            itemid2features[-1].append(('franchise: ', franchise))
         if price:
             try:
                 price = float(price)
             except:
                 price = 0.0
-            prompt += 'price: ' + str(price) + ", "
+            prompt += f'price: {price}, '
             itemid2features[-1].append(('price: ', str(price)))
             itemid2price_date_map[-1]['price'] = price
         if release_date:
             date_object = transform_date_format(release_date)
             if date_object:
                 date_string = date_object.strftime("%B %d, %Y")
-                prompt += 'release date: ' + date_string + ", "
+                prompt += f'release date: {date_string}, '
                 itemid2features[-1].append(('release date: ', date_string))
-                itemid2price_date_map[-1]['release date'] = date_object
-                itemid2price_date_map[-1]['next month'] = itemid2price_date_map[-1]['release date'] + relativedelta(months=+1)
-                itemid2price_date_map[-1]['last month'] = itemid2price_date_map[-1]['release date'] + relativedelta(months=-1)
-        if len(description)>0:
-            prompt += 'description: ' + description
+                itemid2price_date_map[-1].update({
+                    'release date': date_object,
+                    'next month': date_object + relativedelta(months=+1),
+                    'last month': date_object + relativedelta(months=-1)
+                })
+        if description:
+            prompt += f'description: {description}'
             itemid2features[-1].append(('description: ', description))
-        prompt = prompt.strip()
-        prompt = prompt.strip(',')
-        itemid2text.append(prompt)
-    
-    if save_item_prompt_path!=None:
+
+        # 去除尾部逗号并添加到文本列表
+        itemid2text.append(prompt.strip().strip(','))
+
+    # 保存结果（如果指定了路径）
+    if save_item_prompt_path:
         with open(save_item_prompt_path, 'w', encoding='utf-8') as f:
             for id, prompt in enumerate(itemid2text):
-                line = {'id': id, 'text': prompt, 'title': itemid2title[id], 'features': itemid2features[id], 'price': itemid2price_date_map[id]['price'],
-                        'release date': None, 'next month': None, 'last month': None}
-                if itemid2price_date_map[id]['release date']!=None:
-                        line['release date'] = itemid2price_date_map[id]['release date'].strftime("%B %d, %Y")
-                        line['next month'] = itemid2price_date_map[id]['next month'].strftime("%B %d, %Y")
-                        line['last month'] = itemid2price_date_map[id]['last month'].strftime("%B %d, %Y")
+                line = {
+                    'id': id,
+                    'text': prompt,
+                    'title': itemid2title[id],
+                    'features': itemid2features[id],
+                    **itemid2price_date_map[id]
+                }
+                if line['release date']:
+                    line.update({
+                        'release date': line['release date'].strftime("%B %d, %Y"),
+                        'next month': line['next month'].strftime("%B %d, %Y"),
+                        'last month': line['last month'].strftime("%B %d, %Y")
+                    })
                 f.write(json.dumps(line, ensure_ascii=False) + '\n')
 
     return itemid2text, itemid2title, itemid2features, itemid2price_date_map
@@ -293,6 +299,8 @@ def text4query2item(target_features, target_item_title, min_features, max_featur
                 query += features_value + ', '
         else:
             ground_truth.append((key, value))
+            if isinstance(value, list):
+                value = ", ".join(value)
             if has_prefix:
                 query += key + value + ', '
             else:
@@ -350,6 +358,8 @@ def text4item2item(features, item_title):
                 else:
                     query += features_value + ', '
             else:
+                if isinstance(value, list):
+                    value = ", ".join(value)
                 if has_prefix:
                     query += key + value + ', '
                 else:
