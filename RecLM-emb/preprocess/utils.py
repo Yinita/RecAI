@@ -165,7 +165,12 @@ def get_item_text(infile_metadata, save_item_prompt_path=None):
     itemid2title = [('padding', None)]
     itemid2text = ['padding']
     itemid2features = [('padding', None)]
-    itemid2price_date_map = [{'price': None, 'release date': None, 'next month': None, 'last month': None}]
+    itemid2price_date_map = [{
+        'price': None, 
+        'release date': None, 
+        'next month': None, 
+        'last month': None
+    }]
 
     for idx, line in enumerate(open(infile_metadata)):
         line = json.loads(line)
@@ -175,26 +180,21 @@ def get_item_text(infile_metadata, save_item_prompt_path=None):
         if not title:
             raise Exception(f"No title in line: {line}")
 
-        # 提取标签和详细信息
+        # 创建新的价格和日期映射
+        price_date_map = {'price': None, 'release date': None, 'next month': None, 'last month': None}
+
+        # 提取其他信息
         tags = get_value_by_key(['GPT_tags', 'tags', 'popular_tags', 'genres'], line)
         game_details = get_value_by_key(['specs', 'game_details'], line)
-
-        # 提取发布者、开发者、类型等
         publisher = get_value_by_key(['PublisherCurated', 'publisher'], line)
         developer = get_value_by_key(['DeveloperCurated', 'developer'], line)
         primary_genre = get_value_by_key(['PrimaryGenre'], line)
         subgenre = get_value_by_key(['SubGenre'], line)
-
-        # 提取价格、发布日期和设备、系列
         price = get_value_by_key(['SuggestPrice', 'price'], line)
         release_date = get_value_by_key(['ReleaseDateCurated', 'release_date'], line)
         devices = get_value_by_key(['Devices'], line)
         franchise = get_value_by_key(['Franchise_Name_Curated'], line)
-
-        # 提取描述
-        description = get_value_by_key(
-            ['ProductDescription', 'desc_snippet', 'game_description', 'description'], line
-        )
+        description = get_value_by_key(['ProductDescription', 'desc_snippet', 'game_description', 'description'], line)
         if description:
             description = description.strip(string.punctuation + string.whitespace)
 
@@ -203,7 +203,6 @@ def get_item_text(infile_metadata, save_item_prompt_path=None):
         itemid2title.append(('title: ', title))
         itemid2features.append([])
 
-        # 添加特征信息
         if tags:
             prompt += f'tags: {", ".join(tags)}, '
             itemid2features[-1].append(('tags: ', tags))
@@ -235,14 +234,14 @@ def get_item_text(infile_metadata, save_item_prompt_path=None):
                 price = 0.0
             prompt += f'price: {price}, '
             itemid2features[-1].append(('price: ', str(price)))
-            itemid2price_date_map[-1]['price'] = price
+            price_date_map['price'] = price
         if release_date:
             date_object = transform_date_format(release_date)
             if date_object:
                 date_string = date_object.strftime("%B %d, %Y")
                 prompt += f'release date: {date_string}, '
                 itemid2features[-1].append(('release date: ', date_string))
-                itemid2price_date_map[-1].update({
+                price_date_map.update({
                     'release date': date_object,
                     'next month': date_object + relativedelta(months=+1),
                     'last month': date_object + relativedelta(months=-1)
@@ -253,6 +252,9 @@ def get_item_text(infile_metadata, save_item_prompt_path=None):
 
         # 去除尾部逗号并添加到文本列表
         itemid2text.append(prompt.strip().strip(','))
+
+        # 添加价格和日期映射
+        itemid2price_date_map.append(price_date_map)
 
     # 保存结果（如果指定了路径）
     if save_item_prompt_path:
@@ -274,6 +276,7 @@ def get_item_text(infile_metadata, save_item_prompt_path=None):
                 f.write(json.dumps(line, ensure_ascii=False) + '\n')
 
     return itemid2text, itemid2title, itemid2features, itemid2price_date_map
+
 
 
 def text4query2item(target_features, target_item_title, min_features, max_features, min_tags, max_tags):

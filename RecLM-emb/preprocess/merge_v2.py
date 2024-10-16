@@ -153,32 +153,40 @@ def sample_query(args, itemid2text, itemid2features, out_text):
                 continue
                 
             neg_items = []
-            while len(neg_items) < args.neg_num:
-                neg_item = random.randint(1, len(itemid2text)-1)
+            max_attempts = 100 
+
+            while len(neg_items) < args.neg_num and max_attempts > 0:
+                neg_item = random.randint(1, len(itemid2text) - 1)
                 neg_features = {}
                 for x in itemid2features[neg_item]:
                     neg_features[x[0][:-2]] = x[1]
-                unsim_count=0
+
+                unsim_count = 0
                 for key, value in target_info.items():
                     if key in neg_features:
                         if isinstance(value, list):
-                            for x in value:
-                                if x not in neg_features[key]:
-                                    unsim_count+=1
+                            unsim_count += sum(1 for x in value if x not in neg_features[key])
                         else:
-                            if key=='price' and float(value) + 10 < float(neg_features[key]):
-                                unsim_count+=1
-                            elif key=='release date':
+                            if key == 'price' and float(value) + 10 < float(neg_features[key]):
+                                unsim_count += 1
+                            elif key == 'release date':
                                 cur_date = transform_date_format(value)
                                 neg_date = transform_date_format(neg_features[key])
-                                if cur_date.year+3<= neg_date.year or cur_date.year-3>=neg_date.year:
-                                    unsim_count+=1
+                                if abs(cur_date.year - neg_date.year) > 3:
+                                    unsim_count += 1
                             elif value != neg_features[key]:
-                                unsim_count+=1
+                                unsim_count += 1
                     else:
-                        unsim_count+=1
+                        unsim_count += 1
+
                 if unsim_count >= min(2, len(target_info)) and neg_item != target_id:
                     neg_items.append(neg_item)
+
+                max_attempts -= 1  # 尝试次数减少
+
+            if len(neg_items) < args.neg_num:
+                print(f"Warning: Could not generate enough negative samples for query {query}.")
+
 
             output = {
                 'query': query,

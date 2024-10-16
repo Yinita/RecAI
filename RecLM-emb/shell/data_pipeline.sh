@@ -28,7 +28,15 @@ out_q2i_misspell_file="$EXE_DIR/$OUTPUT_FLAG/$model_altname/q2i_misspell_$model_
 gpt_query_file="$EXE_DIR/$OUTPUT_FLAG/$model_altname/query_$model_altname"
 gpt_response_file="$EXE_DIR/$OUTPUT_FLAG/$model_altname/response_$model_altname"
 out_gpt="${EXE_DIR}/${OUTPUT_FLAG}/gpt_data.jsonl"
-
+out_conv=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/conv_data.json
+out_gpt_conv=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/gpt_conv_data
+out_user_sum=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/user_sum_data.json
+out_gpt_user_sum=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/gpt_user_sum_data
+out_query=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/query_data.json
+out_gpt_query=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/gpt_query_data
+out_neg_query=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/neg_query_data.json
+out_gpt_neg_query=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/gpt_neg_query_data
+out_gpt_v2="$EXE_DIR/$OUTPUT_FLAG/gpt_data_v2.jsonl"
 
 cd $EXE_DIR
 
@@ -55,15 +63,7 @@ python preprocess/merge.py --in_seq_data $in_seq_data --in_meta_data $in_meta_da
     --gpt_path $gpt_response_file --out_gpt $out_gpt --neg_num $neg_num
 
 
-out_conv=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/conv_data.json
-out_gpt_conv=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/gpt_conv_data
-out_user_sum=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/user_sum_data.json
-out_gpt_user_sum=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/gpt_user_sum_data
-out_query=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/query_data.json
-out_gpt_query=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/gpt_query_data
-out_neg_query=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/neg_query_data.json
-out_gpt_neg_query=$EXE_DIR/$OUTPUT_FLAG/$model_altname_v2/gpt_neg_query_data
-out_gpt_v2="$EXE_DIR/$OUTPUT_FLAG/gpt_data_v2.jsonl"
+
 
 echo "generate gpt_data_file v2"
 python preprocess/data_process_v2.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \
