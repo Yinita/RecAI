@@ -111,7 +111,7 @@ def gen_conv(args, itemid2title, itemid2features):
 
 
 def gen_summary(args, itemid2title):
-    max_sample_num = 10000
+    max_sample_num = 200000
     with open(args.in_seq_data, 'r') as rd:
         all_samples = rd.readlines()
     if len(all_samples) > max_sample_num:
@@ -136,7 +136,7 @@ def gen_summary(args, itemid2title):
         history_titles = ', '.join([itemid2title[int(x)][1] for x in history])
 
         difficulty = random.choice(['elementary school', 'high school', 'college', 'PhD'])
-        num_words = random.choice([50, 100, 150, 200])
+        num_words = random.choice([50, 150, 250, 400]) # hyt scaler it
         clarity = random.choice(['clear', 'understandable with some effort', 'ambiguous'])
         writing_style = random.choice(['first-person', 'third-person', 'non-narrative'])
 
@@ -184,7 +184,7 @@ def gen_query(args, itemid2title, itemid2features):
                     target_info[feature[0][:-2]] = feature[1]
             
             difficulty = random.choice(['elementary school', 'high school', 'college', 'PhD'])
-            num_words = random.choice([30, 50, 70, 100])
+            num_words = random.choice([50, 100, 150, 200]) # hyt scaler it
             clarity = random.choice(['clear', 'understandable with some effort', 'ambiguous'])
             writing_style = random.choice(['first-person', 'third-person', 'non-narrative'])
             query = query_template.format(target_info=json.dumps(target_info), difficulty=difficulty, num_words=num_words, clarity=clarity, writing_style=writing_style)
@@ -228,7 +228,7 @@ def gen_neg_query(args, itemid2title, itemid2features):
                     target_info[feature[0][:-2]] = feature[1]
             
             difficulty = random.choice(['elementary school', 'high school', 'college', 'PhD'])
-            num_words = random.choice([30, 50, 70, 100])
+            num_words = random.choice([50, 100, 150, 200]) # hyt scaler it
             clarity = random.choice(['clear', 'understandable with some effort', 'ambiguous'])
             writing_style = random.choice(['first-person', 'third-person', 'non-narrative'])
             query = neg_query_template.format(target_info=json.dumps(target_info), difficulty=difficulty, num_words=num_words, clarity=clarity, writing_style=writing_style)
@@ -251,7 +251,7 @@ if __name__ == "__main__":
     args = parse_args() 
     os.makedirs(os.path.dirname(args.out_conv), exist_ok=True)
     itemid2text, itemid2title, itemid2features, itemid2price_date_map = get_item_text(args.in_meta_data)
-    gen_conv(args, itemid2title, itemid2features)
+    # gen_conv(args, itemid2title, itemid2features)
     gen_summary(args, itemid2title)
     gen_query(args, itemid2title, itemid2features)
     gen_neg_query(args, itemid2title, itemid2features)
