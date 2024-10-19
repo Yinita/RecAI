@@ -29,6 +29,31 @@ export OUT_DIR="output/xbox_infer/$RUN_NAME"
 export MODEL_PATH_OR_NAME=$OUTPUT_DIR
 bash shell/infer_metrics.sh 
 
+export batch_size=1000
+bash shell/data_pipeline.sh
+bash shell/test_data_pipeline.sh
+
+export learning_rate=3e-5
+export num_train_epochs=10
+
+export QUERY_MAX_LEN=1024
+export version=2
+# model = Gpt-4-Turbo
+# model_altname = gpt4
+export OUTPUT_DIR=output/xbox/reclm_emb_xbox_bge-m3_$version
+export MODEL_NAME_OR_PATH="BAAI/bge-m3" # Currently support BAAI/bge-m3 (best)    intfloat/e5-large-v2, bert-large-uncased, BAAI/bge-large-en-v1.5, meta-llama/Llama-2-7b-hf
+export RUN_NAME="bge_m3_$version"
+export TASK="xbox"
+# bash shell/data_pipeline.sh
+# bash shell/test_data_pipeline.sh
+bash shell/run_single_node.sh
+
+export OUT_DIR="output/xbox_infer/$RUN_NAME"
+export MODEL_PATH_OR_NAME=$OUTPUT_DIR
+bash shell/infer_metrics.sh 
+
+
+
 # bash shell/data_pipeline.sh
 # bash shell/test_data_pipeline.sh
 # export QUERY_MAX_LEN=512

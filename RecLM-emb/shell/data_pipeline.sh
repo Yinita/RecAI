@@ -40,22 +40,22 @@ out_gpt_v2="$EXE_DIR/$OUTPUT_FLAG/gpt_data_v2.jsonl"
 
 cd $EXE_DIR
 
-echo "data processing"
-python preprocess/data_process.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data --out_user2item $out_user2item \
-    --out_query2item $out_query2item --out_title2item $out_title2item --out_item2item $out_item2item --out_queryuser2item $out_queryuser2item \
-    --out_misspell2item $out_misspell2item --out_vaguequery2item $out_vaguequery2item --out_relativequery2item $out_relativequery2item \
-    --out_negquery2item $out_negquery2item --neg_num $neg_num --model_path_or_name $model_path_or_name
-    # --in_search2item=$in_search2item --out_search2item=$out_search2item 
+# echo "data processing"
+# python preprocess/data_process.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data --out_user2item $out_user2item \
+#     --out_query2item $out_query2item --out_title2item $out_title2item --out_item2item $out_item2item --out_queryuser2item $out_queryuser2item \
+#     --out_misspell2item $out_misspell2item --out_vaguequery2item $out_vaguequery2item --out_relativequery2item $out_relativequery2item \
+#     --out_negquery2item $out_negquery2item --neg_num $neg_num --model_path_or_name $model_path_or_name
+#     # --in_search2item=$in_search2item --out_search2item=$out_search2item 
 
 
 
-python preprocess/genera_query_file.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \
-    --out_u2i_file $out_u2i_file --out_q2i_file $out_q2i_file --out_q2i_misspell_file $out_q2i_misspell_file \
-    --out_query_file $gpt_query_file
+# python preprocess/genera_query_file.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \
+#     --out_u2i_file $out_u2i_file --out_q2i_file $out_q2i_file --out_q2i_misspell_file $out_q2i_misspell_file \
+#     --out_query_file $gpt_query_file
 
-echo "generate gpt_response_file"
+# echo "generate gpt_response_file"
 
-python preprocess/gpt_api/api.py --input_file $gpt_query_file'.csv' --output_file $gpt_response_file'.csv' 
+# python preprocess/gpt_api/api.py --input_file $gpt_query_file'.csv' --output_file $gpt_response_file'.csv' 
 
 echo "generate gpt_data_file"
 python preprocess/merge.py --in_seq_data $in_seq_data --in_meta_data $in_meta_data \

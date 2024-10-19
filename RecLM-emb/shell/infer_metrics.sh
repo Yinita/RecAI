@@ -7,7 +7,7 @@ RAW_DATA_DIR="data/xbox/"
 TEST_DATA_DIR="data/xbox/test"
 
 ALL_METRICS_FILE=$OUT_DIR/all_metrics.jsonl
-TOPK="[1, 5, 10]"
+TOPK="[5, 10]"
 SEED=2024
 # QUERY_MAX_LEN=512
 PASSAGE_MAX_LEN=128
