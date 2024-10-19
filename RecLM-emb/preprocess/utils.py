@@ -109,7 +109,7 @@ def get_feature2itemid(in_meta_data):
     primary_genre2itemid = defaultdict(set)
     subgenre2itemid = defaultdict(set)
     devices2itemid = defaultdict(set)  # 新增 Devices 适配
-    franchise2itemid = defaultdict(set)  # 新增 Franchise_Name_Curated 适配
+    franchise2itemid = defaultdict(set)  # 新增 Franchise 适配
 
     for idx, line in enumerate(open(in_meta_data)):
         line = json.loads(line)
@@ -126,9 +126,9 @@ def get_feature2itemid(in_meta_data):
         primary_genre = get_value_by_key(['PrimaryGenre'], line)
         subgenre = get_value_by_key(['SubGenre'], line)
 
-        # 处理 Devices 和 Franchise_Name_Curated
+        # 处理 Devices 和 Franchise
         devices = get_value_by_key(['Devices'], line)
-        franchise = get_value_by_key(['Franchise_Name_Curated'], line)
+        franchise = get_value_by_key(['Franchise'], line)
 
         # 构建特征映射
         for tag in tags or []:
@@ -193,7 +193,7 @@ def get_item_text(infile_metadata, save_item_prompt_path=None):
         price = get_value_by_key(['SuggestPrice', 'price'], line)
         release_date = get_value_by_key(['ReleaseDateCurated', 'release_date'], line)
         devices = get_value_by_key(['Devices'], line)
-        franchise = get_value_by_key(['Franchise_Name_Curated'], line)
+        franchise = get_value_by_key(['Franchise'], line)
         description = get_value_by_key(['ProductDescription', 'desc_snippet', 'game_description', 'description'], line)
         if description:
             description = description.strip(string.punctuation + string.whitespace)

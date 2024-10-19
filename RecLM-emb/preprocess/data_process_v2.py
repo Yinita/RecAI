@@ -107,6 +107,8 @@ def gen_conv(args, itemid2title, itemid2features):
     # first_half = df.iloc[:split_index, :]  
     # second_half = df.iloc[split_index:2*split_index, :]
     # third_half = df.iloc[2*split_index:, :]
+    
+    
     df.to_csv(args.out_gpt_conv+".csv", index=False)
 
 
@@ -251,7 +253,7 @@ if __name__ == "__main__":
     args = parse_args() 
     os.makedirs(os.path.dirname(args.out_conv), exist_ok=True)
     itemid2text, itemid2title, itemid2features, itemid2price_date_map = get_item_text(args.in_meta_data)
-    # gen_conv(args, itemid2title, itemid2features)
+    gen_conv(args, itemid2title, itemid2features)
     gen_summary(args, itemid2title)
     gen_query(args, itemid2title, itemid2features)
     gen_neg_query(args, itemid2title, itemid2features)

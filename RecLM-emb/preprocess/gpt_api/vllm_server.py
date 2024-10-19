@@ -35,16 +35,23 @@ class OfflineVLLMModel:
     def delete(self):
         del self.llm
         del self.tokenizer
-
-    def batch_predict(self, msg: List[List[dict]]) -> List[str]:
+        
+    def batch_predict(self, msg: List[List[dict]]):
         prompts_str = []
         error_indices = []
+        input_token_num = 0  # 记录输入的总tokens
+        output_token_num = 0  # 记录输出的总tokens
 
         for idx, conv in enumerate(msg):
             try:
                 # Apply the chat template for formatting the messages properly
                 formatted_prompt = self.tokenizer.apply_chat_template(conv, tokenize=False, add_generation_prompt=True)
                 prompts_str.append(formatted_prompt)
+
+                # Calculate the number of input tokens
+                input_tokens = self.tokenizer.tokenize(formatted_prompt)
+                input_token_num += len(input_tokens)  # 累加输入的 token 数量
+
             except AttributeError as e:
                 print(f"Error: {e}. Ensure that your tokenizer supports 'apply_chat_template'.")
                 # Mark the index as an error and continue
@@ -54,11 +61,17 @@ class OfflineVLLMModel:
         # Perform batch prediction only on successfully processed prompts
         predictions = self.batch_predict_str(prompts_str)
 
+        # Calculate the output token count for each prediction
+        for pred in predictions:
+            output_tokens = self.tokenizer.tokenize(pred)
+            output_token_num += len(output_tokens)  # 累加输出的 token 数量
+
         # Insert "ERROR" in the predictions at the positions of the errors
         for idx in error_indices:
             predictions.insert(idx, "ERROR")
 
-        return predictions
+        return predictions, input_token_num, output_token_num
+
 
     def batch_predict_str(self,
                     prompts: List[str],
@@ -90,6 +103,7 @@ class OfflineVLLMModel:
                 use_tqdm=True
             )
             batch_response = [self.find_highest_prob_choice(response.outputs[0].logprobs[0], possible_choices) for response in responses]
+
         return batch_response
 
     def process_response(self, generation: str) -> str:

@@ -131,8 +131,9 @@ def process_hf_data(dataset, output_file, args):
                     ]
                     his.append(messages)
                     if (i + 1) % batch_size == 0 or i + 1 == dataset_length:
-                        output = model.batch_predict(his)
-
+                        output, input_token_num, output_token_num = model.batch_predict(his)
+                        total_input_token_num += input_token_num
+                        total_output_token_num += output_token_num
                         for idx, o in enumerate(output):
                             data_index = i + 1 - len(his) + idx  # Ensure we don't go out of bounds
                             if data_index < dataset_length:  # Check to avoid IndexError
@@ -176,10 +177,14 @@ def main(args):
         total_input_token_num, total_output_token_num = process_hf_data(data_as_list, outfile, args)
         
         # 计算 cost
-        cost = 10 * total_input_token_num / 1000000 + 30 * total_output_token_num / 1000000
+        cost = 5 * total_input_token_num / 1000000 + 15 * total_output_token_num / 1000000
         total_token_num = total_input_token_num + total_output_token_num
         
+        # 打印输出
         print(f">> Task done for {infile}. Used {total_token_num} tokens in total, and cost $ {cost:.4f}.")
+        with open('./tokens_cost.txt', 'a') as f:
+            f.write(f"{infile}: Total tokens = {total_token_num}, Total cost = ${cost:.4f}\n")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
