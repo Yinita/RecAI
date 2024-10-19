@@ -183,7 +183,7 @@ def main(args):
         # 打印输出
         print(f">> Task done for {infile}. Used {total_token_num} tokens in total, and cost $ {cost:.4f}.")
         with open('./tokens_cost.txt', 'a') as f:
-            f.write(f"{infile}: Total tokens = {total_token_num}, Total cost = ${cost:.4f}\n")
+            f.write(f"{infile}: Total tokens = {total_token_num}, Total cost = ${cost:.4f}, model = {api_type} && {MODEL}\n")
 
 
 if __name__ == "__main__":

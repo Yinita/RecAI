@@ -1,0 +1,5 @@
+.//data/xbox/train/qwen72B_v2/gpt_conv_data.csv: Total tokens = 6002, Total cost = $0.0560
+.//data/xbox/train/qwen72B_v2/gpt_user_sum_data.csv: Total tokens = 3952, Total cost = $0.0444
+.//data/xbox/train/qwen72B_v2/gpt_query_data.csv: Total tokens = 134062, Total cost = $0.9337
+.//data/xbox/train/qwen72B_v2/gpt_neg_query_data.csv: Total tokens = 106902, Total cost = $0.8717
+./data/xbox/test/qwen72B/query_qwen72B.csv: Total tokens = 64307, Total cost = $0.4018

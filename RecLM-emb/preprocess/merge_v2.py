@@ -253,7 +253,7 @@ if __name__ == "__main__":
     os.makedirs(os.path.dirname(args.out_conv), exist_ok=True)
     itemid2text, itemid2title, itemid2features, itemid2price_date_map = get_item_text(args.in_meta_data)
     out_text = []
-    out_text = sample_conv(args, itemid2text, out_text)
+    # out_text = sample_conv(args, itemid2text, out_text)
     out_text = sample_user_sum(args, itemid2text, out_text)
     out_text = sample_query(args, itemid2text, itemid2features, out_text)
     out_text = sample_neg_query(args, itemid2text, out_text)
