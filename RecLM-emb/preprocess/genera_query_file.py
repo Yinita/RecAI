@@ -50,6 +50,7 @@ def gen_user2item(itemid2title, args):
             
             if args.task_type=='train':
                 query_items = itemids[:-2][::-1]
+                # print(itemids)
                 target_item = int(itemids[-2])
                 history = [int(itemid) for itemid in itemids[:-2]]
             elif args.task_type=='test':

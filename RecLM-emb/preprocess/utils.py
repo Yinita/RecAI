@@ -317,6 +317,7 @@ def cal_item2pos(in_seq_data):
     for idx, line in tqdm(enumerate(open(in_seq_data)), desc='item freq & degree'):
         userid, itemids = line.strip().split(' ', 1)
         itemids = itemids.split(' ')[:-1] # remove the last item
+        # print(itemids)
         for itemid in itemids:
             item_degree[int(itemid)] += len(itemids)-1
         for i in range(len(itemids)-1):
