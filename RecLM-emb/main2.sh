@@ -1,7 +1,7 @@
 # #!/bin/bash
 # # Set API variables for vllm localhost setup
-# export NCCL_DEBUG=0 # 禁用 NCCL 的日志输出
-# export CUDA_VISIBLE_DEVICES=0,1,2,3
+export NCCL_DEBUG=0 # 禁用 NCCL 的日志输出
+export CUDA_VISIBLE_DEVICES=0,1,2,3
 
 # # export OPENAI_API_KEY="token-abc123"
 # # export OPENAI_API_BASE="http://localhost:8101/v1"
@@ -49,7 +49,7 @@ export TASK="xbox"
 # export MODEL_PATH_OR_NAME=/home/aiscuser/RecAI/RecLM-emb/output/xbox/reclm_emb_xbox_bge-m3_qwen_v1/checkpoint-1774
 # bash shell/infer_metrics.sh 
 
-export OUT_DIR="output/xbox_infer/ep4"
-export MODEL_PATH_OR_NAME=/home/aiscuser/RecAI/RecLM-emb/output/xbox/reclm_emb_xbox_bge-m3_qwen_v1/checkpoint-7099
+export OUT_DIR="output/xbox_infer/test"
+export MODEL_PATH_OR_NAME=/home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/models/reclm_emb_xbox_bge-m3_qwen_v1
 bash shell/infer_metrics.sh 
 

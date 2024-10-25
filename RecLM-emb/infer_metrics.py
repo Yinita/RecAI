@@ -333,16 +333,16 @@ def gen_retrieval_result(args, item_embedding_path, user_embedding_path):
         # if idx==10000:
         #     break
         data = json.loads(line)
-        targets.append(data['ground_truth'])
+        targets.append({'target':data['ground_truth'], 'text':data['text']})
         scores[idx][0] = -2
-        if args.task_type=='user2item' or args.task_type=='queryuser2item':
-            scores[idx][data["history"]] = -2
-        elif args.task_type=='item2item':
-            scores[idx][data["item_id"]] = -2 # remove the item itself
+        # if args.task_type=='user2item' or args.task_type=='queryuser2item':
+        #     scores[idx][data["history"]] = -2
+        # elif args.task_type=='item2item':
+        #     scores[idx][data["item_id"]] = -2 # remove the item itself
         
     topk_index = get_topk_index(scores, max(eval(args.topk)))
     for target, index in zip(targets, topk_index):
-        line = {'target': target, 'result': index.tolist()}
+        line = {'target': target['target'], 'result': index.tolist(), 'text': target['text']}
         fd.write(json.dumps(line, ensure_ascii=False)+'\n')
     fd.close()
 
