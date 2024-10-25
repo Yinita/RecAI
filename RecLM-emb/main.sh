@@ -22,13 +22,18 @@ export model_altname_v2="qwen72B_v2"
 export learning_rate=5e-5
 export num_train_epochs=5
 export QUERY_MAX_LEN=1024
-export version="1026"
+export version="1026_history100000"
 # model = gpt-4o
 # model_altname = gpt4
 export OUTPUT_DIR=output/xbox/bge-m3_$version
 export MODEL_NAME_OR_PATH="BAAI/bge-m3" # Currently support BAAI/bge-m3 (best)    intfloat/e5-large-v2, bert-large-uncased, BAAI/bge-large-en-v1.5, meta-llama/Llama-2-7b-hf
 export RUN_NAME="bge_m3_$version"
 export TASK="xbox"
+
+# mkdir /home/aiscuser/RecAI/RecLM-emb/data
+# cp -r /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/xbox /home/aiscuser/RecAI/RecLM-emb/data
+
+
 bash shell/data_pipeline.sh
 bash shell/test_data_pipeline.sh
 cp -r /home/aiscuser/RecAI/RecLM-emb/output /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1026
@@ -36,14 +41,36 @@ bash shell/run_single_node.sh
 export OUT_DIR="output/xbox_infer/$RUN_NAME"
 export MODEL_PATH_OR_NAME=$OUTPUT_DIR
 bash shell/infer_metrics.sh 
-cp -r /home/aiscuser/RecAI/RecLM-emb/output /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1026
+mkdir /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1026_h100000
+cp -r /home/aiscuser/RecAI/RecLM-emb/output /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1026_h100000
+
+# 基础路径
+OUTPUT_BASE_PATH="/home/aiscuser/RecAI/RecLM-emb/output/xbox"
+INFER_BASE_PATH="output/xbox_infer"
+
+# 遍历指定目录下的所有子目录
+for sub_folder in "$OUTPUT_BASE_PATH"/*; do
+    if [ -d "$sub_folder" ]; then
+        for checkpoint_folder in "$sub_folder"/checkpoint*; do
+            if [ -d "$checkpoint_folder" ]; then
+                # 提取 checkpoint 文件夹的名称
+                checkpoint_name=$(basename "$checkpoint_folder")
+                
+                # 设置推理输出目录为 xbox_infer/checkpoint_name
+                export OUT_DIR="${INFER_BASE_PATH}/${checkpoint_name}"
+                export MODEL_PATH_OR_NAME="$checkpoint_folder"
+                
+                # 运行推理脚本
+                bash shell/infer_metrics.sh
+            fi
+        done
+    fi
+done
+
+
 # export OUT_DIR="output/xbox_infer/text-embedding-3-large"
 # export MODEL_PATH_OR_NAME=text-embedding-3-large
 # bash shell/infer_metrics.sh 
-
-
-
-
 
 
 # bash shell/data_pipeline.sh
