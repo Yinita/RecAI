@@ -68,94 +68,74 @@ def parse_args():
 
 
 def gen_user2item(itemid2text, itemid2title, itemid2features, args):
-    count=0
+    count = 0
     total_q_len = 0
     max_q_len = 0
     min_q_len = 100000
-    
+
     max_sample_num = 30000
     with open(args.in_seq_data, 'r') as rd:
         all_samples = rd.readlines()
     if len(all_samples) > max_sample_num:
         all_samples = random.sample(all_samples, max_sample_num)
-        
-        
+
     with open(args.out_user2item, 'w') as f:
         for line in tqdm(all_samples, desc='gen_user2item', total=len(all_samples)):
             userid, itemids = line.strip().split(' ', 1)
             itemids = itemids.split(' ')
             ground_set = set([int(x) for x in itemids])
-            
-            select_prob = 2.0 / (len(itemids) - 1) ## for each users, we sample about 2 data samples
-            for target_index in range(1, len(itemids)-1):
-                if random.random() > select_prob:
-                    continue
-                query_items = itemids[:target_index][::-1]
-                query_items = query_items[:20] # truncate to 20
-                if random.random() < 0.5:
-                    template = "{}"
+
+            # 使用整个序列（去掉最后一个物品）作为 query_items
+            query_items = itemids[:-1][::-1]
+            query_items = query_items[:40]  # 截断至最多40个
+
+            # 随机选择模板
+            template = "{}" if random.random() < 0.5 else random.choice(user2item_template)
+
+            # 构建 query
+            query = ''
+            has_prefix = False
+            for x in query_items:
+                if has_prefix:
+                    query += 'title: ' + itemid2title[int(x)][1] + ', '
                 else:
-                    template = random.choice(user2item_template)
+                    query += itemid2title[int(x)][1] + ', '
 
-                query = ''
-                has_prefix = False #if random.random() < 0.5 else True
-                #if random.random() >= 0.2:
-                for x in query_items:
-                    if has_prefix:
-                        query += 'title: ' + itemid2title[int(x)][1] + ', '
-                    else:
-                        query += itemid2title[int(x)][1] + ', '
-                # else:
-                #     for x in query_items:
-                #         if has_prefix:
-                #             query += 'title: ' + itemid2title[int(x)][1] + ', '
-                #         else:
-                #             query += itemid2title[int(x)][1] + ', '
-                #         features = itemid2features[int(x)]
-                #         sampled_fea = random.sample(features, random.randint(1, len(features)))
-                #         for key, value in sampled_fea:
-                #             if 'game details: '==key or 'tags: '==key:
-                #                 features_value = ','.join(random.sample(value, random.randint(1, len(value))))
-                #                 if has_prefix:
-                #                     query += key + features_value + ', '
-                #                 else:
-                #                     query += features_value + ', '
-                #             else:
-                #                 if has_prefix:
-                #                     query += key + value + ', '
-                #                 else:
-                #                     query += value + ', '
-                query = query.strip().strip(',')
+            query = query.strip().strip(',')
+            template_length = len(tokenizer.tokenize(template))
+            tokens = tokenizer.tokenize(query)
+            truncated_query = tokenizer.convert_tokens_to_string(tokens).strip().strip(',')
+            query = template.format(truncated_query)
 
-                template_length = len(tokenizer.tokenize(template))
-                tokens = tokenizer.tokenize(query)
-                truncated_query = tokenizer.convert_tokens_to_string(tokens).strip().strip(',')
+            q_len = template_length + len(tokens)
+            total_q_len += q_len
+            max_q_len = max(max_q_len, q_len)
+            min_q_len = min(min_q_len, q_len)
 
-                query = template.format(truncated_query)
+            # 设置 target 为序列中的最后一个物品
+            target_item = int(itemids[-1])
 
-                q_len = template_length + len(tokens)
-                total_q_len += q_len
-                max_q_len = max(max_q_len, q_len)
-                min_q_len = min(min_q_len, q_len)
+            # 生成负样本
+            neg_items = []
+            while len(neg_items) < args.neg_num:
+                neg_item = random.randint(1, len(itemid2title) - 1)
+                if neg_item not in ground_set:
+                    neg_items.append(neg_item)
 
-                target_item = int(itemids[target_index])
-                neg_items = []
-                while len(neg_items) < args.neg_num:
-                    neg_item = random.randint(1, len(itemid2title)-1)
-                    if neg_item not in ground_set:
-                        neg_items.append(neg_item)
-                output = {
-                    'user_id': userid,
-                    'item_id': target_item,
-                    'neg_ids': neg_items,
-                    'query': query,
-                    'pos': [itemid2text[target_item]],
-                    'neg': [itemid2text[x] for x in neg_items]
-                }
-                f.write(json.dumps(output) + '\n')
-                count += 1
+            # 写入结果
+            output = {
+                'user_id': userid,
+                'item_id': target_item,
+                'neg_ids': neg_items,
+                'query': query,
+                'pos': [itemid2text[target_item]],
+                'neg': [itemid2text[x] for x in neg_items]
+            }
+            f.write(json.dumps(output) + '\n')
+            count += 1
+
     print('gen_user2item total samples: ', count)
-    print('avg q len: ', total_q_len/count)
+    print('avg q len: ', total_q_len / count)
     print('max q len: ', max_q_len)
     print('min q len: ', min_q_len)
 
