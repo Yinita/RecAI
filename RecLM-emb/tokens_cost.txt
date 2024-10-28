@@ -15,3 +15,9 @@
 .//data/xbox/train/qwen72B_v2/gpt_neg_query_data.csv: Total tokens = 105759, Total cost = $0.8536, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
 ./data/xbox/test/qwen72B/query_qwen72B.csv: Total tokens = 359186, Total cost = $2.6955, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
 .//data/xbox_gpt/train/gpt-4o/query_gpt-4o.csv: Total tokens = 434490, Total cost = $3.2301, model = None && gpt-4o
+.//data/xbox/train/qwen72B/query_qwen72B.csv: Total tokens = 180427, Total cost = $1.1454, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B_v2/gpt_conv_data.csv: Total tokens = 660799, Total cost = $6.0975, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B_v2/gpt_user_sum_data.csv: Total tokens = 414021, Total cost = $4.5281, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B_v2/gpt_query_data.csv: Total tokens = 134202, Total cost = $0.9286, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B_v2/gpt_neg_query_data.csv: Total tokens = 106055, Total cost = $0.8551, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+./data/xbox/test/qwen72B/query_qwen72B.csv: Total tokens = 60897, Total cost = $0.3899, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct

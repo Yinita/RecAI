@@ -304,7 +304,7 @@ def compute_metrics_on_query(args):
     return all_metrics
 
 def compute_metrics(args):
-    if args.task_type in ['user2item', 'title2item', 'item2item', 'queryuser2item', 'misspell2item']:
+    if args.task_type in ['user2item', 'title2item', 'item2item', 'queryuser2item', 'misspell2item', 'stage2']:
         return compute_metrics_on_id_recommend(args)
     elif args.task_type in ['query2item', 'vaguequery2item']:
         return compute_metrics_on_query(args)
@@ -382,7 +382,7 @@ def parse_args():
         "--per_device_eval_batch_size", type=int, default=128, help=""
     )
     parser.add_argument(
-        "--task_type", type=str, default='user2item', help="", choices=['user2item', 'query2item', 'title2item', 'item2item', 'queryuser2item', 'misspell2item', 'vaguequery2item']
+        "--task_type", type=str, default='user2item', help="", choices=['user2item', 'query2item', 'title2item', 'item2item', 'queryuser2item', 'misspell2item', 'vaguequery2item', 'stage2']
     )
     parser.add_argument(
         "--sentence_pooling_method", type=str, default='cls', help="the pooling method, should be cls, mean or last", choices=['cls', 'mean', 'last']
