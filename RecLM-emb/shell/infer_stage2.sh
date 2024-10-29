@@ -20,13 +20,13 @@ else
     echo "using huggingface model"
     CONFIG_FILE=./shell/infer.yaml
 fi
-# /home/aiscuser/XboxDiscoveryAI/llm_rec/simulater/output/model_toolcall_analysis/stage2_eval_8B_specific_v1_1028.jsonl  $TEST_DATA_DIR/user2item.jsonl \
+# $INPUT_DIR/stage2_eval_8B_specific_v1_1028.jsonl  $TEST_DATA_DIR/user2item.jsonl \
 echo "infer Recall"
 accelerate launch --config_file $CONFIG_FILE infer_metrics.py \
     --in_seq_data $RAW_DATA_DIR/sequential_data.txt \
     --in_meta_data $RAW_DATA_DIR/metadata.json \
     --model_path_or_name $MODEL_PATH_OR_NAME \
-    --user_embedding_prompt_path /home/aiscuser/XboxDiscoveryAI/llm_rec/simulater/output/model_toolcall_analysis/Recall.jsonl \
+    --user_embedding_prompt_path $INPUT_DIR/Recall.jsonl \
     --answer_file $OUT_DIR/Recall.jsonl \
     --all_metrics_file $ALL_METRICS_FILE \
     --topk "[5]" \
@@ -42,7 +42,7 @@ accelerate launch --config_file $CONFIG_FILE infer_metrics.py \
     --in_seq_data $RAW_DATA_DIR/sequential_data.txt \
     --in_meta_data $RAW_DATA_DIR/metadata.json \
     --model_path_or_name $MODEL_PATH_OR_NAME \
-    --user_embedding_prompt_path /home/aiscuser/XboxDiscoveryAI/llm_rec/simulater/output/model_toolcall_analysis/Rank.jsonl \
+    --user_embedding_prompt_path $INPUT_DIR/Rank.jsonl \
     --answer_file $OUT_DIR/Rank.jsonl \
     --all_metrics_file $ALL_METRICS_FILE \
     --topk "[10]" \
@@ -58,7 +58,7 @@ accelerate launch --config_file $CONFIG_FILE infer_metrics.py \
     --in_seq_data $RAW_DATA_DIR/sequential_data.txt \
     --in_meta_data $RAW_DATA_DIR/metadata.json \
     --model_path_or_name $MODEL_PATH_OR_NAME \
-    --user_embedding_prompt_path /home/aiscuser/XboxDiscoveryAI/llm_rec/simulater/output/model_toolcall_analysis/QA_Title_Attribute_key2val.jsonl \
+    --user_embedding_prompt_path $INPUT_DIR/QA_Title_Attribute_key2val.jsonl \
     --answer_file $OUT_DIR/QA_Title_Attribute_key2val.jsonl \
     --all_metrics_file $ALL_METRICS_FILE \
     --topk "[10]" \
@@ -74,7 +74,7 @@ accelerate launch --config_file $CONFIG_FILE infer_metrics.py \
     --in_seq_data $RAW_DATA_DIR/sequential_data.txt \
     --in_meta_data $RAW_DATA_DIR/metadata.json \
     --model_path_or_name $MODEL_PATH_OR_NAME \
-    --user_embedding_prompt_path /home/aiscuser/XboxDiscoveryAI/llm_rec/simulater/output/model_toolcall_analysis/QA_Attributes2Title.jsonl \
+    --user_embedding_prompt_path $INPUT_DIR/QA_Attributes2Title.jsonl \
     --answer_file $OUT_DIR/QA_Attributes2Title.jsonl \
     --all_metrics_file $ALL_METRICS_FILE \
     --topk "[10]" \
@@ -90,7 +90,7 @@ accelerate launch --config_file $CONFIG_FILE infer_metrics.py \
     --in_seq_data $RAW_DATA_DIR/sequential_data.txt \
     --in_meta_data $RAW_DATA_DIR/metadata.json \
     --model_path_or_name $MODEL_PATH_OR_NAME \
-    --user_embedding_prompt_path /home/aiscuser/XboxDiscoveryAI/llm_rec/simulater/output/model_toolcall_analysis/Co-play_Title2Items.jsonl \
+    --user_embedding_prompt_path $INPUT_DIR/Co-play_Title2Items.jsonl \
     --answer_file $OUT_DIR/Co-play_Title2Items.jsonl \
     --all_metrics_file $ALL_METRICS_FILE \
     --topk "[10]" \

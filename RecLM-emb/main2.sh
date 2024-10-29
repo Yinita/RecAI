@@ -1,61 +1,37 @@
-# #!/bin/bash
-# # Set API variables for vllm localhost setup
 export NCCL_DEBUG=0 # 禁用 NCCL 的日志输出
 export CUDA_VISIBLE_DEVICES=0,1,2,3
-
-# # export OPENAI_API_KEY="token-abc123"
-# # export OPENAI_API_BASE="http://localhost:8101/v1"
-# # export OPENAI_API_TYPE="onlinevllm"
-# # export OPENAI_API_VERSION="v1"
-# # export MODEL="Qwen/Qwen2.5-72B-Instruct"
-# # export batch_size=300
-# # export model_altname="qwen72B"
-# # export model_altname_v2="qwen72B_v2"
-
-# export OPENAI_API_BASE=https://gigaai.openai.azure.com/;
-# export OPENAI_API_VERSION="2024-05-01-preview"
-# export MODEL="gpt-4o"
-# export batch_size=300
-# export model_altname="gpt-4o"
-# export model_altname_v2="gpt-4o_v2"
-
-# export learning_rate=5e-5
-# export num_train_epochs=5
-# export QUERY_MAX_LEN=1024
-# export version="gpt_v1"
-# # model = gpt-4o
-# # model_altname = gpt4
-# export OUTPUT_DIR="output/xbox_gpt/bge-m3_$version"
-# export MODEL_NAME_OR_PATH="BAAI/bge-m3" # Currently support BAAI/bge-m3 (best)    intfloat/e5-large-v2, bert-large-uncased, BAAI/bge-large-en-v1.5, meta-llama/Llama-2-7b-hf
-# export RUN_NAME="bge_m3_$version"
-# export TASK="xbox_gpt"
-# bash shell/data_pipeline.sh
-# bash shell/test_data_pipeline.sh
-# bash shell/run_single_node.sh
-
-# export OUT_DIR="output/xbox_gpt_infer/$RUN_NAME"
-
-# cp -r /home/aiscuser/RecAI/RecLM-emb/data /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019
-
-#!/bin/bash
-# Set API variables for vllm localhost setup
 export QUERY_MAX_LEN=512
 export TASK="xbox"
-# export OUT_DIR="output/xbox_infer/base"
-# export MODEL_PATH_OR_NAME="BAAI/bge-m3"
-# bash shell/infer_stage2.sh 
 
-# export OUT_DIR="output/xbox_infer/ep1"
-# export MODEL_PATH_OR_NAME=/home/aiscuser/RecAI/RecLM-emb/output/xbox/reclm_emb_xbox_bge-m3_qwen_v1/checkpoint-1774
-# bash shell/infer_stage2.sh 
+#----base
+export INPUT_DIR="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/emb_stage2/base"
+export RESULT_DIR="output/xbox_base_stg2_infer/"
+mkdir $RESULT_DIR
 
-export OUT_DIR="output/xbox_infer/test_bge_1019"
-export MODEL_PATH_OR_NAME=/home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/models/reclm_emb_xbox_bge-m3_qwen_v1
+export OUT_DIR="$RESULT_DIR/test_bge_1019"
+export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/models/reclm_emb_xbox_bge-m3_qwen_v1"
 bash shell/infer_stage2.sh 
-export OUT_DIR="output/xbox_infer/test_base"
+export OUT_DIR="$RESULT_DIR/test_base"
 export MODEL_PATH_OR_NAME="BAAI/bge-m3"
 bash shell/infer_stage2.sh 
-export OUT_DIR="output/xbox_infer/test_e5-large-v2_1007"
+export OUT_DIR="$RESULT_DIR/test_e5-large-v2_1007"
 export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/emb_models/reclm_emb_xbox_e5-large-v2_1007"
 bash shell/infer_stage2.sh 
+
+#----model rewrite
+
+export INPUT_DIR="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/emb_stage2/specific-1029"
+export RESULT_DIR="output/xbox_rewrite_stg2_infer/"
+mkdir $RESULT_DIR
+
+export OUT_DIR="$RESULT_DIR/test_bge_1019"
+export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/models/reclm_emb_xbox_bge-m3_qwen_v1"
+bash shell/infer_stage2.sh 
+export OUT_DIR="$RESULT_DIR/test_base"
+export MODEL_PATH_OR_NAME="BAAI/bge-m3"
+bash shell/infer_stage2.sh 
+export OUT_DIR="$RESULT_DIR/test_e5-large-v2_1007"
+export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/emb_models/reclm_emb_xbox_e5-large-v2_1007"
+bash shell/infer_stage2.sh 
+
 
