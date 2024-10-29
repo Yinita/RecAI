@@ -35,3 +35,20 @@ export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/emb_m
 bash shell/infer_stage2.sh 
 
 
+#----model rewrite v2
+
+export INPUT_DIR="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/emb_stage2/specific-1029-v2"
+export RESULT_DIR="output/xbox_rewrite_stg2_v2_infer/"
+mkdir $RESULT_DIR
+
+export OUT_DIR="$RESULT_DIR/test_bge_1019"
+export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/models/reclm_emb_xbox_bge-m3_qwen_v1"
+bash shell/infer_stage2.sh 
+export OUT_DIR="$RESULT_DIR/test_base"
+export MODEL_PATH_OR_NAME="BAAI/bge-m3"
+bash shell/infer_stage2.sh 
+export OUT_DIR="$RESULT_DIR/test_e5-large-v2_1007"
+export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/emb_models/reclm_emb_xbox_e5-large-v2_1007"
+bash shell/infer_stage2.sh 
+
+

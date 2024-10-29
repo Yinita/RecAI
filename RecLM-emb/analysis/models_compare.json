@@ -4,6 +4,9 @@
             "xbox_base_stg2": {
                 "recall@5": 0.024
             },
+            "xbox_rewrite_stg2_v2": {
+                "recall@5": 0.03
+            },
             "xbox_rewrite_stg2": {
                 "recall@5": 0.03
             }
@@ -12,6 +15,9 @@
             "xbox_base_stg2": {
                 "recall@5": 0.023
             },
+            "xbox_rewrite_stg2_v2": {
+                "recall@5": 0.024
+            },
             "xbox_rewrite_stg2": {
                 "recall@5": 0.024
             }
@@ -19,6 +25,9 @@
         "test_bge_1019": {
             "xbox_base_stg2": {
                 "recall@5": 0.013
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@5": 0.019
             },
             "xbox_rewrite_stg2": {
                 "recall@5": 0.019
@@ -30,6 +39,9 @@
             "xbox_base_stg2": {
                 "recall@10": 0.12323214285714283
             },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.0798214285714286
+            },
             "xbox_rewrite_stg2": {
                 "recall@10": 0.0798214285714286
             }
@@ -38,6 +50,9 @@
             "xbox_base_stg2": {
                 "recall@10": 0.10694642857142857
             },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.08883928571428572
+            },
             "xbox_rewrite_stg2": {
                 "recall@10": 0.08883928571428572
             }
@@ -45,6 +60,9 @@
         "test_bge_1019": {
             "xbox_base_stg2": {
                 "recall@10": 0.12885714285714284
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.08660714285714291
             },
             "xbox_rewrite_stg2": {
                 "recall@10": 0.08660714285714291
@@ -56,6 +74,9 @@
             "xbox_base_stg2": {
                 "recall@10": NaN
             },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": NaN
+            },
             "xbox_rewrite_stg2": {
                 "recall@10": NaN
             }
@@ -64,12 +85,18 @@
             "xbox_base_stg2": {
                 "recall@10": NaN
             },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": NaN
+            },
             "xbox_rewrite_stg2": {
                 "recall@10": NaN
             }
         },
         "test_bge_1019": {
             "xbox_base_stg2": {
+                "recall@10": NaN
+            },
+            "xbox_rewrite_stg2_v2": {
                 "recall@10": NaN
             },
             "xbox_rewrite_stg2": {
@@ -82,6 +109,9 @@
             "xbox_base_stg2": {
                 "recall@10": 0.16093129960317457
             },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.1518392857142857
+            },
             "xbox_rewrite_stg2": {
                 "recall@10": 0.1518392857142857
             }
@@ -90,6 +120,9 @@
             "xbox_base_stg2": {
                 "recall@10": 0.30778769841269843
             },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.2024821428571428
+            },
             "xbox_rewrite_stg2": {
                 "recall@10": 0.2024821428571428
             }
@@ -97,6 +130,9 @@
         "test_bge_1019": {
             "xbox_base_stg2": {
                 "recall@10": 0.18125310019841268
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.15744642857142854
             },
             "xbox_rewrite_stg2": {
                 "recall@10": 0.15744642857142854
@@ -108,6 +144,9 @@
             "xbox_base_stg2": {
                 "recall@10": 0.06314911517261386
             },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.08093994778067898
+            },
             "xbox_rewrite_stg2": {
                 "recall@10": 0.08093994778067898
             }
@@ -116,6 +155,9 @@
             "xbox_base_stg2": {
                 "recall@10": 0.07086597040905138
             },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.09012184508268074
+            },
             "xbox_rewrite_stg2": {
                 "recall@10": 0.09012184508268074
             }
@@ -123,6 +165,9 @@
         "test_bge_1019": {
             "xbox_base_stg2": {
                 "recall@10": 0.055388743835219065
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.052632724107919956
             },
             "xbox_rewrite_stg2": {
                 "recall@10": 0.052632724107919956

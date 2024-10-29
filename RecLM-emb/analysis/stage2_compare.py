@@ -42,7 +42,7 @@ for root, dirs, files in os.walk(base_dir):
                         process_metrics_file(metrics_file, exp_name, model_name)
 
 # Define the output path for the aggregated results
-output_file_path = '/home/aiscuser/RecAI/RecLM-emb/analysis/models_compare.csv'
+output_file_path = '/home/aiscuser/RecAI/RecLM-emb/analysis/models_compare.json'
 
 # Write the aggregated results to a JSON file
 try:
