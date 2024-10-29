@@ -22,7 +22,7 @@ export model_altname_v2="qwen72B_v2"
 export learning_rate=5e-5
 export num_train_epochs=5
 export QUERY_MAX_LEN=1024
-export version="1026_history100000"
+export version="1026_history10000"
 # model = gpt-4o
 # model_altname = gpt4
 export OUTPUT_DIR=output/xbox/bge-m3_$version
@@ -34,15 +34,16 @@ export TASK="xbox"
 # cp -r /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/xbox /home/aiscuser/RecAI/RecLM-emb/data
 
 
-bash shell/data_pipeline.sh
-bash shell/test_data_pipeline.sh
-cp -r /home/aiscuser/RecAI/RecLM-emb/output /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1026
+# bash shell/data_pipeline.sh
+# bash shell/test_data_pipeline.sh
+export CUDA_VISIBLE_DEVICES=0,1,2,3,5,6,7
+# cp -r /home/aiscuser/RecAI/RecLM-emb/output /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1026
 bash shell/run_single_node.sh
 export OUT_DIR="output/xbox_infer/$RUN_NAME"
 export MODEL_PATH_OR_NAME=$OUTPUT_DIR
-bash shell/infer_metrics.sh 
-mkdir /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1026_h100000
-cp -r /home/aiscuser/RecAI/RecLM-emb/output /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1026_h100000
+# bash shell/infer_metrics.sh 
+# mkdir /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1026_h100000
+# cp -r /home/aiscuser/RecAI/RecLM-emb/output /home/aiscuser/figllm/toolcall/database/localdb/backup_data/1026_h100000
 
 # 基础路径
 OUTPUT_BASE_PATH="/home/aiscuser/RecAI/RecLM-emb/output/xbox"

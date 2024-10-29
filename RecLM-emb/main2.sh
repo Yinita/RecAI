@@ -43,15 +43,19 @@ export QUERY_MAX_LEN=512
 export TASK="xbox"
 # export OUT_DIR="output/xbox_infer/base"
 # export MODEL_PATH_OR_NAME="BAAI/bge-m3"
-# bash shell/infer_metrics.sh 
+# bash shell/infer_stage2.sh 
 
 # export OUT_DIR="output/xbox_infer/ep1"
 # export MODEL_PATH_OR_NAME=/home/aiscuser/RecAI/RecLM-emb/output/xbox/reclm_emb_xbox_bge-m3_qwen_v1/checkpoint-1774
-# bash shell/infer_metrics.sh 
+# bash shell/infer_stage2.sh 
 
-# export OUT_DIR="output/xbox_infer/test"
-# export MODEL_PATH_OR_NAME=/home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/models/reclm_emb_xbox_bge-m3_qwen_v1
+export OUT_DIR="output/xbox_infer/test_bge_1019"
+export MODEL_PATH_OR_NAME=/home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/models/reclm_emb_xbox_bge-m3_qwen_v1
+bash shell/infer_stage2.sh 
+export OUT_DIR="output/xbox_infer/test_base"
+export MODEL_PATH_OR_NAME="BAAI/bge-m3"
+bash shell/infer_stage2.sh 
 export OUT_DIR="output/xbox_infer/test_e5-large-v2_1007"
 export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/emb_models/reclm_emb_xbox_e5-large-v2_1007"
-bash shell/infer_metrics.sh 
+bash shell/infer_stage2.sh 
 

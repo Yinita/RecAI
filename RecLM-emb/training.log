@@ -1,13 +1,13 @@
-W1025 13:37:18.061000 139930601039040 torch/distributed/run.py:779] 
-W1025 13:37:18.061000 139930601039040 torch/distributed/run.py:779] *****************************************
-W1025 13:37:18.061000 139930601039040 torch/distributed/run.py:779] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
-W1025 13:37:18.061000 139930601039040 torch/distributed/run.py:779] *****************************************
-[W1025 13:37:21.008939596 Utils.hpp:135] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
-[W1025 13:37:21.037022246 Utils.hpp:135] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
-[W1025 13:37:21.042875353 Utils.hpp:135] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
-[W1025 13:37:21.046406595 Utils.hpp:135] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
-10/25/2024 13:37:22 - WARNING - __main__ -   Process rank: 0, device: cuda:0, n_gpu: 1, distributed training: True, 16-bits training: False
-10/25/2024 13:37:22 - INFO - __main__ -   Training/evaluation parameters RetrieverTrainingArguments(
+W1027 22:22:01.435000 139831582705472 torch/distributed/run.py:779] 
+W1027 22:22:01.435000 139831582705472 torch/distributed/run.py:779] *****************************************
+W1027 22:22:01.435000 139831582705472 torch/distributed/run.py:779] Setting OMP_NUM_THREADS environment variable for each process to be 1 in default, to avoid your system being overloaded, please further tune the variable for optimal performance in your application as needed. 
+W1027 22:22:01.435000 139831582705472 torch/distributed/run.py:779] *****************************************
+[W1027 22:22:07.886433924 Utils.hpp:135] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W1027 22:22:07.932031686 Utils.hpp:135] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W1027 22:22:07.954790181 Utils.hpp:135] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[W1027 22:22:08.034290807 Utils.hpp:135] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+10/27/2024 22:22:08 - WARNING - __main__ -   Process rank: 0, device: cuda:0, n_gpu: 1, distributed training: True, 16-bits training: False
+10/27/2024 22:22:08 - INFO - __main__ -   Training/evaluation parameters RetrieverTrainingArguments(
 _n_gpu=1,
 accelerator_config={'split_batches': False, 'dispatch_batches': None, 'even_batches': True, 'use_seedable_sampler': True, 'non_blocking': False, 'gradient_accumulation_kwargs': None, 'use_configured_state': False},
 adafactor=False,
@@ -80,7 +80,7 @@ local_rank=0,
 log_level=passive,
 log_level_replica=warning,
 log_on_each_node=True,
-logging_dir=output/xbox/bge-m3_1026/runs/Oct25_13-37-21_node-0,
+logging_dir=output/xbox/bge-m3_1026_history10000/runs/Oct27_22-22-07_node-0,
 logging_first_step=False,
 logging_nan_inf_filter=True,
 logging_steps=100,
@@ -98,7 +98,7 @@ num_train_epochs=5.0,
 optim=adamw_torch,
 optim_args=None,
 optim_target_modules=None,
-output_dir=output/xbox/bge-m3_1026,
+output_dir=output/xbox/bge-m3_1026_history10000,
 overwrite_output_dir=False,
 past_index=-1,
 per_device_eval_batch_size=8,
@@ -113,7 +113,7 @@ remove_unused_columns=True,
 report_to=['wandb'],
 restore_callback_states_from_checkpoint=False,
 resume_from_checkpoint=None,
-run_name=bge_m3_1026,
+run_name=bge_m3_1026_history10000,
 save_on_each_node=False,
 save_only_model=False,
 save_safetensors=True,
@@ -141,12 +141,12 @@ warmup_ratio=0.1,
 warmup_steps=0,
 weight_decay=0.0,
 )
-10/25/2024 13:37:22 - INFO - __main__ -   Model parameters ModelArguments(model_name_or_path='BAAI/bge-m3', config_name=None, tokenizer_name=None, cache_dir=None, sentence_pooling_method='mean', normlized=True, peft_model_name=None, attn_implementation='eager', torch_dtype=None)
-10/25/2024 13:37:22 - INFO - __main__ -   Data parameters DataArguments(train_data='data/xbox/train/user2item.jsonl,data/xbox/train/gpt_data_v2.jsonl,data/xbox/train/misspell2item.jsonl,data/xbox/train/negquery2item.jsonl,data/xbox/train/relativequery2item.jsonl,data/xbox/train/title2item.jsonl,data/xbox/train/gpt_data.jsonl,data/xbox/train/item2item.jsonl,data/xbox/train/query2item.jsonl,data/xbox/train/queryuser2item.jsonl,data/xbox/train/user2item.jsonl', data_cache_dir='/home/aiscuser/.cache/hf_data', train_group_size=4, query_max_len=1024, passage_max_len=128, max_example_num_per_dataset=100000000, has_template=True)
-10/25/2024 13:37:22 - WARNING - __main__ -   Process rank: 1, device: cuda:1, n_gpu: 1, distributed training: True, 16-bits training: False
-10/25/2024 13:37:22 - WARNING - __main__ -   Process rank: 3, device: cuda:3, n_gpu: 1, distributed training: True, 16-bits training: False
-10/25/2024 13:37:22 - WARNING - __main__ -   Process rank: 2, device: cuda:2, n_gpu: 1, distributed training: True, 16-bits training: False
-10/25/2024 13:37:25 - INFO - __main__ -   Config: XLMRobertaConfig {
+10/27/2024 22:22:08 - INFO - __main__ -   Model parameters ModelArguments(model_name_or_path='BAAI/bge-m3', config_name=None, tokenizer_name=None, cache_dir=None, sentence_pooling_method='mean', normlized=True, peft_model_name=None, attn_implementation='eager', torch_dtype=None)
+10/27/2024 22:22:08 - INFO - __main__ -   Data parameters DataArguments(train_data='data/xbox/train/user2item.jsonl,data/xbox/train/gpt_data_v2.jsonl,data/xbox/train/misspell2item.jsonl,data/xbox/train/negquery2item.jsonl,data/xbox/train/relativequery2item.jsonl,data/xbox/train/title2item.jsonl,data/xbox/train/gpt_data.jsonl,data/xbox/train/item2item.jsonl,data/xbox/train/query2item.jsonl,data/xbox/train/queryuser2item.jsonl,data/xbox/train/user2item.jsonl', data_cache_dir='/home/aiscuser/.cache/hf_data', train_group_size=4, query_max_len=1024, passage_max_len=128, max_example_num_per_dataset=100000000, has_template=True)
+10/27/2024 22:22:08 - WARNING - __main__ -   Process rank: 2, device: cuda:2, n_gpu: 1, distributed training: True, 16-bits training: False
+10/27/2024 22:22:08 - WARNING - __main__ -   Process rank: 3, device: cuda:3, n_gpu: 1, distributed training: True, 16-bits training: False
+10/27/2024 22:22:08 - WARNING - __main__ -   Process rank: 1, device: cuda:1, n_gpu: 1, distributed training: True, 16-bits training: False
+10/27/2024 22:22:10 - INFO - __main__ -   Config: XLMRobertaConfig {
   "_name_or_path": "BAAI/bge-m3",
   "architectures": [
     "XLMRobertaModel"
@@ -175,201 +175,63 @@ weight_decay=0.0,
   "vocab_size": 250002
 }
 
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 1000 examples [00:00, 50795.10 examples/s]
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 1743 examples [00:00, 55924.05 examples/s]
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 3840 examples [00:00, 63570.38 examples/s]
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 2140 examples [00:00, 64942.81 examples/s]
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 380 examples [00:00, 59391.69 examples/s]
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 2734 examples [00:00, 69573.82 examples/s]
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 2420 examples [00:00, 81198.48 examples/s]
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 869 examples [00:00, 67218.39 examples/s]
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 1152 examples [00:00, 69893.94 examples/s]
-Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 1000 examples [00:00, 65397.03 examples/s]
-[2024-10-25 13:41:05,818] [INFO] [real_accelerator.py:203:get_accelerator] Setting ds_accelerator to cuda (auto detect)
-[2024-10-25 13:41:05,919] [INFO] [real_accelerator.py:203:get_accelerator] Setting ds_accelerator to cuda (auto detect)
-[2024-10-25 13:41:05,930] [INFO] [real_accelerator.py:203:get_accelerator] Setting ds_accelerator to cuda (auto detect)
-df: /home/aiscuser/.triton/autotune: No such file or directory
-[2024-10-25 13:41:05,978] [INFO] [real_accelerator.py:203:get_accelerator] Setting ds_accelerator to cuda (auto detect)
-10/25/2024 13:41:06 - WARNING - root -   Cannot import JIT optimized kernels. CUDA extension will be disabled.
-10/25/2024 13:41:06 - WARNING - root -   Cannot import JIT optimized kernels. CUDA extension will be disabled.
-10/25/2024 13:41:06 - WARNING - root -   Cannot import JIT optimized kernels. CUDA extension will be disabled.
-10/25/2024 13:41:06 - WARNING - root -   Cannot import JIT optimized kernels. CUDA extension will be disabled.
-[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
-[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
-[93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.4
-[93m [WARNING] [0m using untested triton version (3.0.0), only 1.0.0 is known to be compatible
-[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
-[93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.4
-[93m [WARNING] [0m using untested triton version (3.0.0), only 1.0.0 is known to be compatible
-[93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.4
-[93m [WARNING] [0m using untested triton version (3.0.0), only 1.0.0 is known to be compatible
-[93m [WARNING] [0m Please specify the CUTLASS repo directory as environment variable $CUTLASS_PATH
-[93m [WARNING] [0m sparse_attn requires a torch version >= 1.5 and < 2.0 but detected 2.4
-[93m [WARNING] [0m using untested triton version (3.0.0), only 1.0.0 is known to be compatible
-/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/zero/linear.py:49: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
-  def forward(ctx, input, weight, bias=None):
-/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/zero/linear.py:67: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
-  def backward(ctx, grad_output):
-/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/zero/linear.py:49: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
-  def forward(ctx, input, weight, bias=None):
-/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/zero/linear.py:67: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
-  def backward(ctx, grad_output):
-/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/zero/linear.py:49: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
-  def forward(ctx, input, weight, bias=None):
-/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/zero/linear.py:67: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
-  def backward(ctx, grad_output):
-/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/zero/linear.py:49: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
-  def forward(ctx, input, weight, bias=None):
-/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/zero/linear.py:67: FutureWarning: `torch.cuda.amp.custom_bwd(args...)` is deprecated. Please use `torch.amp.custom_bwd(args..., device_type='cuda')` instead.
-  def backward(ctx, grad_output):
-[rank2]: Traceback (most recent call last):
+[2024-10-27 22:22:11,841] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-10-27 22:22:11,994] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-10-27 22:22:12,027] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2024-10-27 22:22:12,073] [INFO] [real_accelerator.py:219:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+10/27/2024 22:22:12 - WARNING - root -   Cannot import JIT optimized kernels. CUDA extension will be disabled.
+10/27/2024 22:22:12 - WARNING - root -   Cannot import JIT optimized kernels. CUDA extension will be disabled.
+10/27/2024 22:22:12 - WARNING - root -   Cannot import JIT optimized kernels. CUDA extension will be disabled.
+10/27/2024 22:22:12 - WARNING - root -   Cannot import JIT optimized kernels. CUDA extension will be disabled.
+[rank3]:[W1027 22:22:16.161314099 Utils.hpp:110] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[rank1]:[W1027 22:22:16.164682712 Utils.hpp:110] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[rank0]:[W1027 22:22:16.164800905 Utils.hpp:110] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+[rank2]:[W1027 22:22:16.165007846 Utils.hpp:110] Warning: Environment variable NCCL_ASYNC_ERROR_HANDLING is deprecated; use TORCH_NCCL_ASYNC_ERROR_HANDLING instead (function operator())
+wandb: Using wandb-core as the SDK backend. Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: yinita. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.18.5
+wandb: Run data is saved locally in /home/aiscuser/.cache/wandb/run-20241027_222216-r0c0eqpq
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run bge_m3_1026_history10000
+wandb: ⭐️ View project at https://wandb.ai/yinita/RecLM-emb
+wandb: 🚀 View run at https://wandb.ai/yinita/RecLM-emb/runs/r0c0eqpq
+  0%|          | 0/7250 [00:00<?, ?it/s]  0%|          | 1/7250 [00:03<6:55:38,  3.44s/it]  0%|          | 2/7250 [00:06<6:10:47,  3.07s/it]  0%|          | 3/7250 [00:09<5:56:42,  2.95s/it]  0%|          | 4/7250 [00:11<5:50:01,  2.90s/it]  0%|          | 5/7250 [00:14<5:46:15,  2.87s/it]  0%|          | 6/7250 [00:17<5:44:11,  2.85s/it]  0%|          | 7/7250 [00:20<5:54:23,  2.94s/it]  0%|          | 8/7250 [00:23<5:49:36,  2.90s/it]  0%|          | 9/7250 [00:26<5:46:24,  2.87s/it]  0%|          | 10/7250 [00:29<5:44:17,  2.85s/it]  0%|          | 11/7250 [00:31<5:42:43,  2.84s/it]  0%|          | 12/7250 [00:34<5:41:36,  2.83s/it]  0%|          | 13/7250 [00:37<5:40:55,  2.83s/it]  0%|          | 14/7250 [00:40<5:40:23,  2.82s/it]  0%|          | 15/7250 [00:43<5:40:01,  2.82s/it]  0%|          | 16/7250 [00:45<5:39:41,  2.82s/it]  0%|          | 17/7250 [00:48<5:39:25,  2.82s/it]  0%|          | 18/7250 [00:51<5:39:19,  2.82s/it]  0%|          | 19/7250 [00:54<5:39:13,  2.81s/it]  0%|          | 20/7250 [00:57<5:39:03,  2.81s/it]  0%|          | 21/7250 [01:00<5:39:00,  2.81s/it]  0%|          | 22/7250 [01:02<5:38:50,  2.81s/it]  0%|          | 23/7250 [01:05<5:38:50,  2.81s/it]  0%|          | 24/7250 [01:08<5:38:49,  2.81s/it]  0%|          | 25/7250 [01:11<5:38:46,  2.81s/it]  0%|          | 26/7250 [01:14<5:38:42,  2.81s/it]  0%|          | 27/7250 [01:16<5:38:40,  2.81s/it]  0%|          | 28/7250 [01:19<5:38:32,  2.81s/it]  0%|          | 29/7250 [01:22<5:38:29,  2.81s/it]  0%|          | 30/7250 [01:25<5:38:26,  2.81s/it]  0%|          | 31/7250 [01:28<5:38:31,  2.81s/it]  0%|          | 32/7250 [01:30<5:38:33,  2.81s/it]  0%|          | 33/7250 [01:33<5:38:30,  2.81s/it]  0%|          | 34/7250 [01:36<5:38:25,  2.81s/it]  0%|          | 35/7250 [01:39<5:38:21,  2.81s/it]  0%|          | 36/7250 [01:42<5:38:15,  2.81s/it]  1%|          | 37/7250 [01:45<5:38:11,  2.81s/it]  1%|          | 38/7250 [01:47<5:38:13,  2.81s/it]  1%|          | 39/7250 [01:50<5:38:15,  2.81s/it]  1%|          | 40/7250 [01:53<5:38:19,  2.82s/it]  1%|          | 41/7250 [01:56<5:38:14,  2.82s/it]  1%|          | 42/7250 [01:59<5:38:03,  2.81s/it]  1%|          | 43/7250 [02:01<5:38:03,  2.81s/it]  1%|          | 44/7250 [02:04<5:37:58,  2.81s/it]  1%|          | 45/7250 [02:07<5:37:57,  2.81s/it]  1%|          | 46/7250 [02:10<5:37:54,  2.81s/it]  1%|          | 47/7250 [02:13<5:37:58,  2.82s/it]  1%|          | 48/7250 [02:15<5:37:55,  2.82s/it]  1%|          | 49/7250 [02:18<5:37:52,  2.82s/it]  1%|          | 50/7250 [02:21<5:37:47,  2.81s/it]  1%|          | 51/7250 [02:24<5:37:47,  2.82s/it]  1%|          | 52/7250 [02:27<5:37:44,  2.82s/it]  1%|          | 53/7250 [02:30<5:37:51,  2.82s/it]  1%|          | 54/7250 [02:32<5:37:53,  2.82s/it]  1%|          | 55/7250 [02:35<5:37:46,  2.82s/it]  1%|          | 56/7250 [02:38<5:37:42,  2.82s/it]  1%|          | 57/7250 [02:41<5:37:41,  2.82s/it]  1%|          | 58/7250 [02:44<5:37:39,  2.82s/it]  1%|          | 59/7250 [02:46<5:37:33,  2.82s/it]  1%|          | 60/7250 [02:49<5:37:28,  2.82s/it]  1%|          | 61/7250 [02:52<5:37:21,  2.82s/it]  1%|          | 62/7250 [02:55<5:37:12,  2.81s/it]  1%|          | 63/7250 [02:58<5:37:07,  2.81s/it]  1%|          | 64/7250 [03:01<5:37:06,  2.81s/it]  1%|          | 65/7250 [03:03<5:37:03,  2.81s/it]  1%|          | 66/7250 [03:06<5:36:54,  2.81s/it]  1%|          | 67/7250 [03:09<5:36:58,  2.81s/it]  1%|          | 68/7250 [03:12<5:36:50,  2.81s/it]  1%|          | 69/7250 [03:15<5:36:50,  2.81s/it]  1%|          | 70/7250 [03:17<5:36:46,  2.81s/it]  1%|          | 71/7250 [03:21<5:49:39,  2.92s/it]  1%|          | 72/7250 [03:23<5:45:39,  2.89s/it]  1%|          | 73/7250 [03:26<5:42:51,  2.87s/it]  1%|          | 74/7250 [03:29<5:41:06,  2.85s/it]  1%|          | 75/7250 [03:32<5:39:42,  2.84s/it]  1%|          | 76/7250 [03:35<5:38:43,  2.83s/it]  1%|          | 77/7250 [03:37<5:38:04,  2.83s/it]  1%|          | 78/7250 [03:40<5:37:29,  2.82s/it]  1%|          | 79/7250 [03:43<5:37:03,  2.82s/it]  1%|          | 80/7250 [03:46<5:36:48,  2.82s/it]  1%|          | 81/7250 [03:49<5:36:33,  2.82s/it]  1%|          | 82/7250 [03:52<5:36:22,  2.82s/it]  1%|          | 83/7250 [03:54<5:36:14,  2.81s/it]  1%|          | 84/7250 [03:57<5:36:08,  2.81s/it]  1%|          | 85/7250 [04:00<5:36:01,  2.81s/it]  1%|          | 86/7250 [04:03<5:35:58,  2.81s/it]  1%|          | 87/7250 [04:06<5:35:57,  2.81s/it]  1%|          | 88/7250 [04:08<5:35:55,  2.81s/it]  1%|          | 89/7250 [04:11<5:35:51,  2.81s/it]  1%|          | 90/7250 [04:14<5:35:55,  2.82s/it]  1%|▏         | 91/7250 [04:17<5:35:59,  2.82s/it]  1%|▏         | 92/7250 [04:20<5:35:55,  2.82s/it]  1%|▏         | 93/7250 [04:23<5:35:51,  2.82s/it]  1%|▏         | 94/7250 [04:25<5:35:49,  2.82s/it]  1%|▏         | 95/7250 [04:28<5:35:48,  2.82s/it]  1%|▏         | 96/7250 [04:31<5:36:07,  2.82s/it]  1%|▏         | 97/7250 [04:34<5:35:56,  2.82s/it]  1%|▏         | 98/7250 [04:37<5:35:49,  2.82s/it]  1%|▏         | 99/7250 [04:39<5:35:44,  2.82s/it]  1%|▏         | 100/7250 [04:42<5:35:37,  2.82s/it]                                                    {'loss': 2.8876, 'grad_norm': 11.46470832824707, 'learning_rate': 6.896551724137932e-06, 'epoch': 0.07}
+  1%|▏         | 100/7250 [04:42<5:35:37,  2.82s/it]  1%|▏         | 101/7250 [04:45<5:35:29,  2.82s/it]  1%|▏         | 102/7250 [04:48<5:35:24,  2.82s/it]  1%|▏         | 103/7250 [04:51<5:35:23,  2.82s/it]  1%|▏         | 104/7250 [04:53<5:35:10,  2.81s/it]  1%|▏         | 105/7250 [04:56<5:35:03,  2.81s/it]  1%|▏         | 106/7250 [04:59<5:34:57,  2.81s/it]  1%|▏         | 107/7250 [05:02<5:34:57,  2.81s/it]  1%|▏         | 108/7250 [05:05<5:34:55,  2.81s/it]  2%|▏         | 109/7250 [05:08<5:34:54,  2.81s/it]  2%|▏         | 110/7250 [05:10<5:34:49,  2.81s/it]  2%|▏         | 111/7250 [05:13<5:34:47,  2.81s/it]  2%|▏         | 112/7250 [05:16<5:34:39,  2.81s/it]  2%|▏         | 113/7250 [05:19<5:34:32,  2.81s/it]  2%|▏         | 114/7250 [05:22<5:34:31,  2.81s/it]  2%|▏         | 115/7250 [05:24<5:34:29,  2.81s/it]  2%|▏         | 116/7250 [05:27<5:34:24,  2.81s/it]  2%|▏         | 117/7250 [05:30<5:34:28,  2.81s/it]  2%|▏         | 118/7250 [05:33<5:34:21,  2.81s/it]  2%|▏         | 119/7250 [05:36<5:34:17,  2.81s/it]  2%|▏         | 120/7250 [05:38<5:34:14,  2.81s/it]  2%|▏         | 121/7250 [05:41<5:34:10,  2.81s/it]  2%|▏         | 122/7250 [05:44<5:34:05,  2.81s/it]  2%|▏         | 123/7250 [05:47<5:34:05,  2.81s/it]  2%|▏         | 124/7250 [05:50<5:34:04,  2.81s/it]  2%|▏         | 125/7250 [05:53<5:34:03,  2.81s/it]  2%|▏         | 126/7250 [05:55<5:33:59,  2.81s/it]  2%|▏         | 127/7250 [05:58<5:33:58,  2.81s/it]  2%|▏         | 128/7250 [06:01<5:33:53,  2.81s/it]  2%|▏         | 129/7250 [06:04<5:33:53,  2.81s/it]  2%|▏         | 130/7250 [06:07<5:33:50,  2.81s/it]  2%|▏         | 131/7250 [06:09<5:33:49,  2.81s/it]  2%|▏         | 132/7250 [06:12<5:33:40,  2.81s/it]  2%|▏         | 133/7250 [06:15<5:33:42,  2.81s/it]  2%|▏         | 134/7250 [06:18<5:33:32,  2.81s/it]  2%|▏         | 135/7250 [06:21<5:33:32,  2.81s/it]  2%|▏         | 136/7250 [06:23<5:33:28,  2.81s/it]  2%|▏         | 137/7250 [06:26<5:33:29,  2.81s/it]  2%|▏         | 138/7250 [06:29<5:33:25,  2.81s/it]  2%|▏         | 139/7250 [06:32<5:33:22,  2.81s/it]  2%|▏         | 140/7250 [06:35<5:33:21,  2.81s/it]  2%|▏         | 141/7250 [06:38<5:33:22,  2.81s/it]  2%|▏         | 142/7250 [06:40<5:33:23,  2.81s/it]  2%|▏         | 143/7250 [06:43<5:33:25,  2.81s/it]  2%|▏         | 144/7250 [06:46<5:33:21,  2.81s/it]  2%|▏         | 145/7250 [06:49<5:33:17,  2.81s/it]  2%|▏         | 146/7250 [06:52<5:33:15,  2.81s/it]  2%|▏         | 147/7250 [06:54<5:33:07,  2.81s/it]  2%|▏         | 148/7250 [06:57<5:33:08,  2.81s/it]  2%|▏         | 149/7250 [07:00<5:33:07,  2.81s/it]  2%|▏         | 150/7250 [07:03<5:33:03,  2.81s/it]  2%|▏         | 151/7250 [07:06<5:32:57,  2.81s/it]  2%|▏         | 152/7250 [07:09<5:32:47,  2.81s/it]  2%|▏         | 153/7250 [07:11<5:32:41,  2.81s/it]  2%|▏         | 154/7250 [07:14<5:32:38,  2.81s/it]  2%|▏         | 155/7250 [07:17<5:32:36,  2.81s/it]  2%|▏         | 156/7250 [07:20<5:32:31,  2.81s/it]  2%|▏         | 157/7250 [07:23<5:32:29,  2.81s/it]  2%|▏         | 158/7250 [07:25<5:32:22,  2.81s/it]  2%|▏         | 159/7250 [07:28<5:32:15,  2.81s/it]  2%|▏         | 160/7250 [07:31<5:32:14,  2.81s/it]  2%|▏         | 161/7250 [07:34<5:32:09,  2.81s/it]  2%|▏         | 162/7250 [07:37<5:32:07,  2.81s/it]  2%|▏         | 163/7250 [07:39<5:32:06,  2.81s/it]  2%|▏         | 164/7250 [07:42<5:32:10,  2.81s/it]  2%|▏         | 165/7250 [07:45<5:32:15,  2.81s/it]  2%|▏         | 166/7250 [07:48<5:32:12,  2.81s/it]  2%|▏         | 167/7250 [07:51<5:32:04,  2.81s/it]  2%|▏         | 168/7250 [07:54<5:31:59,  2.81s/it]  2%|▏         | 169/7250 [07:56<5:31:52,  2.81s/it]  2%|▏         | 170/7250 [07:59<5:31:48,  2.81s/it]  2%|▏         | 171/7250 [08:02<5:31:46,  2.81s/it]  2%|▏         | 172/7250 [08:05<5:31:41,  2.81s/it]  2%|▏         | 173/7250 [08:08<5:31:42,  2.81s/it]  2%|▏         | 174/7250 [08:10<5:31:46,  2.81s/it]  2%|▏         | 175/7250 [08:13<5:31:44,  2.81s/it]  2%|▏         | 176/7250 [08:16<5:31:39,  2.81s/it]  2%|▏         | 177/7250 [08:19<5:31:42,  2.81s/it]  2%|▏         | 178/7250 [08:22<5:31:39,  2.81s/it]  2%|▏         | 179/7250 [08:24<5:31:35,  2.81s/it]  2%|▏         | 180/7250 [08:27<5:31:30,  2.81s/it]  2%|▏         | 181/7250 [08:30<5:31:39,  2.82s/it]  3%|▎         | 182/7250 [08:33<5:31:33,  2.81s/it]  3%|▎         | 183/7250 [08:36<5:31:30,  2.81s/it]  3%|▎         | 184/7250 [08:39<5:31:22,  2.81s/it]  3%|▎         | 185/7250 [08:41<5:31:14,  2.81s/it]  3%|▎         | 186/7250 [08:44<5:31:14,  2.81s/it]  3%|▎         | 187/7250 [08:47<5:31:10,  2.81s/it]  3%|▎         | 188/7250 [08:50<5:31:08,  2.81s/it]  3%|▎         | 189/7250 [08:53<5:31:05,  2.81s/it]  3%|▎         | 190/7250 [08:55<5:31:06,  2.81s/it]  3%|▎         | 191/7250 [08:58<5:31:08,  2.81s/it]  3%|▎         | 192/7250 [09:01<5:31:05,  2.81s/it]  3%|▎         | 193/7250 [09:04<5:31:08,  2.82s/it]  3%|▎         | 194/7250 [09:07<5:31:07,  2.82s/it]  3%|▎         | 195/7250 [09:09<5:31:04,  2.82s/it]  3%|▎         | 196/7250 [09:12<5:31:01,  2.82s/it]  3%|▎         | 197/7250 [09:15<5:31:11,  2.82s/it]  3%|▎         | 198/7250 [09:18<5:30:57,  2.82s/it]  3%|▎         | 199/7250 [09:21<5:30:53,  2.82s/it]  3%|▎         | 200/7250 [09:24<5:30:55,  2.82s/it]                                                    {'loss': 2.3229, 'grad_norm': 12.071959495544434, 'learning_rate': 1.3793103448275863e-05, 'epoch': 0.14}
+  3%|▎         | 200/7250 [09:24<5:30:55,  2.82s/it]  3%|▎         | 201/7250 [09:26<5:30:47,  2.82s/it]  3%|▎         | 202/7250 [09:29<5:30:44,  2.82s/it]  3%|▎         | 203/7250 [09:32<5:30:35,  2.81s/it]  3%|▎         | 204/7250 [09:35<5:30:24,  2.81s/it]  3%|▎         | 205/7250 [09:38<5:30:18,  2.81s/it]  3%|▎         | 206/7250 [09:40<5:30:18,  2.81s/it]  3%|▎         | 207/7250 [09:43<5:30:14,  2.81s/it]  3%|▎         | 208/7250 [09:46<5:30:10,  2.81s/it]  3%|▎         | 209/7250 [09:49<5:30:09,  2.81s/it]  3%|▎         | 210/7250 [09:52<5:30:04,  2.81s/it]  3%|▎         | 211/7250 [09:55<5:30:05,  2.81s/it]  3%|▎         | 212/7250 [09:57<5:29:58,  2.81s/it]  3%|▎         | 213/7250 [10:00<5:29:50,  2.81s/it]  3%|▎         | 214/7250 [10:03<5:29:46,  2.81s/it]  3%|▎         | 215/7250 [10:06<5:29:48,  2.81s/it]  3%|▎         | 216/7250 [10:09<5:29:44,  2.81s/it]  3%|▎         | 217/7250 [10:11<5:29:43,  2.81s/it]  3%|▎         | 218/7250 [10:14<5:29:40,  2.81s/it]  3%|▎         | 219/7250 [10:17<5:29:42,  2.81s/it]  3%|▎         | 220/7250 [10:20<5:29:36,  2.81s/it]  3%|▎         | 221/7250 [10:23<5:29:31,  2.81s/it]  3%|▎         | 222/7250 [10:25<5:29:26,  2.81s/it]  3%|▎         | 223/7250 [10:28<5:29:25,  2.81s/it]  3%|▎         | 224/7250 [10:31<5:29:16,  2.81s/it]  3%|▎         | 225/7250 [10:34<5:29:14,  2.81s/it]  3%|▎         | 226/7250 [10:37<5:29:09,  2.81s/it]  3%|▎         | 227/7250 [10:40<5:29:06,  2.81s/it]  3%|▎         | 228/7250 [10:42<5:29:02,  2.81s/it]  3%|▎         | 229/7250 [10:45<5:29:00,  2.81s/it]  3%|▎         | 230/7250 [10:48<5:28:58,  2.81s/it]  3%|▎         | 231/7250 [10:51<5:28:59,  2.81s/it]  3%|▎         | 232/7250 [10:54<5:28:58,  2.81s/it]  3%|▎         | 233/7250 [10:56<5:28:56,  2.81s/it]  3%|▎         | 234/7250 [10:59<5:28:51,  2.81s/it]  3%|▎         | 235/7250 [11:02<5:28:50,  2.81s/it]  3%|▎         | 236/7250 [11:05<5:28:49,  2.81s/it]  3%|▎         | 237/7250 [11:08<5:28:46,  2.81s/it]  3%|▎         | 238/7250 [11:10<5:28:53,  2.81s/it]  3%|▎         | 239/7250 [11:13<5:28:52,  2.81s/it]  3%|▎         | 240/7250 [11:16<5:28:49,  2.81s/it]  3%|▎         | 241/7250 [11:19<5:28:44,  2.81s/it]  3%|▎         | 242/7250 [11:22<5:28:38,  2.81s/it]  3%|▎         | 243/7250 [11:25<5:28:39,  2.81s/it]  3%|▎         | 244/7250 [11:27<5:28:29,  2.81s/it]  3%|▎         | 245/7250 [11:30<5:28:33,  2.81s/it]  3%|▎         | 246/7250 [11:33<5:28:41,  2.82s/it]  3%|▎         | 247/7250 [11:36<5:28:42,  2.82s/it]  3%|▎         | 248/7250 [11:39<5:28:45,  2.82s/it]  3%|▎         | 249/7250 [11:41<5:28:39,  2.82s/it]  3%|▎         | 250/7250 [11:44<5:28:42,  2.82s/it]  3%|▎         | 251/7250 [11:47<5:28:34,  2.82s/it]  3%|▎         | 252/7250 [11:50<5:28:37,  2.82s/it]  3%|▎         | 253/7250 [11:53<5:28:30,  2.82s/it]  4%|▎         | 254/7250 [11:56<5:28:33,  2.82s/it]  4%|▎         | 255/7250 [11:58<5:28:35,  2.82s/it]  4%|▎         | 256/7250 [12:01<5:28:30,  2.82s/it]  4%|▎         | 257/7250 [12:04<5:28:31,  2.82s/it]  4%|▎         | 258/7250 [12:07<5:28:32,  2.82s/it]  4%|▎         | 259/7250 [12:10<5:28:33,  2.82s/it]  4%|▎         | 260/7250 [12:12<5:28:29,  2.82s/it]  4%|▎         | 261/7250 [12:15<5:28:24,  2.82s/it]  4%|▎         | 262/7250 [12:18<5:28:22,  2.82s/it]  4%|▎         | 263/7250 [12:21<5:28:11,  2.82s/it]  4%|▎         | 264/7250 [12:24<5:27:54,  2.82s/it]  4%|▎         | 265/7250 [12:27<5:27:50,  2.82s/it][rank2]: Traceback (most recent call last):
 [rank2]:   File "/home/aiscuser/RecAI/RecLM-emb/train.py", line 135, in <module>
 [rank2]:     main()
 [rank2]:   File "/home/aiscuser/RecAI/RecLM-emb/train.py", line 126, in main
 [rank2]:     trainer.train(resume_from_checkpoint=training_args.resume_from_checkpoint)
 [rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 2052, in train
 [rank2]:     return inner_training_loop(
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 2184, in _inner_training_loop
-[rank2]:     model = self._wrap_model(self.model_wrapped)
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 1807, in _wrap_model
-[rank2]:     if self.accelerator.unwrap_model(model) is not model:
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/accelerate/accelerator.py", line 2327, in unwrap_model
-[rank2]:     return extract_model_from_parallel(model, keep_fp32_wrapper)
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/accelerate/utils/other.py", line 77, in extract_model_from_parallel
-[rank2]:     from deepspeed import DeepSpeedEngine
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/__init__.py", line 26, in <module>
-[rank2]:     from . import module_inject
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/module_inject/__init__.py", line 6, in <module>
-[rank2]:     from .replace_module import replace_transformer_layer, revert_transformer_layer, ReplaceWithTensorSlicing, GroupQuantizer, generic_injection
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/module_inject/replace_module.py", line 607, in <module>
-[rank2]:     from ..pipe import PipelineModule
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/pipe/__init__.py", line 6, in <module>
-[rank2]:     from ..runtime.pipe import PipelineModule, LayerSpec, TiedLayerSpec
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/pipe/__init__.py", line 6, in <module>
-[rank2]:     from .module import PipelineModule, LayerSpec, TiedLayerSpec
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/pipe/module.py", line 19, in <module>
-[rank2]:     from ..activation_checkpointing import checkpointing
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/activation_checkpointing/checkpointing.py", line 26, in <module>
-[rank2]:     from deepspeed.runtime.config import DeepSpeedConfig
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/config.py", line 42, in <module>
-[rank2]:     from ..elasticity import (
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/elasticity/__init__.py", line 10, in <module>
-[rank2]:     from .elastic_agent import DSElasticAgent
-[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/elasticity/elastic_agent.py", line 9, in <module>
-[rank2]:     from torch.distributed.elastic.agent.server.api import _get_socket_with_port
-[rank2]: ImportError: cannot import name '_get_socket_with_port' from 'torch.distributed.elastic.agent.server.api' (/opt/conda/envs/ptca/lib/python3.10/site-packages/torch/distributed/elastic/agent/server/api.py)
-[rank1]: Traceback (most recent call last):
-[rank1]:   File "/home/aiscuser/RecAI/RecLM-emb/train.py", line 135, in <module>
-[rank1]:     main()
-[rank1]:   File "/home/aiscuser/RecAI/RecLM-emb/train.py", line 126, in main
-[rank1]:     trainer.train(resume_from_checkpoint=training_args.resume_from_checkpoint)
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 2052, in train
-[rank1]:     return inner_training_loop(
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 2184, in _inner_training_loop
-[rank1]:     model = self._wrap_model(self.model_wrapped)
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 1807, in _wrap_model
-[rank1]:     if self.accelerator.unwrap_model(model) is not model:
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/accelerate/accelerator.py", line 2327, in unwrap_model
-[rank1]:     return extract_model_from_parallel(model, keep_fp32_wrapper)
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/accelerate/utils/other.py", line 77, in extract_model_from_parallel
-[rank1]:     from deepspeed import DeepSpeedEngine
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/__init__.py", line 26, in <module>
-[rank1]:     from . import module_inject
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/module_inject/__init__.py", line 6, in <module>
-[rank1]:     from .replace_module import replace_transformer_layer, revert_transformer_layer, ReplaceWithTensorSlicing, GroupQuantizer, generic_injection
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/module_inject/replace_module.py", line 607, in <module>
-[rank1]:     from ..pipe import PipelineModule
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/pipe/__init__.py", line 6, in <module>
-[rank1]:     from ..runtime.pipe import PipelineModule, LayerSpec, TiedLayerSpec
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/pipe/__init__.py", line 6, in <module>
-[rank1]:     from .module import PipelineModule, LayerSpec, TiedLayerSpec
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/pipe/module.py", line 19, in <module>
-[rank1]:     from ..activation_checkpointing import checkpointing
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/activation_checkpointing/checkpointing.py", line 26, in <module>
-[rank1]:     from deepspeed.runtime.config import DeepSpeedConfig
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/config.py", line 42, in <module>
-[rank1]:     from ..elasticity import (
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/elasticity/__init__.py", line 10, in <module>
-[rank1]:     from .elastic_agent import DSElasticAgent
-[rank1]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/elasticity/elastic_agent.py", line 9, in <module>
-[rank1]:     from torch.distributed.elastic.agent.server.api import _get_socket_with_port
-[rank1]: ImportError: cannot import name '_get_socket_with_port' from 'torch.distributed.elastic.agent.server.api' (/opt/conda/envs/ptca/lib/python3.10/site-packages/torch/distributed/elastic/agent/server/api.py)
-[rank0]: Traceback (most recent call last):
-[rank0]:   File "/home/aiscuser/RecAI/RecLM-emb/train.py", line 135, in <module>
-[rank0]:     main()
-[rank0]:   File "/home/aiscuser/RecAI/RecLM-emb/train.py", line 126, in main
-[rank0]:     trainer.train(resume_from_checkpoint=training_args.resume_from_checkpoint)
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 2052, in train
-[rank0]:     return inner_training_loop(
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 2184, in _inner_training_loop
-[rank0]:     model = self._wrap_model(self.model_wrapped)
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 1807, in _wrap_model
-[rank0]:     if self.accelerator.unwrap_model(model) is not model:
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/accelerate/accelerator.py", line 2327, in unwrap_model
-[rank0]:     return extract_model_from_parallel(model, keep_fp32_wrapper)
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/accelerate/utils/other.py", line 77, in extract_model_from_parallel
-[rank0]:     from deepspeed import DeepSpeedEngine
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/__init__.py", line 26, in <module>
-[rank0]:     from . import module_inject
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/module_inject/__init__.py", line 6, in <module>
-[rank0]:     from .replace_module import replace_transformer_layer, revert_transformer_layer, ReplaceWithTensorSlicing, GroupQuantizer, generic_injection
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/module_inject/replace_module.py", line 607, in <module>
-[rank0]:     from ..pipe import PipelineModule
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/pipe/__init__.py", line 6, in <module>
-[rank0]:     from ..runtime.pipe import PipelineModule, LayerSpec, TiedLayerSpec
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/pipe/__init__.py", line 6, in <module>
-[rank0]:     from .module import PipelineModule, LayerSpec, TiedLayerSpec
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/pipe/module.py", line 19, in <module>
-[rank0]:     from ..activation_checkpointing import checkpointing
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/activation_checkpointing/checkpointing.py", line 26, in <module>
-[rank0]:     from deepspeed.runtime.config import DeepSpeedConfig
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/config.py", line 42, in <module>
-[rank0]:     from ..elasticity import (
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/elasticity/__init__.py", line 10, in <module>
-[rank0]:     from .elastic_agent import DSElasticAgent
-[rank0]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/elasticity/elastic_agent.py", line 9, in <module>
-[rank0]:     from torch.distributed.elastic.agent.server.api import _get_socket_with_port
-[rank0]: ImportError: cannot import name '_get_socket_with_port' from 'torch.distributed.elastic.agent.server.api' (/opt/conda/envs/ptca/lib/python3.10/site-packages/torch/distributed/elastic/agent/server/api.py)
-[rank3]: Traceback (most recent call last):
-[rank3]:   File "/home/aiscuser/RecAI/RecLM-emb/train.py", line 135, in <module>
-[rank3]:     main()
-[rank3]:   File "/home/aiscuser/RecAI/RecLM-emb/train.py", line 126, in main
-[rank3]:     trainer.train(resume_from_checkpoint=training_args.resume_from_checkpoint)
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 2052, in train
-[rank3]:     return inner_training_loop(
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 2184, in _inner_training_loop
-[rank3]:     model = self._wrap_model(self.model_wrapped)
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 1807, in _wrap_model
-[rank3]:     if self.accelerator.unwrap_model(model) is not model:
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/accelerate/accelerator.py", line 2327, in unwrap_model
-[rank3]:     return extract_model_from_parallel(model, keep_fp32_wrapper)
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/accelerate/utils/other.py", line 77, in extract_model_from_parallel
-[rank3]:     from deepspeed import DeepSpeedEngine
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/__init__.py", line 26, in <module>
-[rank3]:     from . import module_inject
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/module_inject/__init__.py", line 6, in <module>
-[rank3]:     from .replace_module import replace_transformer_layer, revert_transformer_layer, ReplaceWithTensorSlicing, GroupQuantizer, generic_injection
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/module_inject/replace_module.py", line 607, in <module>
-[rank3]:     from ..pipe import PipelineModule
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/pipe/__init__.py", line 6, in <module>
-[rank3]:     from ..runtime.pipe import PipelineModule, LayerSpec, TiedLayerSpec
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/pipe/__init__.py", line 6, in <module>
-[rank3]:     from .module import PipelineModule, LayerSpec, TiedLayerSpec
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/pipe/module.py", line 19, in <module>
-[rank3]:     from ..activation_checkpointing import checkpointing
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/activation_checkpointing/checkpointing.py", line 26, in <module>
-[rank3]:     from deepspeed.runtime.config import DeepSpeedConfig
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/runtime/config.py", line 42, in <module>
-[rank3]:     from ..elasticity import (
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/elasticity/__init__.py", line 10, in <module>
-[rank3]:     from .elastic_agent import DSElasticAgent
-[rank3]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/deepspeed/elasticity/elastic_agent.py", line 9, in <module>
-[rank3]:     from torch.distributed.elastic.agent.server.api import _get_socket_with_port
-[rank3]: ImportError: cannot import name '_get_socket_with_port' from 'torch.distributed.elastic.agent.server.api' (/opt/conda/envs/ptca/lib/python3.10/site-packages/torch/distributed/elastic/agent/server/api.py)
-W1025 13:41:07.911000 139930601039040 torch/distributed/elastic/multiprocessing/api.py:858] Sending process 908649 closing signal SIGTERM
-W1025 13:41:07.912000 139930601039040 torch/distributed/elastic/multiprocessing/api.py:858] Sending process 908650 closing signal SIGTERM
-W1025 13:41:07.912000 139930601039040 torch/distributed/elastic/multiprocessing/api.py:858] Sending process 908652 closing signal SIGTERM
-E1025 13:41:08.191000 139930601039040 torch/distributed/elastic/multiprocessing/api.py:833] failed (exitcode: 1) local_rank: 2 (pid: 908651) of binary: /opt/conda/envs/ptca/bin/python
+[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/transformers/trainer.py", line 2345, in _inner_training_loop
+[rank2]:     for step, inputs in enumerate(epoch_iterator):
+[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/accelerate/data_loader.py", line 462, in __iter__
+[rank2]:     next_batch = next(dataloader_iter)
+[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 630, in __next__
+[rank2]:     data = self._next_data()
+[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1344, in _next_data
+[rank2]:     return self._process_data(data)
+[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1370, in _process_data
+[rank2]:     data.reraise()
+[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/torch/_utils.py", line 706, in reraise
+[rank2]:     raise exception
+[rank2]: ZeroDivisionError: Caught ZeroDivisionError in DataLoader worker process 1.
+[rank2]: Original Traceback (most recent call last):
+[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/torch/utils/data/_utils/worker.py", line 309, in _worker_loop
+[rank2]:     data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+[rank2]:     data = [self.dataset[idx] for idx in possibly_batched_index]
+[rank2]:   File "/opt/conda/envs/ptca/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 52, in <listcomp>
+[rank2]:     data = [self.dataset[idx] for idx in possibly_batched_index]
+[rank2]:   File "/home/aiscuser/RecAI/RecLM-emb/src/data.py", line 75, in __getitem__
+[rank2]:     num = math.ceil((self.args.train_group_size - 1) / len(self.dataset[item]['neg']))
+[rank2]: ZeroDivisionError: division by zero
+
+W1027 22:34:45.723000 139831582705472 torch/distributed/elastic/multiprocessing/api.py:858] Sending process 1520334 closing signal SIGTERM
+W1027 22:34:45.724000 139831582705472 torch/distributed/elastic/multiprocessing/api.py:858] Sending process 1520335 closing signal SIGTERM
+W1027 22:34:45.725000 139831582705472 torch/distributed/elastic/multiprocessing/api.py:858] Sending process 1520337 closing signal SIGTERM
+E1027 22:34:46.757000 139831582705472 torch/distributed/elastic/multiprocessing/api.py:833] failed (exitcode: 1) local_rank: 2 (pid: 1520336) of binary: /opt/conda/envs/ptca/bin/python
 Traceback (most recent call last):
   File "/opt/conda/envs/ptca/bin/torchrun", line 8, in <module>
     sys.exit(main())
@@ -392,10 +254,10 @@ Failures:
 ------------------------------------------------------------
 Root Cause (first observed failure):
 [0]:
-  time      : 2024-10-25_13:41:07
+  time      : 2024-10-27_22:34:45
   host      : node-0
   rank      : 2 (local_rank: 2)
-  exitcode  : 1 (pid: 908651)
+  exitcode  : 1 (pid: 1520336)
   error_file: <N/A>
   traceback : To enable traceback see: https://pytorch.org/docs/stable/elastic/errors.html
 ============================================================
