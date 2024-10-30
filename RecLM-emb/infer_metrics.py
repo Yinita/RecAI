@@ -138,16 +138,28 @@ def ndcg_at_k(r, k, gt_set, method=1):
     return dcg_at_k(r, k, method) / dcg_max
 
 def evaluate_once_id(topk_preds, groundtruth):
-    """Evaluate one user performance.
+    """Evaluate one user performance with robustness for empty lists.
     Args:
         topk_preds: list of <item_title>. length of the list is topK.
         groundtruth: list of <item_title>.
     Returns:
         dict of metrics.
     """
+    # 如果输入为空列表，则返回默认的零值结果
+    if not topk_preds or not groundtruth:
+        return {
+            "precision@k": 0.0,
+            "recall@k": 0.0,
+            "coverage@k": 0.0,
+            "ndcg@k": 0.0,
+            "hit@k": 0.0,
+            "rel": []
+        }
+
     gt_set = set(groundtruth) if isinstance(groundtruth, list) else set([groundtruth])
     topk = len(topk_preds)
     rel = [int(x in gt_set) for x in topk_preds]
+
     return {
         "precision@k": precision_at_k(rel, topk),
         "recall@k": recall_at_k(rel, topk, len(gt_set)),
@@ -156,6 +168,7 @@ def evaluate_once_id(topk_preds, groundtruth):
         "hit@k": hit_at_k(rel, topk),
         "rel": rel,
     }
+
 
 def evaluate_all_id(predicted_items, groudtruths, topk=10):
     avg_prec, avg_recall, avg_coverage, avg_ndcg, avg_hit = 0.0, 0.0, 0.0, 0.0, 0.0
