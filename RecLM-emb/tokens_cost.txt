@@ -21,3 +21,17 @@
 .//data/xbox/train/qwen72B_v2/gpt_query_data.csv: Total tokens = 134202, Total cost = $0.9286, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
 .//data/xbox/train/qwen72B_v2/gpt_neg_query_data.csv: Total tokens = 106055, Total cost = $0.8551, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
 ./data/xbox/test/qwen72B/query_qwen72B.csv: Total tokens = 60897, Total cost = $0.3899, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B/query_qwen72B.csv: Total tokens = 180427, Total cost = $1.1454, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B_v2/gpt_conv_data.csv: Total tokens = 660799, Total cost = $6.0975, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B_v2/gpt_user_sum_data.csv: Total tokens = 414021, Total cost = $4.5281, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B_v2/gpt_query_data.csv: Total tokens = 134202, Total cost = $0.9286, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B_v2/gpt_neg_query_data.csv: Total tokens = 106055, Total cost = $0.8551, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+./data/xbox/test/qwen72B/query_qwen72B.csv: Total tokens = 60897, Total cost = $0.3899, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B/query_qwen72B.csv: Total tokens = 307492, Total cost = $2.1264, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B_v2/gpt_conv_data.csv: Total tokens = 6902837, Total cost = $63.9794, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B_v2/gpt_user_sum_data.csv: Total tokens = 13141033, Total cost = $142.6644, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B_v2/gpt_query_data.csv: Total tokens = 134549, Total cost = $0.9364, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B_v2/gpt_neg_query_data.csv: Total tokens = 107724, Total cost = $0.8816, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+./data/xbox/test/qwen72B/query_qwen72B.csv: Total tokens = 219074, Total cost = $1.5527, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B/query_qwen72B.csv: Total tokens = 0, Total cost = $0.0000, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct
+.//data/xbox/train/qwen72B/query_qwen72B.csv: Total tokens = 307492, Total cost = $2.1264, model = onlinevllm && Qwen/Qwen2.5-72B-Instruct

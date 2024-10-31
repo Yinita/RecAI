@@ -13,7 +13,7 @@ DATA_DIR=data/xbox/train
 
 # MODEL_NAME_OR_PATH="BAAI/bge-m3" # Currently support BAAI/bge-m3 (best)    intfloat/e5-large-v2, bert-large-uncased, BAAI/bge-large-en-v1.5, meta-llama/Llama-2-7b-hf
 SENTENCE_POOLING_METHOD="mean" # mean: intfloat/e5-large-v2 and bert-large-uncased; cls: BAAI/bge-large-en-v1.5 ; last: meta-llama/Llama-2-7b-hf
-PASSAGE_MAX_LEN=128
+PASSAGE_MAX_LEN=256
 GRADIENT_ACCU_STEPS=8
 
 TRAIN_GROUP_SIZE=4

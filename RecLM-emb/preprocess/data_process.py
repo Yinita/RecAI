@@ -90,7 +90,8 @@ def gen_user2item(itemid2text, itemid2title, itemid2features, args):
             query_items = query_items[:40]  # 截断至最多40个
 
             # 随机选择模板
-            template = "{}" if random.random() < 0.5 else random.choice(user2item_template)
+            # template = "{}" if random.random() < 0.5 else random.choice(user2item_template)
+            template = "Recommend based on history: {}"  # 固定模式
 
             # 构建 query
             query = ''
@@ -281,52 +282,90 @@ def gen_title2item(itemid2text, itemid2title, args):
     print('max q len: ', max_q_len)
     print('min q len: ', min_q_len)   
 
+
+
+import json
+import random
+import numpy as np
+from tqdm import tqdm
+
 def gen_item2item(itemid2text, itemid2title, itemid2features, args):
+    # 加载 coplay_map 中的 ground_truth 映射
+    coplay_map = {}
+    coplay_map_path = "/home/aiscuser/yt/discoveryai_data/stage2_metric_data/coplay_map.jsonl"
+    with open(coplay_map_path, 'r') as coplay_file:
+        for line in coplay_file:
+            data = json.loads(line)
+            item_id = data["item_id"]
+            ground_truth = data["ground_truth"]
+            coplay_map[item_id] = ground_truth
+
+    # 计算 item2pos
     item2pos = cal_item2pos(args.in_seq_data)
 
-    count=0
+    count = 0
     total_q_len = 0
     max_q_len = 0
     min_q_len = 100000
+
     with open(args.out_item2item, 'w') as f:
         for item, pos_set in tqdm(item2pos.items(), desc='gen_item2item', total=len(item2pos)):
             source_item_features = itemid2features[item]
             source_item_title = itemid2title[item][1]
-            for _ in range(1):
-                for target_item in pos_set:
-                    if random.random() > 0.12:
-                        continue
-                    query = text4item2item(source_item_features, source_item_title)
 
-                    template = random.choice(item2item_template)
-                    template_length = len(tokenizer.tokenize(template))
-                    tokens = tokenizer.tokenize(query)
-                    truncated_query = tokenizer.convert_tokens_to_string(tokens).strip()[:args.max_seq_len-template_length]
-                    query = template.format(truncated_query)
-                    q_len = template_length + len(tokens)
-                    total_q_len += q_len
-                    max_q_len = max(max_q_len, q_len)
-                    min_q_len = min(min_q_len, q_len)
-                    
-                    neg_items = []
-                    while len(neg_items) < args.neg_num:
-                        neg_item = random.randint(1, len(itemid2title)-1)
-                        if neg_item not in pos_set and neg_item != item:
-                            neg_items.append(neg_item)
-                    output = {
-                        'item_id': item,
-                        'pos_id': target_item,
-                        'neg_ids': neg_items,
-                        'query': query,
-                        'pos': [itemid2text[target_item]],
-                        'neg': [itemid2text[x] for x in neg_items]
-                    }
-                    f.write(json.dumps(output) + '\n')
-                    count += 1
+            # 获取 item 的 ground_truth 列表并计算权重
+            ground_truth_items = coplay_map.get(item, [])
+            if ground_truth_items:
+                weights = np.array([np.log((20 - i)) for i in range(len(ground_truth_items))]) # 调整成log11-log20的之间的分布
+                weights = np.exp(weights) / np.sum(np.exp(weights))  # 归一化权重以适应概率分布
+
+            for _ in range(1):
+                # 按照权重从 ground_truth 中采样 target_item
+                if ground_truth_items:
+                    target_item = int(np.random.choice(ground_truth_items, p=weights))
+                else:
+                    continue
+
+                # if random.random() > 0.4:
+                #     continue
+
+                query = text4item2item(source_item_features, source_item_title)
+                template = random.choice(item2item_template)
+                template_length = len(tokenizer.tokenize(template))
+                tokens = tokenizer.tokenize(query)
+                truncated_query = tokenizer.convert_tokens_to_string(tokens).strip()[:args.max_seq_len - template_length]
+                query = template.format(truncated_query)
+                q_len = template_length + len(tokens)
+                total_q_len += q_len
+                max_q_len = max(max_q_len, q_len)
+                min_q_len = min(min_q_len, q_len)
+                
+                neg_items = []
+                while len(neg_items) < args.neg_num:
+                    neg_item = random.randint(1, len(itemid2title) - 1)
+                    if neg_item not in pos_set and neg_item != item:
+                        neg_items.append(neg_item)
+                
+                # 使用 coplay_map 中的 ground_truth 替换 target_item 的 pos 值
+                pos_text = coplay_map.get(target_item, [itemid2text[target_item]])
+                
+                output = {
+                    'item_id': item,
+                    'pos_id': target_item,
+                    'neg_ids': neg_items,
+                    'query': query,
+                    'pos': pos_text,
+                    'neg': [itemid2text[x] for x in neg_items]
+                }
+                f.write(json.dumps(output) + '\n')
+                count += 1
+
     print('gen_item2item total samples: ', count)
-    print('avg q len: ', total_q_len/count)
+    print('avg q len: ', total_q_len / count)
     print('max q len: ', max_q_len)
     print('min q len: ', min_q_len)
+
+
 
 def gen_queryuser2item(itemid2text, itemid2title, itemid2features, args):
     count=0
