@@ -8,16 +8,16 @@ export INPUT_DIR="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/em
 export RESULT_DIR="output/xbox_base_stg2_infer/"
 mkdir $RESULT_DIR
 
-export OUT_DIR="$RESULT_DIR/test_bge_1019"
-export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/models/reclm_emb_xbox_bge-m3_qwen_v1"
-bash shell/infer_stage2.sh 
-export OUT_DIR="$RESULT_DIR/test_base"
-export MODEL_PATH_OR_NAME="BAAI/bge-m3"
-bash shell/infer_stage2.sh 
-export OUT_DIR="$RESULT_DIR/test_e5-large-v2_1007"
-export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/emb_models/reclm_emb_xbox_e5-large-v2_1007"
-bash shell/infer_stage2.sh 
+# export OUT_DIR="$RESULT_DIR/test_bge_1019"
+# export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/models/reclm_emb_xbox_bge-m3_qwen_v1"
+# bash shell/infer_stage2.sh 
+# export OUT_DIR="$RESULT_DIR/test_base"
+# export MODEL_PATH_OR_NAME="BAAI/bge-m3"
+# bash shell/infer_stage2.sh 
 
+export OUT_DIR="$RESULT_DIR/m3_1029_h30000"
+export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/emb_models/bge-m3_1029_h30000/checkpoint-1792"
+bash shell/infer_stage2.sh 
 # #----model rewrite
 
 # export INPUT_DIR="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/emb_stage2/specific-1029"
@@ -41,17 +41,17 @@ export INPUT_DIR="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/em
 export RESULT_DIR="output/xbox_rewrite_stg2_v2_infer/"
 mkdir $RESULT_DIR
 
-export OUT_DIR="$RESULT_DIR/test_bge_1019"
-export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/models/reclm_emb_xbox_bge-m3_qwen_v1"
-bash shell/infer_stage2.sh 
-export OUT_DIR="$RESULT_DIR/test_base"
-export MODEL_PATH_OR_NAME="BAAI/bge-m3"
-bash shell/infer_stage2.sh 
-export OUT_DIR="$RESULT_DIR/test_e5-large-v2_1007"
-export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/emb_models/reclm_emb_xbox_e5-large-v2_1007"
+# export OUT_DIR="$RESULT_DIR/test_bge_1019"
+# export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/models/reclm_emb_xbox_bge-m3_qwen_v1"
+# bash shell/infer_stage2.sh 
+# export OUT_DIR="$RESULT_DIR/test_base"
+# export MODEL_PATH_OR_NAME="BAAI/bge-m3"
+# bash shell/infer_stage2.sh 
+export OUT_DIR="$RESULT_DIR/m3_1029_h30000"
+export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/emb_models/bge-m3_1029_h30000/checkpoint-1792"
 bash shell/infer_stage2.sh 
 
 
-export OUT_DIR="infer_metric/test_bge_1019"
-export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/backup_data/1019/models/reclm_emb_xbox_bge-m3_qwen_v1"
+export OUT_DIR="output/infer_metric/m3_1029_h30000"
+export MODEL_PATH_OR_NAME="/home/aiscuser/figllm/toolcall/database/localdb/emb_models/bge-m3_1029_h30000/checkpoint-1792"
 bash shell/infer_metrics.sh 

@@ -2,85 +2,170 @@
     "Recall": {
         "test_e5-large-v2_1007": {
             "xbox_base_stg2": {
-                "recall@5": 0.023
+                "recall@5": 0.018
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@5": 0.026
+            }
+        },
+        "m3_1029_h30000": {
+            "xbox_base_stg2": {
+                "recall@5": 0.029
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@5": 0.026
             }
         },
         "test_base": {
             "xbox_base_stg2": {
-                "recall@5": 0.02
+                "recall@5": 0.019
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@5": 0.023
             }
         },
         "test_bge_1019": {
             "xbox_base_stg2": {
                 "recall@5": 0.008
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@5": 0.016
             }
         }
     },
     "Rank": {
         "test_e5-large-v2_1007": {
             "xbox_base_stg2": {
-                "recall@10": 0.126
+                "recall@10": 0.118
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.095
+            }
+        },
+        "m3_1029_h30000": {
+            "xbox_base_stg2": {
+                "recall@10": 0.075
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.065
             }
         },
         "test_base": {
             "xbox_base_stg2": {
-                "recall@10": 0.169
+                "recall@10": 0.156
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.128
             }
         },
         "test_bge_1019": {
             "xbox_base_stg2": {
-                "recall@10": 0.112
+                "recall@10": 0.113
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.088
             }
         }
     },
     "QA_Title_Attribute_key2val": {
         "test_e5-large-v2_1007": {
             "xbox_base_stg2": {
-                "recall@10": 0.9826388888888888
+                "recall@10": 0.9782986111111112
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.983
+            }
+        },
+        "m3_1029_h30000": {
+            "xbox_base_stg2": {
+                "recall@10": 0.9201388888888888
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.961
             }
         },
         "test_base": {
             "xbox_base_stg2": {
-                "recall@10": 0.9965277777777778
+                "recall@10": 0.9939236111111112
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.999
             }
         },
         "test_bge_1019": {
             "xbox_base_stg2": {
-                "recall@10": 0.9600694444444444
+                "recall@10": 0.9565972222222222
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.968
             }
         }
     },
     "QA_Attributes2Title": {
         "test_e5-large-v2_1007": {
             "xbox_base_stg2": {
-                "recall@10": 0.9973958333333334
+                "recall@10": 0.9956597222222222
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.993
+            }
+        },
+        "m3_1029_h30000": {
+            "xbox_base_stg2": {
+                "recall@10": 0.9887152777777778
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.99
             }
         },
         "test_base": {
             "xbox_base_stg2": {
-                "recall@10": 0.9600694444444444
+                "recall@10": 0.9609375
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.94
             }
         },
         "test_bge_1019": {
             "xbox_base_stg2": {
                 "recall@10": 0.9965277777777778
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.99
             }
         }
     },
     "Co-play_Title2Items": {
         "test_e5-large-v2_1007": {
             "xbox_base_stg2": {
-                "recall@10": 0.06327966347548594
+                "recall@10": 0.06187989556135773
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.07624020887728475
+            }
+        },
+        "m3_1029_h30000": {
+            "xbox_base_stg2": {
+                "recall@10": 0.06945169712793742
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.07832898172323768
             }
         },
         "test_base": {
             "xbox_base_stg2": {
-                "recall@10": 0.07129387873513202
+                "recall@10": 0.07232375979112275
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.08851174934725861
             }
         },
         "test_bge_1019": {
             "xbox_base_stg2": {
-                "recall@10": 0.05529445894981146
+                "recall@10": 0.05195822454308097
+            },
+            "xbox_rewrite_stg2_v2": {
+                "recall@10": 0.04908616187989558
             }
         }
     }
