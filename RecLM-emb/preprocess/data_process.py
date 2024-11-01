@@ -73,11 +73,12 @@ def gen_user2item(itemid2text, itemid2title, itemid2features, args):
     max_q_len = 0
     min_q_len = 100000
 
-    max_sample_num = 30000
+    # max_sample_num = 100000
     with open(args.in_seq_data, 'r') as rd:
         all_samples = rd.readlines()
-    if len(all_samples) > max_sample_num:
-        all_samples = random.sample(all_samples, max_sample_num)
+    all_samples = all_samples[:int(0.8*len(all_samples))]
+    # if len(all_samples) > max_sample_num:
+    #     all_samples = random.sample(all_samples, max_sample_num)
 
     with open(args.out_user2item, 'w') as f:
         for line in tqdm(all_samples, desc='gen_user2item', total=len(all_samples)):
@@ -125,7 +126,7 @@ def gen_user2item(itemid2text, itemid2title, itemid2features, args):
 
             # 写入结果
             output = {
-                'user_id': userid,
+                'user_id': int(userid),
                 'item_id': target_item,
                 'neg_ids': neg_items,
                 'query': query,
@@ -300,35 +301,27 @@ def gen_item2item(itemid2text, itemid2title, itemid2features, args):
             ground_truth = data["ground_truth"]
             coplay_map[item_id] = ground_truth
 
-    # 计算 item2pos
-    item2pos = cal_item2pos(args.in_seq_data)
-
     count = 0
     total_q_len = 0
     max_q_len = 0
-    min_q_len = 100000
+    min_q_len = float('inf')
 
     with open(args.out_item2item, 'w') as f:
-        for item, pos_set in tqdm(item2pos.items(), desc='gen_item2item', total=len(item2pos)):
-            source_item_features = itemid2features[item]
-            source_item_title = itemid2title[item][1]
+        for _ in range(10):  # *10
+            for item, pos_list in tqdm(coplay_map.items(), desc='gen_item2item', total=len(coplay_map)):
+                source_item_features = itemid2features[item]
+                source_item_title = itemid2title[item][1]
+                if pos_list:
+                    # 确保长度不会超过 20
+                    limited_ground_truth_items = pos_list[:20]
+                    weights = np.array([np.log((20 - i)) for i in range(len(limited_ground_truth_items))])
+                    weights = np.exp(weights) / np.sum(np.exp(weights))  # 归一化权重
 
-            # 获取 item 的 ground_truth 列表并计算权重
-            ground_truth_items = coplay_map.get(item, [])
-            if ground_truth_items:
-                weights = np.array([np.log((20 - i)) for i in range(len(ground_truth_items))]) # 调整成log11-log20的之间的分布
-                weights = np.exp(weights) / np.sum(np.exp(weights))  # 归一化权重以适应概率分布
-
-            for _ in range(1):
-                # 按照权重从 ground_truth 中采样 target_item
-                if ground_truth_items:
-                    target_item = int(np.random.choice(ground_truth_items, p=weights))
+                    # 按照权重从 ground_truth 中采样 target_item
+                    target_item = int(np.random.choice(limited_ground_truth_items, p=weights))
                 else:
                     continue
-
-                # if random.random() > 0.4:
-                #     continue
-
+                # 生成 query
                 query = text4item2item(source_item_features, source_item_title)
                 template = random.choice(item2item_template)
                 template_length = len(tokenizer.tokenize(template))
@@ -340,31 +333,35 @@ def gen_item2item(itemid2text, itemid2title, itemid2features, args):
                 max_q_len = max(max_q_len, q_len)
                 min_q_len = min(min_q_len, q_len)
                 
-                neg_items = []
-                while len(neg_items) < args.neg_num:
+                # 生成负采样项
+                neg_items = set()
+                attempts = 0
+                max_attempts = args.neg_num * 10
+                while len(neg_items) < args.neg_num and attempts < max_attempts:
                     neg_item = random.randint(1, len(itemid2title) - 1)
-                    if neg_item not in pos_set and neg_item != item:
-                        neg_items.append(neg_item)
-                
-                # 使用 coplay_map 中的 ground_truth 替换 target_item 的 pos 值
-                pos_text = coplay_map.get(target_item, [itemid2text[target_item]])
-                
+                    if neg_item not in pos_list and neg_item != item:
+                        neg_items.add(neg_item)
+                    attempts += 1
+                neg_items = list(neg_items)
+
+
+                # 写入输出
                 output = {
                     'item_id': item,
                     'pos_id': target_item,
                     'neg_ids': neg_items,
                     'query': query,
-                    'pos': pos_text,
+                    'pos': itemid2text[target_item],
                     'neg': [itemid2text[x] for x in neg_items]
                 }
                 f.write(json.dumps(output) + '\n')
                 count += 1
 
-    print('gen_item2item total samples: ', count)
-    print('avg q len: ', total_q_len / count)
-    print('max q len: ', max_q_len)
-    print('min q len: ', min_q_len)
-
+    print('gen_item2item total samples:', count)
+    if count > 0:
+        print('avg q len:', total_q_len / count)
+        print('max q len:', max_q_len)
+        print('min q len:', min_q_len)
 
 
 def gen_queryuser2item(itemid2text, itemid2title, itemid2features, args):
@@ -375,9 +372,9 @@ def gen_queryuser2item(itemid2text, itemid2title, itemid2features, args):
     max_sample_num = 12000
     with open(args.in_seq_data, 'r') as rd:
         all_samples = rd.readlines()
+    all_samples = all_samples[:int(0.8*len(all_samples))]
     if len(all_samples) > max_sample_num:
         all_samples = random.sample(all_samples, max_sample_num)
-        
     with open(args.out_queryuser2item, 'w') as f:
         for line in tqdm(all_samples, desc='gen_queryuser2item', total=len(all_samples)):
             userid, itemids = line.strip().split(' ', 1)
@@ -582,15 +579,15 @@ if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained(args.model_path_or_name, use_fast=True)
     args.max_seq_len = tokenizer.model_max_length
     itemid2text, itemid2title, itemid2features, itemid2price_date_map = get_item_text(args.in_meta_data)
-    gen_query2item(itemid2text, itemid2title, itemid2features, args)
-    gen_title2item(itemid2text, itemid2title, args)
+    # gen_query2item(itemid2text, itemid2title, itemid2features, args)
+    # gen_title2item(itemid2text, itemid2title, args)
     gen_item2item(itemid2text, itemid2title, itemid2features, args)
-    gen_queryuser2item(itemid2text, itemid2title, itemid2features, args)
-    gen_user2item(itemid2text, itemid2title, itemid2features, args)
-    gen_misspell2item(itemid2text, itemid2title, args)
-    gen_relativequery2item(itemid2text, args)
+    # gen_queryuser2item(itemid2text, itemid2title, itemid2features, args)
+    # gen_user2item(itemid2text, itemid2title, itemid2features, args)
+    # gen_misspell2item(itemid2text, itemid2title, args)
+    # gen_relativequery2item(itemid2text, args)
     # gen_vaguequery2item(itemid2text, itemid2price_date_map, args)
-    gen_negquery2item(itemid2text, args)
+    # gen_negquery2item(itemid2text, args)
     
     if args.in_search2item and os.path.exists(args.in_search2item):
         titleid2idx = load_titleid_2_index(args.in_meta_data)

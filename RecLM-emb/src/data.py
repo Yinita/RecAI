@@ -21,41 +21,92 @@ from .arguments import DataArguments
 class TrainDatasetForEmbedding(Dataset):
     def __init__(
             self,
-            args: DataArguments,
+            args,
             tokenizer: PreTrainedTokenizer
     ):
         if os.path.isdir(args.train_data):
             train_datasets = []
             for file in os.listdir(args.train_data):
-                temp_dataset = datasets.load_dataset('json', data_files=os.path.join(args.train_data, file),
-                                                     split='train', cache_dir=args.data_cache_dir)
+                temp_dataset = datasets.load_dataset(
+                    'json', 
+                    data_files=os.path.join(args.train_data, file),
+                    split='train', 
+                    cache_dir=args.data_cache_dir
+                )
+                
+                # 强制将 pos 和 neg 字段转换为字符串类型，确保所有数据集的一致性
+                temp_dataset = temp_dataset.map(lambda x: {
+                    "pos": [str(item) for item in x["pos"]],
+                    "neg": [str(item) for item in x["neg"]]
+                }, load_from_cache_file=False)
+
                 if len(temp_dataset) > args.max_example_num_per_dataset:
                     temp_dataset = temp_dataset.select(
                         random.sample(list(range(len(temp_dataset))), args.max_example_num_per_dataset))
+                
                 column_names = temp_dataset.column_names
                 remove_columns = ['user_id', 'item_id', 'neg_ids', 'pos_id']
                 remove_columns = [c for c in remove_columns if c in column_names]
                 temp_dataset = temp_dataset.remove_columns(remove_columns)
                 train_datasets.append(temp_dataset)
+
+            # 强制检查和转换所有数据集的 `pos` 字段为字符串
+            for idx, dataset in enumerate(train_datasets):
+                if dataset.features['pos'].feature.dtype != 'string':
+                    train_datasets[idx] = dataset.cast({
+                        'pos': datasets.Sequence(datasets.Value('string')),
+                        'neg': datasets.Sequence(datasets.Value('string'))
+                    })
+                print(f"Dataset {idx} features:", train_datasets[idx].features)
+
+            # 拼接数据集
             self.dataset = datasets.concatenate_datasets(train_datasets)
         elif len(args.train_data.split(',')) > 1:
+            # 如果 `args.train_data` 是逗号分隔的文件列表，则按同样逻辑处理
             train_datasets = []
             for file in args.train_data.split(','):
-                temp_dataset = datasets.load_dataset('json', data_files=file, split='train',
-                                                     cache_dir=args.data_cache_dir)
+                temp_dataset = datasets.load_dataset(
+                    'json', 
+                    data_files=file, 
+                    split='train',
+                    cache_dir=args.data_cache_dir
+                )
+                
+                temp_dataset = temp_dataset.map(lambda x: {
+                    "pos": [str(item) for item in x["pos"]],
+                    "neg": [str(item) for item in x["neg"]]
+                }, load_from_cache_file=False)
+
                 if len(temp_dataset) > args.max_example_num_per_dataset:
                     temp_dataset = temp_dataset.select(
                         random.sample(list(range(len(temp_dataset))), args.max_example_num_per_dataset))
+                
                 column_names = temp_dataset.column_names
                 remove_columns = ['user_id', 'item_id', 'neg_ids', 'pos_id']
                 remove_columns = [c for c in remove_columns if c in column_names]
                 temp_dataset = temp_dataset.remove_columns(remove_columns)
                 train_datasets.append(temp_dataset)
+
+            # 强制检查和转换所有数据集的 `pos` 字段为字符串
+            for idx, dataset in enumerate(train_datasets):
+                if dataset.features['pos'].feature.dtype != 'string':
+                    train_datasets[idx] = dataset.cast({
+                        'pos': datasets.Sequence(datasets.Value('string')),
+                        'neg': datasets.Sequence(datasets.Value('string'))
+                    })
+                print(f"Dataset {idx} features:", train_datasets[idx].features)
+
+            # 拼接数据集
             self.dataset = datasets.concatenate_datasets(train_datasets)
         else:
-            self.dataset = datasets.load_dataset('json', data_files=args.train_data, split='train',
-                                                 cache_dir=args.data_cache_dir)
-        ## shuffle self.dataset 
+            self.dataset = datasets.load_dataset(
+                'json', 
+                data_files=args.train_data, 
+                split='train',
+                cache_dir=args.data_cache_dir
+            )
+
+        # shuffle self.dataset 
         self.dataset = self.dataset.shuffle()
         
         self.tokenizer = tokenizer

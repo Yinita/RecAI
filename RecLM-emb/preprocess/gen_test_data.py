@@ -66,6 +66,7 @@ def parse_args():
 def gen_user2item(itemid2title, args, has_prefix=False):
     with open(args.in_seq_data, 'r') as rd:
         all_samples = rd.readlines()
+    all_samples = all_samples[int(0.8*len(all_samples)):]
     if len(all_samples) > args.max_samples_per_task:
         all_samples = random.sample(all_samples, args.max_samples_per_task)
         
@@ -75,7 +76,8 @@ def gen_user2item(itemid2title, args, has_prefix=False):
         itemids = itemids.split(' ')
         data = {}
         data["user_id"] = int(userid)
-        item_titles = ', '.join([itemid2title[int(x)][0]+itemid2title[int(x)][1] if has_prefix else itemid2title[int(x)][1] for x in itemids[:-1][::-1][:20]])
+        # item_titles = ', '.join([itemid2title[int(x)][0]+itemid2title[int(x)][1] if has_prefix else itemid2title[int(x)][1] for x in itemids[:-1][::-1][:20]])
+        item_titles = ', '.join([itemid2title[int(x)][0]+itemid2title[int(x)][1] if has_prefix else itemid2title[int(x)][1] for x in itemids[:-1][::-1][:40]])
         if random.random() < 0.5:
             template = "{}"
         else:
@@ -135,34 +137,69 @@ def gen_title2item(itemid2title, title2itemid, args):
     with open(args.out_title2item, 'w', encoding='utf-8') as fd:
         for d in dataset:
             fd.write(json.dumps(d, ensure_ascii=False) + '\n')
+import json
+import random
+from tqdm import tqdm
 
 def gen_item2item(itemid2title, itemid2features, args):
-    item2pos = cal_item2pos(args.in_seq_data)
-    dataset=[]
-    for item, pos_set in tqdm(item2pos.items(), desc='gen_item2item', total=len(item2pos)):
+    # 计算 item2pos
+    coplay_map = {}
+    coplay_map_path = "/home/aiscuser/yt/discoveryai_data/stage2_metric_data/coplay_map.jsonl"
+    with open(coplay_map_path, 'r') as coplay_file:
+        for line in coplay_file:
+            data = json.loads(line)
+            item_id = data["item_id"]
+            ground_truth = data["ground_truth"]
+            coplay_map[item_id] = ground_truth
+
+    count = 0
+    total_q_len = 0
+    max_q_len = 0
+    min_q_len = float('inf')
+
+    dataset = []
+    for item, pos_list in tqdm(coplay_map.items(), desc='gen_item2item', total=len(coplay_map)):
+
         source_item_features = itemid2features[item]
         source_item_title = itemid2title[item][1]
-        for _ in range(2):
+
+        # 生成 query 和 ground_truth
+        for _ in range(2):  # 按照原代码中的循环次数
             query = text4item2item(source_item_features, source_item_title)
             
+            # 选择模板并计算模板长度
             template = random.choice(item2item_template)
             template_length = len(tokenizer.tokenize(template))
-            tokens = tokenizer.tokenize(query)[:args.max_seq_len-template_length]
+            
+            # 截断 query 并生成最终的 query 内容
+            tokens = tokenizer.tokenize(query)[:args.max_seq_len - template_length]
             truncated_query = tokenizer.convert_tokens_to_string(tokens).strip()
-
             query = template.format(truncated_query)
-            data = {'item_id': item, 'text': query, 'ground_truth': list(pos_set)}
+
+            # 生成数据并添加到数据集
+            data = {
+                'item_id': item,
+                'text': query,
+                'ground_truth': pos_list
+            }
             dataset.append(data)
+
+    # 限制数据集的样本数量
     if len(dataset) > args.max_samples_per_task:
         dataset = random.sample(dataset, args.max_samples_per_task)
-    print('gen_item2item total samples: ', len(dataset))
+
+    print('gen_item2item total samples:', len(dataset))
+
+    # 将数据写入文件
     with open(args.out_item2item, 'w', encoding='utf-8') as fd:
         for d in dataset:
             fd.write(json.dumps(d, ensure_ascii=False) + '\n')
 
+
 def gen_queryuser2item(itemid2title, itemid2features, args):
     with open(args.in_seq_data, 'r') as rd:
         all_samples = rd.readlines()
+    all_samples = all_samples[int(0.8*len(all_samples)):]
     if len(all_samples) > args.max_samples_per_task//2:
         all_samples = random.sample(all_samples, args.max_samples_per_task//2)
         
@@ -320,14 +357,14 @@ if __name__ == "__main__":
         if v[1] is not None:
             title2itemid[v[1]].append(idx)
     
-    gen_user2item(itemid2title, args)
-    gen_query2item(itemid2title, itemid2features, args)
-    gen_title2item(itemid2title, title2itemid, args)
+    # gen_user2item(itemid2title, args)
+    # gen_query2item(itemid2title, itemid2features, args)
+    # gen_title2item(itemid2title, title2itemid, args)
     gen_item2item(itemid2title, itemid2features, args)
-    gen_queryuser2item(itemid2title, itemid2features, args)
-    gen_misspell2item(itemid2title, title2itemid, args)
-    gen_sparse_query2item(itemid2title, itemid2features, args)
-    # gen_vaguequery2item(itemid2price_date_map, args)
-    gen_relativequery2item(args)
-    gen_negquery2item(itemid2text, args)
+    # gen_queryuser2item(itemid2title, itemid2features, args)
+    # gen_misspell2item(itemid2title, title2itemid, args)
+    # gen_sparse_query2item(itemid2title, itemid2features, args)
+    # # gen_vaguequery2item(itemid2price_date_map, args)
+    # gen_relativequery2item(args)
+    # gen_negquery2item(itemid2text, args)
     
