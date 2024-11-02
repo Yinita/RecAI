@@ -1,5 +1,5 @@
 export NCCL_DEBUG=0 # 禁用 NCCL 的日志输出
-export task=item2item
+export task=user2item
 
 python src/hn_mine.py \
     --model_name_or_path BAAI/bge-base-en-v1.5 \
