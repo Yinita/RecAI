@@ -49,7 +49,7 @@ def parse_args():
 
 
 def gen_conv(args, itemid2title, itemid2features):
-    max_sample_num = 10000
+    max_sample_num = 0
     with open(args.in_seq_data, 'r') as rd:
         all_samples = rd.readlines()
     if len(all_samples) > max_sample_num:

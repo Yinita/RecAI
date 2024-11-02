@@ -28,7 +28,7 @@ torchrun --nnodes=1 --nproc_per_node 4 --master_port=29502 train.py \
     --train_data $DATA_DIR/user2item.jsonl,$DATA_DIR/gpt_data_v2.jsonl,$DATA_DIR/misspell2item.jsonl,$DATA_DIR/negquery2item.jsonl,$DATA_DIR/relativequery2item.jsonl,$DATA_DIR/title2item.jsonl,$DATA_DIR/gpt_data.jsonl,$DATA_DIR/item2item.jsonl,$DATA_DIR/query2item.jsonl,$DATA_DIR/queryuser2item.jsonl,$DATA_DIR/user2item.jsonl \
     --learning_rate $learning_rate \
     --num_train_epochs $num_train_epochs \
-    --per_device_train_batch_size 4 \
+    --per_device_train_batch_size $BATCH_SIZE \
     --dataloader_drop_last True \
     --normlized True \
     --sentence_pooling_method $SENTENCE_POOLING_METHOD \

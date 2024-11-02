@@ -169,6 +169,7 @@ def gen_item2item(itemid2title, itemid2features, args):
             
             # 选择模板并计算模板长度
             template = random.choice(item2item_template)
+            template = "Co-played games with {}" if random.random() < 0.4 else template
             template_length = len(tokenizer.tokenize(template))
             
             # 截断 query 并生成最终的 query 内容

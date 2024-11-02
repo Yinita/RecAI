@@ -79,67 +79,77 @@ def gen_user2item(itemid2text, itemid2title, itemid2features, args):
     all_samples = all_samples[:int(0.8*len(all_samples))]
     # if len(all_samples) > max_sample_num:
     #     all_samples = random.sample(all_samples, max_sample_num)
-
     with open(args.out_user2item, 'w') as f:
+        count = 0
+        total_q_len = 0
+        max_q_len = 0
+        min_q_len = 100000
+
         for line in tqdm(all_samples, desc='gen_user2item', total=len(all_samples)):
             userid, itemids = line.strip().split(' ', 1)
             itemids = itemids.split(' ')
             ground_set = set([int(x) for x in itemids])
+            attempt = 0
+            # 遍历生成子序列，数据增强
+            for i in range(10, len(itemids) - 1):
+                if attempt > 3 or random.random()>0.8:   # * 5
+                    continue
+                attempt+=1
+                # 每次生成从第一个元素到第 i 个元素的子序列
+                query_items = itemids[:i][::-1]  # 反转子序列
+                query_items = query_items[:int(random.random()*30)+10]  # 截断至最多 10-40 个
+                
+                # 随机选择模板
+                template = "{}" if random.random() < 0.5 else random.choice(user2item_template)
+                template = "Recommend based on history: {}" if random.random() < 0.3 else template
 
-            # 使用整个序列（去掉最后一个物品）作为 query_items
-            query_items = itemids[:-1][::-1]
-            query_items = query_items[:40]  # 截断至最多40个
+                # 构建 query
+                query = ''
+                has_prefix = False if random.random() < 0.8 else True
+                for x in query_items:
+                    if has_prefix:
+                        query += 'title: ' + itemid2title[int(x)][1] + ', '
+                    else:
+                        query += itemid2title[int(x)][1] + ', '
 
-            # 随机选择模板
-            # template = "{}" if random.random() < 0.5 else random.choice(user2item_template)
-            template = "Recommend based on history: {}"  # 固定模式
+                query = query.strip().strip(',')
+                template_length = len(tokenizer.tokenize(template))
+                tokens = tokenizer.tokenize(query)
+                truncated_query = tokenizer.convert_tokens_to_string(tokens).strip().strip(',')
+                query = template.format(truncated_query)
 
-            # 构建 query
-            query = ''
-            has_prefix = False
-            for x in query_items:
-                if has_prefix:
-                    query += 'title: ' + itemid2title[int(x)][1] + ', '
-                else:
-                    query += itemid2title[int(x)][1] + ', '
+                q_len = template_length + len(tokens)
+                total_q_len += q_len
+                max_q_len = max(max_q_len, q_len)
+                min_q_len = min(min_q_len, q_len)
 
-            query = query.strip().strip(',')
-            template_length = len(tokenizer.tokenize(template))
-            tokens = tokenizer.tokenize(query)
-            truncated_query = tokenizer.convert_tokens_to_string(tokens).strip().strip(',')
-            query = template.format(truncated_query)
+                # 设置 target 为子序列后的第一个物品
+                target_item = int(itemids[i])
 
-            q_len = template_length + len(tokens)
-            total_q_len += q_len
-            max_q_len = max(max_q_len, q_len)
-            min_q_len = min(min_q_len, q_len)
+                # 生成负样本
+                neg_items = []
+                while len(neg_items) < args.neg_num:
+                    neg_item = random.randint(1, len(itemid2title) - 1)
+                    if neg_item not in ground_set:
+                        neg_items.append(neg_item)
 
-            # 设置 target 为序列中的最后一个物品
-            target_item = int(itemids[-1])
+                # 写入结果
+                output = {
+                    'user_id': int(userid),
+                    'item_id': target_item,
+                    'neg_ids': neg_items,
+                    'query': query,
+                    'pos': [itemid2text[target_item]],
+                    'neg': [itemid2text[x] for x in neg_items]
+                }
+                f.write(json.dumps(output) + '\n')
+                count += 1
 
-            # 生成负样本
-            neg_items = []
-            while len(neg_items) < args.neg_num:
-                neg_item = random.randint(1, len(itemid2title) - 1)
-                if neg_item not in ground_set:
-                    neg_items.append(neg_item)
-
-            # 写入结果
-            output = {
-                'user_id': int(userid),
-                'item_id': target_item,
-                'neg_ids': neg_items,
-                'query': query,
-                'pos': [itemid2text[target_item]],
-                'neg': [itemid2text[x] for x in neg_items]
-            }
-            f.write(json.dumps(output) + '\n')
-            count += 1
-
-    print('gen_user2item total samples: ', count)
-    print('avg q len: ', total_q_len / count)
-    print('max q len: ', max_q_len)
-    print('min q len: ', min_q_len)
+        # 输出统计信息
+        print('gen_user2item total samples: ', count)
+        print('avg q len: ', total_q_len / count)
+        print('max q len: ', max_q_len)
+        print('min q len: ', min_q_len)
 
 
 def gen_searchquery2item(itemid2text, itemid2title, itemid2features, args, titleid2idx):
@@ -307,14 +317,14 @@ def gen_item2item(itemid2text, itemid2title, itemid2features, args):
     min_q_len = float('inf')
 
     with open(args.out_item2item, 'w') as f:
-        for _ in range(10):  # *10
+        for _ in range(20):  # *10
             for item, pos_list in tqdm(coplay_map.items(), desc='gen_item2item', total=len(coplay_map)):
                 source_item_features = itemid2features[item]
                 source_item_title = itemid2title[item][1]
                 if pos_list:
                     # 确保长度不会超过 20
                     limited_ground_truth_items = pos_list[:20]
-                    weights = np.array([np.log((20 - i)) for i in range(len(limited_ground_truth_items))])
+                    weights = np.array([np.log((50 - i)) for i in range(len(limited_ground_truth_items))])
                     weights = np.exp(weights) / np.sum(np.exp(weights))  # 归一化权重
 
                     # 按照权重从 ground_truth 中采样 target_item
@@ -324,6 +334,8 @@ def gen_item2item(itemid2text, itemid2title, itemid2features, args):
                 # 生成 query
                 query = text4item2item(source_item_features, source_item_title)
                 template = random.choice(item2item_template)
+                
+                template = "Co-played games with {}" if random.random() < 0.4 else template
                 template_length = len(tokenizer.tokenize(template))
                 tokens = tokenizer.tokenize(query)
                 truncated_query = tokenizer.convert_tokens_to_string(tokens).strip()[:args.max_seq_len - template_length]
