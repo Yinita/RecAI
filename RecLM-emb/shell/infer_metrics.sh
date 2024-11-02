@@ -11,7 +11,7 @@ TOPK="[5, 10]"
 SEED=2024
 # QUERY_MAX_LEN=512
 PASSAGE_MAX_LEN=256
-SENTENCE_POOLING_METHOD="mean"
+SENTENCE_POOLING_METHOD="cls"
 
 if [ "$MODEL_PATH_OR_NAME" = "ada_embeddings" ] || [ "$MODEL_PATH_OR_NAME" = "text-embedding-ada-002" ] || [ "$MODEL_PATH_OR_NAME" = "text-embedding-3-large" ]; then
     echo "using openai model"

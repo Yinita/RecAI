@@ -1,0 +1,124 @@
+{
+  "os":  "Linux-5.15.0-1045-azure-x86_64-with-glibc2.31",
+  "python":  "3.10.14",
+  "startedAt":  "2024-11-02T08:19:39.504306Z",
+  "args":  [
+    "--model_name_or_path",
+    "BAAI/bge-m3",
+    "--cache_dir",
+    "/home/aiscuser/cache/model",
+    "--train_data",
+    "/home/aiscuser/item2item_minedHN.jsonl",
+    "/home/aiscuser/user2item_minedHN.jsonl",
+    "--cache_path",
+    "/home/aiscuser/cache/data",
+    "--train_group_size",
+    "4",
+    "--query_max_len",
+    "512",
+    "--passage_max_len",
+    "512",
+    "--pad_to_multiple_of",
+    "8",
+    "--knowledge_distillation",
+    "True",
+    "--same_dataset_within_batch",
+    "True",
+    "--small_threshold",
+    "0",
+    "--drop_threshold",
+    "0",
+    "--output_dir",
+    "/home/aiscuser/FlagEmbedding/1102_v1619",
+    "--overwrite_output_dir",
+    "--learning_rate",
+    "1e-4",
+    "--fp16",
+    "--num_train_epochs",
+    "1",
+    "--per_device_train_batch_size",
+    "30",
+    "--dataloader_drop_last",
+    "True",
+    "--warmup_ratio",
+    "0.1",
+    "--gradient_checkpointing",
+    "--deepspeed",
+    "/home/aiscuser/figllm/toolcall/database/localdb/recommendation_task/ds_stage0.json",
+    "--logging_steps",
+    "1",
+    "--save_steps",
+    "1500",
+    "--negatives_cross_device",
+    "--temperature",
+    "0.02",
+    "--sentence_pooling_method",
+    "cls",
+    "--normalize_embeddings",
+    "True",
+    "--kd_loss_type",
+    "m3_kd_loss",
+    "--unified_finetuning",
+    "True",
+    "--use_self_distill",
+    "True",
+    "--fix_encoder",
+    "False",
+    "--self_distill_start_step",
+    "0"
+  ],
+  "program":  "-m FlagEmbedding.finetune.embedder.encoder_only.m3.__main__",
+  "git":  {
+    "remote":  "https://github.com/Yinita/RecAI.git",
+    "commit":  "7da9607bf5205e6017147449c472927970452df8"
+  },
+  "email":  "1656211644@qq.com",
+  "root":  "/home/aiscuser/RecAI/RecLM-emb",
+  "host":  "node-0",
+  "username":  "aiscuser",
+  "executable":  "/opt/conda/envs/ptca/bin/python",
+  "cpu_count":  96,
+  "cpu_count_logical":  96,
+  "gpu":  "NVIDIA A100 80GB PCIe",
+  "gpu_count":  4,
+  "disk":  {
+    "/":  {
+      "total":  "3778795143168",
+      "used":  "792851943424"
+    }
+  },
+  "memory":  {
+    "total":  "929779855360"
+  },
+  "cpu":  {
+    "count":  96,
+    "countLogical":  96
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA A100 80GB PCIe",
+      "memoryTotal":  "85899345920",
+      "cudaCores":  6912,
+      "architecture":  "Ampere"
+    },
+    {
+      "name":  "NVIDIA A100 80GB PCIe",
+      "memoryTotal":  "85899345920",
+      "cudaCores":  6912,
+      "architecture":  "Ampere"
+    },
+    {
+      "name":  "NVIDIA A100 80GB PCIe",
+      "memoryTotal":  "85899345920",
+      "cudaCores":  6912,
+      "architecture":  "Ampere"
+    },
+    {
+      "name":  "NVIDIA A100 80GB PCIe",
+      "memoryTotal":  "85899345920",
+      "cudaCores":  6912,
+      "architecture":  "Ampere"
+    }
+  ],
+  "cudaVersion":  "12.2"
+}

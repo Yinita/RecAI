@@ -1,0 +1,18 @@
+{"time":"2024-11-02T02:03:54.967790884-07:00","level":"INFO","msg":"using version","core version":"0.18.5"}
+{"time":"2024-11-02T02:03:54.967805271-07:00","level":"INFO","msg":"created symlink","path":"/home/aiscuser/RecAI/RecLM-emb/wandb/run-20241102_020354-839lqww8/logs/debug-core.log"}
+{"time":"2024-11-02T02:03:55.071965597-07:00","level":"INFO","msg":"created new stream","id":"839lqww8"}
+{"time":"2024-11-02T02:03:55.07200948-07:00","level":"INFO","msg":"stream: started","id":"839lqww8"}
+{"time":"2024-11-02T02:03:55.072067074-07:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"839lqww8"}}
+{"time":"2024-11-02T02:03:55.072127863-07:00","level":"INFO","msg":"handler: started","stream_id":{"value":"839lqww8"}}
+{"time":"2024-11-02T02:03:55.072199849-07:00","level":"INFO","msg":"sender: started","stream_id":"839lqww8"}
+{"time":"2024-11-02T02:03:55.184775322-07:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-11-02T02:22:42.427016462-07:00","level":"INFO","msg":"stream: closing","id":"839lqww8"}
+{"time":"2024-11-02T02:22:42.427064823-07:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-11-02T02:22:42.428028538-07:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-11-02T02:22:42.496782585-07:00","level":"WARN","msg":"No program path found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job"}
+{"time":"2024-11-02T02:22:42.496802853-07:00","level":"INFO","msg":"sender: sendDefer: no job artifact to save"}
+{"time":"2024-11-02T02:22:42.73762227-07:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-11-02T02:22:42.838313333-07:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"839lqww8"}}
+{"time":"2024-11-02T02:22:42.838363006-07:00","level":"INFO","msg":"sender: closed","stream_id":"839lqww8"}
+{"time":"2024-11-02T02:22:42.838358588-07:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"839lqww8"}}
+{"time":"2024-11-02T02:22:42.838487741-07:00","level":"INFO","msg":"stream: closed","id":"839lqww8"}
