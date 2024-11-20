@@ -1,6 +1,5 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT license.
-
 import os
 import re
 import json
@@ -16,8 +15,7 @@ from pathlib import Path
 from copy import deepcopy
 from multiprocessing import Pool
 from collections import defaultdict
-
-random.seed(43)
+random.seed(42)
 
 def load_json(file_path):
     with open(file_path, "r") as f:
@@ -35,31 +33,91 @@ def ReadLineFromFile(path):
     return lines
 
 def parse(path):
-    if path.endswith('gz'):
-        g = gzip.open(path, 'r')
+    if path.endswith('.gz'):
+        g = gzip.open(path, 'rt') 
     else:
         g = open(path, 'r')
-    nan_default = {'NaN': "", 'false': "", 'true': ""}
+    
+    # 逐行解析
     for l in g:
-        yield eval(l, nan_default)
+        try:
+            yield json.loads(l.strip()) 
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON line: {l.strip()} - {e}")
+            continue 
+
+def negative_samples_maker(sequential_data, sample_num=100000):
+    print("Generate negative samples")
+    all_games = set()
+    user_sequences = []
+
+    for sequence in sequential_data:
+        items = sequence.split()
+        user_id, games = items[0], items[1:]
+        user_sequences.append((user_id, set(games)))
+        all_games.update(games) 
+
+    all_games = list(all_games)
+    negative_samples = []
+
+    for user_id, user_games in tqdm(user_sequences[:sample_num]):
+        candidate_negatives = list(set(all_games) - user_games)
+        if len(candidate_negatives) >= 20:
+            sampled_negatives = random.sample(candidate_negatives, 20)
+        else:
+            sampled_negatives = candidate_negatives 
+        negative_samples.append(f"{user_id} {' '.join(sampled_negatives)}")
+
+    return negative_samples
 
 class Test_Dataset():
-    def __init__(self, all_task_templates, dataset='steam', split='test'):
+    def __init__(self, all_task_templates, dataset='steam', split='test', sample_num=1000000):
         self.all_task_templates = all_task_templates
         self.dataset = dataset  # dataset to use
         self.split = split  # train/valid/test
-
-        self.sequential_data = ReadLineFromFile(os.path.join('./data', dataset, 'sequential_data.txt'))
-        self.negative_samples = ReadLineFromFile(os.path.join('./data', dataset, 'negative_samples.txt'))
+        try:
+            self.sequential_data = ReadLineFromFile(os.path.join('./data', dataset, 'sequential_data.txt'))
+        except:
+            self.sequential_data = ReadLineFromFile(os.path.join('./data', dataset, 'user_sequence.txt'))
+        try:
+            ignore_ids_path = os.path.join('./data', dataset, 'ignore_ids.json')
+            with open(ignore_ids_path, 'r') as file:
+                self.ignore_ids = json.load(file)
+            print(f"Successfully loaded ignore_ids: {len(ignore_ids)} items.")
+        except Exception as e:
+            self.ignore_ids = None
+            
+        try:    
+            self.negative_samples = ReadLineFromFile(os.path.join('./data', dataset, 'negative_samples.txt'))
+        except:
+            self.negative_samples = negative_samples_maker(self.sequential_data, sample_num)
         self.test_items = None
         if os.path.exists(os.path.join('./data', dataset, 'item_datasets.pkl')):
             self.test_items = load_pickle(os.path.join('./data', dataset, 'item_datasets.pkl'))['test']
         self.meta_data = ['padding']  # item_id start from 0
         self.raw_id2meta_id = {}
-        for meta in parse(os.path.join('./data', dataset, 'metadata.json')):
-            self.meta_data.append(meta)
-            meta["app_name"] = re.sub('[^A-Za-z0-9_.,!?;:\n ]', '', meta["app_name"])
-            self.raw_id2meta_id[meta['id']] = len(self.meta_data) - 1
+        try:
+            for meta in parse(os.path.join('./data', dataset, 'metadata.json')):
+                self.meta_data.append(meta)
+                try:
+                    meta["app_name"] = re.sub('[^A-Za-z0-9_.,!?;:\n ]', '', meta["app_name"])
+                except:
+                    meta["app_name"] = re.sub('[^A-Za-z0-9_.,!?;:\n ]', '', meta["Game Title"])
+                try:
+                    self.raw_id2meta_id[meta["id"]] = len(self.meta_data) - 1
+                except:
+                    self.raw_id2meta_id[meta["Game ID"]] = len(self.meta_data) - 1
+        except:
+            for meta in parse(os.path.join('./data', dataset, 'metadata.jsonl')):
+                self.meta_data.append(meta)
+                try:
+                    meta["app_name"] = re.sub('[^A-Za-z0-9_.,!?;:\n ]', '', meta["app_name"])
+                except:
+                    meta["app_name"] = re.sub('[^A-Za-z0-9_.,!?;:\n ]', '', meta["Game Title"])
+                try:
+                    self.raw_id2meta_id[meta["id"]] = len(self.meta_data) - 1
+                except:
+                    self.raw_id2meta_id[meta["Game ID"]] = len(self.meta_data) - 1
         self.search_data = None
         if os.path.exists(os.path.join('./data', dataset, 'search_data.csv')):
             self.search_data = pd.read_csv(os.path.join('./data', dataset, 'search_data.csv'))
@@ -70,6 +128,9 @@ class Test_Dataset():
         for idx in range(sample_num):
             retrieval_datum = self.sequential_data[idx]
             sequence = [int(x) for x in retrieval_datum.split()]
+            if self.ignore_ids:
+                if sequence[0] in self.ignore_ids:
+                    continue
             click_history = sequence[1:-1]
             target_item = sequence[-1]
             history_titles = []
@@ -78,12 +139,16 @@ class Test_Dataset():
                 item_title = 'unknown title'
                 if 'app_name' in item_datum:
                     item_title = item_datum['app_name']
+                elif 'Game Title' in item_datum:
+                    item_title = item_datum['Game Title']
                 history_titles.append(item_title)
             
             target_item_datum = self.meta_data[target_item]
             target_item_title = 'unknown title'
             if 'app_name' in target_item_datum:
                 target_item_title = target_item_datum['app_name']
+            elif 'Game Title' in target_item_datum:
+                target_item_title = target_item_datum['Game Title']
 
             task_template = self.all_task_templates['retrieval']
             source_text = task_template['source'].format(', '.join(history_titles))
@@ -103,7 +168,10 @@ class Test_Dataset():
         sample_num = min(sample_num, len(self.sequential_data))
         for idx in range(sample_num):
             ranking_datum = self.sequential_data[idx]
-            sequence = [int(x) for x in ranking_datum.split()]
+            sequence = [int(x) for x in ranking_datum.split()]            
+            if self.ignore_ids:
+                if sequence[0] in self.ignore_ids:
+                    continue
             click_history = sequence[1:-1]
             target_item = sequence[-1]
             history_titles = []
@@ -112,18 +180,22 @@ class Test_Dataset():
                 item_title = 'unknown title'
                 if 'app_name' in item_datum:
                     item_title = item_datum['app_name']
+                elif 'Game Title' in item_datum:
+                    item_title = item_datum['Game Title']
                 history_titles.append(item_title)
             
             target_item_datum = self.meta_data[target_item]
             target_item_title = 'unknown title'
             if 'app_name' in target_item_datum:
                 target_item_title = target_item_datum['app_name']
+            elif 'Game Title' in target_item_datum:
+                target_item_title = target_item_datum['Game Title']
 
             user_id = sequence[0]
             assert user_id == int(self.negative_samples[int(user_id)-1].split(' ', 1)[0])
             candidate_samples = self.negative_samples[int(user_id)-1].split(' ', 1)[1].split(' ')
             candidate_samples = random.sample(candidate_samples, 20)
-            candidate_samples.extend([target_item])
+            candidate_samples.append(str(target_item))
             random.shuffle(candidate_samples)
 
             candidate_titles = []
@@ -132,6 +204,8 @@ class Test_Dataset():
                 item_title = 'unknown title'
                 if 'app_name' in item_datum:
                     item_title = item_datum['app_name']
+                elif 'Game Title' in item_datum:
+                    item_title = item_datum['Game Title']
                 candidate_titles.append(item_title)
 
             task_template = self.all_task_templates['ranking']
@@ -242,7 +316,7 @@ def parse_args():
     parser.add_argument('--tasks', type=str, default='ranking,retrieval,explanation,conversation', help='tasks for data generation.')
     parser.add_argument('--sample_num', type=int, default=1000, help='sample number for each task.')  
     parser.add_argument('--dataset', type=str, default='steam', help='the dataset to be evaluated, steam/beauty/sports')
-    parser.add_argument("--split", type=str, default="train", help="Dataset split (train/val/test)")  # 添加 split 参数
+    parser.add_argument("--split", type=str, default="train", help="Dataset split (train/val/test)")
 
     return parser.parse_args()
 
@@ -252,7 +326,7 @@ if __name__ == '__main__':
     if args.dataset == 'steam':    
         from all_steam_templates import all_tasks as all_task_templates
     
-    dataset = Test_Dataset(all_task_templates, dataset=args.dataset, split=args.split)
+    dataset = Test_Dataset(all_task_templates, dataset=args.dataset, split=args.split, sample_num=args.sample_num)
 
     if "retrieval" in args.tasks:
         print(f'generating retrieval data, sample number: {args.sample_num} ...')
